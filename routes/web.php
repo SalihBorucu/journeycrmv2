@@ -1,5 +1,6 @@
 <?php
 
+use App\UserRole;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    dd(Auth::user()->userRole);
+    // dd(UserRole::find(1)->user);
+
     return view('welcome');
 });
 
