@@ -18,7 +18,7 @@
 <ul class="navigation-menu">
 
                         <li class="has-submenu">
-                            <a href="index.html"><i class="dripicons-home"></i> Dashboard</a>
+                            <a href="/"><i class="dripicons-home"></i> Dashboard</a>
                         </li>
 
                         <li class="has-submenu">
