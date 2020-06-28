@@ -17,6 +17,7 @@ class CreateCampaignsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('type');
+            $table->bigInteger('schedule_id');
             $table->timestamps();
         });
     }

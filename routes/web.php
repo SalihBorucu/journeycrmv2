@@ -39,5 +39,5 @@ Route::get('/test', function(){
     // dd(UserAccount::find(1)->accountUsers);
     // Session::put('id', 1);
     // dd(Account::find(1)->accountCampaigns[0]->campaigns->type);
-    dd(Account::find(Session::get('user_current_account'))->accountCampaigns[0]->campaigns);
+    dd(Account::find(Session::get('user_current_account'))->accountCampaigns[0]->campaigns->schedule);
 });
