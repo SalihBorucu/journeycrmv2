@@ -1,6 +1,8 @@
 <?php
 
 use App\User;
+use App\Account;
+use App\UserAccount;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -18,13 +20,25 @@ class UserSeeder extends Seeder
             'admin' => ['Admin Admin', 'admin@crm.com', '12345678', 2]
         ];
         foreach ($users as $key => $user) {
-            User::create([
+            $user = User::create([
                 'name' => $user[0],
                 'email' => $user[1],
                 'password' => Hash::make($user[2]),
                 'user_role_id' => $user[3]
-                //account_id
             ]);
+
+            $accountIds = Account::pluck('id')->toArray();
+
+            for ($i=0; $i <= rand(0, 2); $i++) {
+                // global $accountIds;
+                $randomAccount = array_rand($accountIds, 1);
+                unset($accountIds[$randomAccount]);
+
+                UserAccount::create([
+                    'user_id' => $user->id,
+                    'account_id' => $randomAccount
+                ]);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Account;
 use Illuminate\Database\Seeder;
 
 class AccountSeeder extends Seeder
@@ -11,6 +12,10 @@ class AccountSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $accounts = [ 'Account1', 'account2', 'account3', 'account4', 'account5', 'account6'];
+
+        foreach ($accounts as $account) {
+            Account::create(['name' => $account]);
+        }
     }
 }
