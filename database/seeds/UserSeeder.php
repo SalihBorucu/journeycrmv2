@@ -30,7 +30,6 @@ class UserSeeder extends Seeder
             $accountIds = Account::pluck('id')->toArray();
 
             for ($i=0; $i <= rand(0, 2); $i++) {
-                // global $accountIds;
                 $randomAccount = array_rand($accountIds, 1);
                 unset($accountIds[$randomAccount]);
 

@@ -29,7 +29,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 ROute::get('/test', function(){
-    // dd(User::find(2)->userAccounts[0]->accounts);
+    dd(User::find(2)->userAccounts[0]->accounts->name);
     // dd(Account::find(3)->users[1]->accountUsers->name);
     // dd(UserAccount::find(1)->accountUsers);
 });
