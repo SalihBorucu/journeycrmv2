@@ -21,18 +21,31 @@
                 <button type="submit" class="btn btn-primary">Change Accounts</button>
             </form>
             {{-- <h1> {{ Session::get('user_current_account') }} </h1> --}}
-            <div class="d-flex justify-content-around">
+            <div class="">
                 <div>
                     <h3>Campaign:</h3>
                     <ul>
                         @foreach ($campaigns as $campaign)
-                            <li>Name: {{ $campaign->campaigns->name }} Type: {{ $campaign->campaigns->type }}</li>
+                        <li>Name: {{ $campaign->campaigns->name }}
+                            Schedule: {{ $campaign->campaigns->schedule->name }}
+                            StepCount: {{ sizeof($campaign->campaigns->schedule->steps) }}
+                        </li>
                         @endforeach
                     </ul>
                 </div>
-                <div>
-                    <h3>Schedules:</h3>
-                </div>
+            </div>
+            <div class="">
+                <h3>Example Leads</h3>
+                <ul>
+                    @foreach ($leads as $lead)
+                    <li>Name: {{ $lead->first_name." ".$lead->last_name }}
+                        Company: {{ $lead->company }}
+                        Title: {{ $lead->title }}
+                        Email: {{ $lead->email }}
+                        Phone: {{ $lead->phone }}
+                    </li>
+                    @endforeach
+                </ul>
             </div>
 
 

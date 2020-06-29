@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\LeadAccount;
 use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
@@ -16,5 +17,10 @@ class Account extends Model
     public function accountCampaigns()
     {
         return $this->hasMany(AccountCampaign::class);
+    }
+
+    public function accountLeads()
+    {
+        return $this->hasMany(LeadAccount::class);
     }
 }

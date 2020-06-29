@@ -10,7 +10,7 @@ class Schedule extends Model
 
     public function steps()
     {
-        return $this->hasOne(Steps::class);
+        return $this->hasMany(Steps::class);
     }
 }
 
