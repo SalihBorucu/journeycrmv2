@@ -23,8 +23,7 @@ Route::get('/', function () {
     // dd(Auth::user()->userRole);
     // dd(UserRole::find(1)->user);
     $campaigns = Account::find(Session::get('user_current_account'))->accountCampaigns;
-    // $leads = Lead::find(1);
-    dd($leads);
+    $leads = Account::find(Session::get('user_current_account'))->accountLeads;
     // $steps = Lead::find(1)->leadAccounts[0]->account->accountCampaigns[0]->campaign->schedule->steps;
 
     return view('welcome')->with([

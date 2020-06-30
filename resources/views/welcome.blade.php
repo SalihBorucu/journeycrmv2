@@ -38,12 +38,12 @@
                 <h3>Example Leads</h3>
                 <ul>
                     @foreach ($leads as $lead)
-                    <li>Name: {{ $lead->first_name." ".$lead->last_name }}
-                        Company: {{ $lead->company }}
-                        Title: {{ $lead->title }}
-                        Email: {{ $lead->email }}
-                        Phone: {{ $lead->phone }}
-                        Current Step: {{ $lead->leadAccounts->find(Session::get('user_current_account')) }}
+                    <li>Name: {{ $lead->lead->first_name." ".$lead->lead->last_name }}
+                        Company: {{ $lead->lead->company }}
+                        Title: {{ $lead->lead->title }}
+                        Email: {{ $lead->lead->email }}
+                        Phone: {{ $lead->lead->phone }}
+                        Current Step: {{ $lead->step->type }}
                     </li>
                     @endforeach
                 </ul>
