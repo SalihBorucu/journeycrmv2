@@ -17,8 +17,9 @@ class CreateLeadAccountsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('lead_id');
             $table->unsignedBigInteger('account_id');
-            // $table->unsignedBigInteger('history_id');
-            $table->unsignedBigInteger('current_step');
+            $table->unsignedBigInteger('campaign_id');
+            $table->unsignedBigInteger('schedule_id');
+            $table->unsignedBigInteger('step_id');
             $table->timestamps();
         });
     }

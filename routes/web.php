@@ -23,10 +23,14 @@ Route::get('/', function () {
     // dd(Auth::user()->userRole);
     // dd(UserRole::find(1)->user);
     $campaigns = Account::find(Session::get('user_current_account'))->accountCampaigns;
-    $leads = Lead::take(5)->get();
+    // $leads = Lead::find(1);
+    dd($leads);
+    // $steps = Lead::find(1)->leadAccounts[0]->account->accountCampaigns[0]->campaign->schedule->steps;
+
     return view('welcome')->with([
         'campaigns' => $campaigns,
-        'leads' => $leads
+        'leads' => $leads,
+        // 'steps' => $steps
     ]);
 });
 
@@ -42,7 +46,8 @@ Route::get('/test', function(){
     // dd(UserAccount::find(1)->accountUsers);
     // Session::put('id', 1);
     // dd(Account::find(1)->accountLeads[0]->lead);
-    dd(Lead::find(1)->leadAccounts[0]->account);
+    //Lead::find(1)->account->campaign->schedule->steps->find('current_step')
+    dd(Lead::find(1)->leadAccounts->find(Session::get('user_current_account'))->step);
     // dd(Account::find(Session::get('user_current_account'))->accountCampaigns[0]->campaigns->schedule->steps);
     // dd(Schedule::find(1)->steps);
 });

@@ -1,7 +1,10 @@
 <?php
 
 use App\Lead;
+use App\Steps;
 use App\Account;
+use App\Campaign;
+use App\Schedule;
 use App\LeadAccount;
 use Illuminate\Database\Seeder;
 
@@ -21,11 +24,19 @@ class LeadSeeder extends Seeder
                     $randomAccount = $accounts[array_rand($accounts, 1)];
                     unset($accounts[$randomAccount]);
 
+                    $randomCampaign = Account::find($randomAccount)->accountCampaigns->toArray();
+                    $randomCampaignId = $randomCampaign[array_rand($randomCampaign, 1)]['campaign_id'];
+                    $schedule = Campaign::find($randomCampaignId)->schedule;
+
+                    $steps = Schedule::find($schedule->id)->steps->toArray();
+                    $randomStepId = $steps[array_rand($steps, 1)]['id'];
+
                     LeadAccount::create([
                         'lead_id' => $item->id,
                         'account_id' => $randomAccount,
-                        // 'history_id'
-                        'current_step' => rand(1, 13)
+                        'campaign_id' => $randomCampaignId,
+                        'schedule_id' => $schedule->id,
+                        'step_id' => $randomStepId,
                     ]);
                 }
             }

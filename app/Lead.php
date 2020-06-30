@@ -13,4 +13,5 @@ class Lead extends Model
     public function leadAccounts(){
         return $this->hasMany(LeadAccount::class);
     }
+
 }

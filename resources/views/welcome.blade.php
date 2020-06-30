@@ -7,7 +7,7 @@
         <div class="card-body">
             <h3>User Name: {{ Auth::user()->name }}</h3>
             <h3>User Role: {{ Auth::user()->userRole->name }}</h3>
-
+            {{ gettype(Session::get('user_current_account')) }}
             <h3>Account</h3>
             <form action="/useraccount" method="post">
                 @csrf
@@ -26,9 +26,9 @@
                     <h3>Campaign:</h3>
                     <ul>
                         @foreach ($campaigns as $campaign)
-                        <li>Name: {{ $campaign->campaigns->name }}
-                            Schedule: {{ $campaign->campaigns->schedule->name }}
-                            StepCount: {{ sizeof($campaign->campaigns->schedule->steps) }}
+                        <li>Name: {{ $campaign->campaign->name }}
+                            Schedule: {{ $campaign->campaign->schedule->name }}
+                            StepCount: {{ sizeof($campaign->campaign->schedule->steps) }}
                         </li>
                         @endforeach
                     </ul>
@@ -43,10 +43,19 @@
                         Title: {{ $lead->title }}
                         Email: {{ $lead->email }}
                         Phone: {{ $lead->phone }}
+                        Current Step: {{ $lead->leadAccounts->find(Session::get('user_current_account')) }}
                     </li>
                     @endforeach
                 </ul>
             </div>
+{{--
+            <div>
+                <ul>
+                @foreach ($steps as $step)
+                    <li>{{ $step->type }}</li>
+                @endforeach
+                </ul>
+            </div> --}}
 
 
         </div>
