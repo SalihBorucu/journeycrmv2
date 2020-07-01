@@ -7,6 +7,7 @@ use App\Steps;
 use App\Account;
 use App\Campaign;
 use App\Schedule;
+use App\ActivityHistory;
 use Illuminate\Database\Eloquent\Model;
 
 class LeadAccount extends Model
@@ -31,5 +32,9 @@ class LeadAccount extends Model
 
     public function step(){
         return $this->belongsTo(Steps::class, 'step_id');
+    }
+
+    public function activityHistory(){
+        return $this->hasOne(ActivityHistory::class);
     }
 }

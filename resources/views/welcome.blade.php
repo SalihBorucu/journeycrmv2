@@ -38,13 +38,15 @@
                 <h3>Example Leads</h3>
                 <ul>
                     @foreach ($leads as $lead)
-                    <li>Name: {{ $lead->lead->first_name." ".$lead->lead->last_name }}
-                        Company: {{ $lead->lead->company }}
-                        Title: {{ $lead->lead->title }}
-                        Email: {{ $lead->lead->email }}
-                        Phone: {{ $lead->lead->phone }}
-                        Current Step: {{ $lead->step->type }}
+
+                    <li>Name: <strong>{{ $lead->lead->first_name." ".$lead->lead->last_name }}</strong>
+                        Company: <strong>{{ $lead->lead->company }}</strong>
+                        Title: <strong>{{ $lead->lead->title }}</strong>
+                        Email: <strong>{{ $lead->lead->email }}</strong>
+                        Phone: <strong>{{ $lead->lead->phone }}</strong>
+                        Current Step: <strong>{{ $lead->step->type }}</strong>
                     </li>
+
                     @endforeach
                 </ul>
             </div>
