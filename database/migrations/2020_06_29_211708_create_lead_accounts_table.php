@@ -21,6 +21,11 @@ class CreateLeadAccountsTable extends Migration
             $table->unsignedBigInteger('schedule_id');
             $table->unsignedBigInteger('step_id');
             $table->timestamps();
+
+            $table->foreign('lead_id')
+                ->references('id')
+                ->on('leads')
+                ->onDelete('cascade');
         });
     }
 

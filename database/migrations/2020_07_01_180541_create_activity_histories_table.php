@@ -22,6 +22,11 @@ class CreateActivityHistoriesTable extends Migration
             $table->text('type');
             $table->text('notes');
             $table->timestamps();
+
+            $table->foreign('lead_id')
+                ->references('id')
+                ->on('leads')
+                ->onDelete('cascade');
         });
     }
 

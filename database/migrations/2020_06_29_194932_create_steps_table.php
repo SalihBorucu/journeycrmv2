@@ -22,6 +22,11 @@ class CreateStepsTable extends Migration
             $table->integer('day_gap');
 
             $table->timestamps();
+
+            $table->foreign('schedule_id')
+                ->references('id')
+                ->on('leads')
+                ->onDelete('cascade');
         });
     }
 

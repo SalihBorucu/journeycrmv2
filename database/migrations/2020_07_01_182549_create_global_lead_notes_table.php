@@ -20,6 +20,11 @@ class CreateGlobalLeadNotesTable extends Migration
             $table->text('note');
             $table->integer('score');
             $table->timestamps();
+
+            $table->foreign('lead_id')
+                ->references('id')
+                ->on('leads')
+                ->onDelete('cascade');
         });
     }
 
