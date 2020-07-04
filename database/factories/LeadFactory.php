@@ -13,6 +13,7 @@ $factory->define(Lead::class, function (Faker $faker) {
         'country' => $faker->country,
         'title' => $faker->jobTitle,
         'email' => $faker->companyEmail,
-        'phone' => $faker->e164PhoneNumber
+        'phone' => $faker->e164PhoneNumber,
+        'linkedin' => $faker->url
     ];
 });

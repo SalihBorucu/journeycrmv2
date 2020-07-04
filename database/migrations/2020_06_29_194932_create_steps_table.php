@@ -25,7 +25,7 @@ class CreateStepsTable extends Migration
 
             $table->foreign('schedule_id')
                 ->references('id')
-                ->on('leads')
+                ->on('schedules')
                 ->onDelete('cascade');
         });
     }

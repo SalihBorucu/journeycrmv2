@@ -23,7 +23,7 @@ class CreateActivityHistoriesTable extends Migration
             $table->text('notes');
             $table->timestamps();
 
-            $table->foreign('lead_id')
+            $table->foreign('lead_account_id')
                 ->references('id')
                 ->on('leads')
                 ->onDelete('cascade');

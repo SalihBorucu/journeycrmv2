@@ -1,3 +1,4 @@
+@if(Auth::user())
 <div class="header-bg">
     <!-- Navigation Bar-->
     <header id="topnav">
@@ -22,7 +23,7 @@
                         </li>
 
                         <li class="has-submenu">
-                            <a href="#"><i class="dripicons-checklist"></i> Tasks</a>
+                            <a href="/activities"><i class="dripicons-checklist"></i> Activities</a>
                             {{-- <ul class="submenu megamenu">
                                                     <li>
                                                         <ul>
@@ -454,3 +455,4 @@
     <!-- End Navigation Bar-->
 
 </div>
+@endif
