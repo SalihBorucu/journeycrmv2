@@ -31,12 +31,20 @@ class LeadSeeder extends Seeder
                     $steps = Schedule::find($schedule->id)->steps->toArray();
                     $randomStepId = $steps[array_rand($steps, 1)]['id'];
 
+                    $dueDates = [
+                        '2020-07-04',
+                        '2020-07-01',
+                        '2020-06-01',
+                        date("y-m-d")
+                    ];
+
                     LeadAccount::create([
                         'lead_id' => $item->id,
                         'account_id' => $randomAccount,
                         'campaign_id' => $randomCampaignId,
                         'schedule_id' => $schedule->id,
                         'step_id' => $randomStepId,
+                        'due_date' => $dueDates[array_rand($dueDates, 1)]
                     ]);
                 }
             }

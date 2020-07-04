@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Account;
 use App\Campaign;
+use App\LeadAccount;
 
 class ActivitiesController extends Controller
 {
@@ -18,7 +19,7 @@ class ActivitiesController extends Controller
     }
 
     public function fetch(Campaign $campaign){
-        dd(request()->all());
+        // dd(request()->all());
         /*
         find me account_leads that have
         X(account id(session)) and
@@ -26,6 +27,18 @@ class ActivitiesController extends Controller
         step_type Z (email, phone etc) and
         lead->country XY
         */
-        $leads = AccountLead::find();
+        $leads = LeadAccount::where('account_id', session()->get('user_current_account'))
+                            ->where('campaign_id', $campaign->id)
+                            ->with(['step', 'lead'])
+                            ->whereHas('step', function ($query){
+                                $query->where('type', request()->activity_type);
+                            })
+                            ->whereBetween('due_date', [request()->start_date, request()->end_date])
+                            // ->whereHas('lead', function ($query) {
+                            //     $query->where('country', 'France');
+                            // })
+                            //need more leads to check but it works
+                            ->get();
+        dd($leads);
     }
 }

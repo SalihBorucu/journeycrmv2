@@ -12,7 +12,7 @@
                 <div class="d-flex justify-content-around mb-2">
                     <div class="w-100 mx-2">
                         <label for="">Activity Type</label>
-                        <select class="form-control" name="activity_type" id="">
+                        <select class="form-control" name="activity_type">
                             <option value="email">Email</option>
                             <option value="social">Social</option>
                             <option value="phone">Phone</option>
@@ -20,7 +20,7 @@
                     </div>
                     <div class="w-100 mx-2">
                         <label for="">Lead Stage</label>
-                        <select class="form-control" name="lead_stage" id="">
+                        <select class="form-control" name="lead_stage">
                             <option value="prospecting">Prospecting</option>
                             <option value="interested">Interested</option>
                             <option value="qualified">Qualified</option>
@@ -29,9 +29,21 @@
 
                     <div class="w-100 mx-2">
                         <label for="">Country</label>
-                        <select class="form-control" name="country" id="">
+                        <select class="form-control" name="country">
                             <option value="united_kingdom">United Kingdom</option>
                         </select>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-around mb-2">
+                    <div class="w-100 mx-2">
+                        <label for="example-date-input">Starting Date</label>
+                        <input class="form-control" type="date" name="start_date" id="start_date">
+                    </div>
+
+                    <div class="w-100 mx-2">
+                        <label for="example-date-input">End Date</label>
+                        <input class="form-control" type="date" name="end_date" id="end_date">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary waves-effect waves-light w-100">See Campaign</button>
@@ -40,6 +52,16 @@
     </div>
 </div>
 @endforeach
-
-
 @endsection
+
+<script>
+let today = new Date();
+let res = today.toISOString().replace(/\T(.*)/g, '');
+
+window.onload = () =>
+    {
+        document.getElementById('end_date').value = res
+        document.getElementById('start_date').value = res
+    }
+
+</script>
