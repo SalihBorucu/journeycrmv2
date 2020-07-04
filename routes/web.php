@@ -37,6 +37,9 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/activities', 'ActivitiesController@index');
 
+    Route::get('/activities/campaign/{campaign}', 'ActivitiesController@fetch');
+
+
 
     Route::get('/home', 'HomeController@index')->name('home');
 

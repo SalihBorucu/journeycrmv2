@@ -13,16 +13,29 @@ class CampaignSeeder extends Seeder
     public function run()
     {
         $campaigns = [
-            'Outbound' => ['outbound', 1],
-            'Inbound' => ['inbound', 2],
-            'Event' => ['event', 3]
+            'Outbound' => [
+                'outbound',
+                1,
+                'This campaign focuses on leads that did not have any previous interactions with the account'
+                    ],
+            'Inbound' => [
+                'inbound',
+                2,
+                'This campaign has leads that were received from the client\'s marketing efforts.'
+            ],
+            'Event' => [
+                'event',
+                3,
+                'This campaign involves leads that had an interaction with X Event at X country.'
+                ]
         ];
 
         foreach ($campaigns as $name => $type) {
             Campaign::create([
                 'name' => $name,
                 'type' => $type[0],
-                'schedule_id' => $type[1]
+                'schedule_id' => $type[1],
+                'definition' => $type[2]
             ]);
         }
     }

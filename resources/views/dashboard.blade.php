@@ -6,7 +6,6 @@
             <div class="card m-b-30">
                 <div class="card-body">
                     <h4 class="page-title m-0">Welcome {{ Auth::user()->name }}</h4>
-
                     <table class="table table-striped mb-0 mt-2">
                         <tbody>
                             <tr>
@@ -43,6 +42,11 @@
                                         </select>
                                         <button type="submit" class="btn btn-primary mx-2 w-50">Swap Number</button>
                                     </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>User Type</td>
+                                <td> {{ Auth::user()->userRole->name }}
                                 </td>
                             </tr>
                         </tbody>

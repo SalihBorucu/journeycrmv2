@@ -18,13 +18,12 @@ class AccountSeeder extends Seeder
 
         foreach ($accounts as $account) {
             $account = Account::create(['name' => $account]);
-
-
             $campaignIds = Campaign::pluck('id')->toArray();
 
             for ($i = 0; $i <= rand(0, 2); $i++) {
-                $randomCampaign = $campaignIds[array_rand($campaignIds, 1)];
-                unset($campaignIds[$randomCampaign]);
+                $randomCampaignId = array_rand($campaignIds, 1);
+                $randomCampaign = $campaignIds[$randomCampaignId];
+                unset($campaignIds[$randomCampaignId]);
 
                 AccountCampaign::create([
                     'account_id' => $account->id,
