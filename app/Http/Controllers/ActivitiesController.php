@@ -39,6 +39,9 @@ class ActivitiesController extends Controller
                             // })
                             //need more leads to check but it works
                             ->get();
-        dd($leads);
+                                // dd($leads);
+        return view('leads')->with([
+            'leads' => $leads
+        ]);
     }
 }

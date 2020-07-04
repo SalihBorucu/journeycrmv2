@@ -9,7 +9,7 @@
                 <div>
 
                     <a href="index.html" class="logo">
-                        <img src="assets/images/logo.png" alt="" height="26">
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="" height="26">
                     </a>
 
                 </div>
@@ -254,7 +254,7 @@
                         <!-- User-->
                         <li class="list-inline-item dropdown notification-list nav-user">
                             <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <img src="assets/images/users/avatar-6.jpg" alt="user" class="rounded-circle">
+                                <img src="{{ asset('assets/images/users/avatar-6.jpg') }}" alt="user" class="rounded-circle">
                                 @if(Auth::user())
                                 <span class="d-none d-md-inline-block ml-1">{{ Auth::user()->name}} <i class="mdi mdi-chevron-down"></i> </span>
                                 @else
