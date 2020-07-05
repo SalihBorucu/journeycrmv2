@@ -4,7 +4,7 @@
             :columns="columns"
             :rows="rows"
             :fixed-header="true"
-            styleClass="vgt-table striped bordered"
+            styleClass="vgt-table striped bordered custom-table"
             :pagination-options="{
                 enabled: true,
                 mode: 'records',
@@ -18,6 +18,7 @@
                 allLabel: 'All',
             }"
             @on-row-click="openLeadView"
+            min-width="500px"
         />
     </div>
 </template>
@@ -39,6 +40,10 @@
                     {
                         label: 'Name',
                         field: 'lead.first_name',
+                        type: 'text',
+                        thClass: 'custom-th',
+                        // width: '1fr',
+                        // tdClass: 'custom-td',
                         filterOptions: {
                             enabled: true,
                         },
@@ -78,14 +83,15 @@
                     {
                         label: 'Due Date',
                         field: 'due_date',
-                        type: 'date',
+                        width: '200px',
+                        tdClass: "text-center",
                         dateInputFormat: 'yyyy-MM-dd',
                         dateOutputFormat: 'dd/MM/yyyy',
                     },
                     {
                         label: 'Rating',
                         field: 'lead.global_notes.score',
-                        type: 'number',
+                        tdClass: "text-center"
                     },
                 ],
 
@@ -100,3 +106,14 @@
         },
     };
 </script>
+
+
+<style>
+    .custom-table{
+        background: red;
+    }
+
+    .custom-td{
+        background:blue;
+    }
+</style>
