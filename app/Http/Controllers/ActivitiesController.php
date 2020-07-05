@@ -8,7 +8,8 @@ use App\LeadAccount;
 
 class ActivitiesController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $account = Account::find(session()->get('user_current_account'));
         $campaigns = $account->accountCampaigns;
 
@@ -18,28 +19,20 @@ class ActivitiesController extends Controller
         ]);
     }
 
-    public function fetch(Campaign $campaign){
-        // dd(request()->all());
-        /*
-        find me account_leads that have
-        X(account id(session)) and
-        Y(campaign id) and
-        step_type Z (email, phone etc) and
-        lead->country XY
-        */
+    public function fetch(Campaign $campaign)
+    {
         $leads = LeadAccount::where('account_id', session()->get('user_current_account'))
-                            ->where('campaign_id', $campaign->id)
-                            ->with(['step', 'lead'])
-                            ->whereHas('step', function ($query){
-                                $query->where('type', request()->activity_type);
-                            })
-                            ->whereBetween('due_date', [request()->start_date, request()->end_date])
-                            // ->whereHas('lead', function ($query) {
-                            //     $query->where('country', 'France');
-                            // })
-                            //need more leads to check but it works
-                            ->get();
-                                // dd($leads);
+            ->where('campaign_id', $campaign->id)
+            ->with(['step', 'lead.globalNotes', 'activityHistory'])
+            ->whereHas('step', function ($query) {
+                $query->where('type', request()->activity_type);
+            })
+            ->whereBetween('due_date', [request()->start_date, request()->end_date])
+            // ->whereHas('lead', function ($query) {
+            //     $query->where('country', 'France');
+            // })
+            //need more leads to check but it works
+            ->get();
         return view('leads')->with([
             'leads' => $leads
         ]);

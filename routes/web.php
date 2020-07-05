@@ -55,6 +55,6 @@ Route::middleware('auth')->group(function () {
         // dd(Lead::find(1)->leadAccounts->find(Session::get('user_current_account'))->step);
         // dd(Account::find(Session::get('user_current_account'))->accountCampaigns[0]->campaigns->schedule->steps);
         // dd(Schedule::find(1)->steps);
-        dd(date("y-m-d"));
+        dd(Lead::find(1)->globalNotes);
     });
 });

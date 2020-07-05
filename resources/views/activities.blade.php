@@ -6,7 +6,6 @@
     <div class="w-100">
         <div class="card m-b-30 card-body">
             <form action="/activities/campaign/{{ $campaign->campaign_id }}" method="GET">
-                @csrf
                 <h4 class="card-title font-16 mt-0">{{ $campaign->campaign->name }}</h4>
                 <p class="card-text"> {{ $campaign->campaign->definition }}</p>
                 <div class="d-flex justify-content-around mb-2">

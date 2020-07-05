@@ -36,6 +36,23 @@
 
         <script src="/js/plugins.js"></script>
         <script src="{{ mix('js/app.js') }}"></script>
+        {{-- @switch (true)
+        @case (Request::is('spot/create') || Request::is('spot/*/portal'))
+        <script src="{{ mix('js/spot-model-portal-app.js') }}"></script>
+        @break
+        @case (Request::is('spot/*'))
+        <script src="{{ mix('js/spot-app.js') }}"></script>
+        @break
+        @case (Request::is('oldspot') || Request::is('oldspot/*'))
+        <script src="{{ mix('js/old-spot-app.js') }}"></script>
+        @break
+        @case (Request::is('target-earth-model') || Request::is('target-earth-model/*'))
+        <script src="{{ mix('js/target-earth-model-app.js') }}"></script>
+        @break
+        @case (Request::is('lv-model') || Request::is('lv-model/*'))
+        <script src="{{ mix('js/lv-model-app.js') }}"></script>
+        @break
+        @endswitch --}}
     </body>
 
 </html>

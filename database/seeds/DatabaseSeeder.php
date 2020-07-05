@@ -1,5 +1,6 @@
 <?php
 
+use App\GlobalLeadNotes;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AccountSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(LeadSeeder::class);
+        $this->call(GlobalLeadNotesSeeder::class);
     }
 }

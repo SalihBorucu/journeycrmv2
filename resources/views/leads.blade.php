@@ -1,12 +1,9 @@
 @extends('layouts.main')
 @section('content')
 
-<div>
-    <ul>
-        @foreach ($leads as $leadAccount)
-        <li>{{ $leadAccount->lead->first_name }}</li>
-        @endforeach
-    </ul>
+<div id="app">
+    <leads-list-main
+    :leads='{{ json_encode($leads) }}'></leads-list-main>
 </div>
 
 @endsection
