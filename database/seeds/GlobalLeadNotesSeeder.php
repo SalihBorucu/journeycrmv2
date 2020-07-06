@@ -12,6 +12,6 @@ class GlobalLeadNotesSeeder extends Seeder
      */
     public function run()
     {
-        factory(GlobalLeadNotes::class, 200)->create();
+        factory(GlobalLeadNotes::class, 10000)->create();
     }
 }

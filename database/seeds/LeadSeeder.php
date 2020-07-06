@@ -17,7 +17,7 @@ class LeadSeeder extends Seeder
      */
     public function run()
     {
-        factory(Lead::class, 200)->create()->each(
+        factory(Lead::class, 20000)->create()->each(
             function($item, $key){
                 $accounts = Account::pluck('id')->toArray();
                 for ($i=0; $i < rand(1,3); $i++) {
