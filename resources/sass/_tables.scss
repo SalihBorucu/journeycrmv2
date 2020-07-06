@@ -13,19 +13,13 @@
 
 .table-hover tbody tr:hover,.table-striped tbody tr:nth-of-type(odd),
 .thead-default th{
-  background-color: lighten($dark, 8%);
+  background-color: $light;
 }
 
 .table{
   td, th{
     vertical-align: middle;
-    border-color: rgba($white, 0.05) !important;
-    color: $light;
   }
-}
-
-.table-bordered{
-  border: 1px solid lighten($dark, 8%);
 }
 
 /************** datatables ***************/
@@ -61,8 +55,6 @@ table.focus-on {
     margin-bottom: 0px;
     .sticky-table-header {
       top: 120px !important;
-      background-color: $dark;
-      border-color: $dark;
     }
   }
   .btn-group.float-right .dropdown-menu {

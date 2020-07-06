@@ -13,8 +13,8 @@ body {
 
 #topnav {
   .navbar-custom {
-    background-color: lighten($dark, 4%);
-    border-bottom: 2px solid rgba($dark, 0.6);
+    background-color: $white;
+    border-bottom: 2px solid rgba($dark, 0.1);
   }
   .navigation-menu {
     list-style: none;
@@ -25,7 +25,7 @@ body {
       position: relative;
       > a {
         display: block;
-        color: rgba($white,0.6);
+        color: rgba($dark,0.8);
         font-size: $base-font;
         -webkit-transition: all .5s ease;
         transition: all .5s ease;
@@ -102,7 +102,7 @@ body {
             margin-top: 20px;
             -webkit-transition: all .2s ease;
             transition: all .2s ease;
-            background-color: lighten($dark, 4%);
+            background-color: $white;
             box-shadow: $shadow;
             border-radius: 4px;
 
@@ -151,7 +151,7 @@ body {
                 clear: both;
                 white-space: nowrap;
                 font-size: 13.5px;
-                color: rgba($white,0.6);
+                color: rgba($dark,0.8);
                 &:hover {
                   color: $primary;
                 }
@@ -215,7 +215,7 @@ body {
               display: block;
               position: relative;
               padding: 7px 20px;
-              color: $lightgray;
+              color: $dark;
               &:hover {
                 color: $primary;
               }
@@ -256,7 +256,7 @@ body {
         }
 
         > a {
-          color: $lightgray;
+          color: $dark;
           padding: 15px;
   
           i {
@@ -291,9 +291,9 @@ body {
     height: auto;
     padding-bottom: 0;
     overflow: auto;
-    border-top: 1px solid lighten($dark, 8%);
-    border-bottom: 1px solid lighten($dark, 8%);
-    background-color: lighten($dark, 4%);
+    border-top: 1px solid lighten($lightgray, 4%);
+    border-bottom: 1px solid lighten($lightgray, 4%);
+    background-color: $white;
     z-index: 9;
     &.open {
       display: block;

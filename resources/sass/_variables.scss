@@ -2,23 +2,22 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
 
 // Color variables
-$white: white;
-//#4D8C8C
-$primary: #D9863D;
+$white: #ffffff;
+
+$primary: #5985ee;
 $success: #46cd93;
 $info: #4bbbce;
 $warning: #fdba45;
 $danger: #f24734;
 $purple: #a462e0;
 $pink: #e66793;
-//#BF5D39
-$dark: #BF5D39;
-$muted: white;
 
+$dark: #0f1f3e;
+$muted: #707070;
 
 $lightdark5: #555555;
-$lightgray: #ffffff;
-$light: #F5EDE4;
+$lightgray: #dddddd;
+$light: #eff3f6;
 $lightdark3: #333333;
 $lightdark4: #444444;
 $light5: #f5f5f5;
@@ -28,11 +27,10 @@ $light-alt: #fafafa;
 $lightdark7: #797979;
 $lightdark-alt: #cccccc;
 
-$bg-body: #D9C49C;
-$bg-topbar: #8C3A27;
+$bg-body: #f5f5f5;
+$bg-topbar: #424858;
 
-
-$shadow: 0 0 0.25rem rgba(16, 34, 8, 0.1);
+$shadow: 0 0 0.25rem rgba(108,118,134,.1);
 
 $base-font: 13px;
 

@@ -3,7 +3,7 @@
 /* Ion Range slider */
 
 .irs--modern{
-  .irs-bar, .irs-to, .irs-from, .irs-single {
+  .irs-bar, .irs-to, .irs-from, .irs-single, .irs-handle > i:first-child {
     background: $primary !important;
   }
   .irs-to, .irs-from, .irs-single{
@@ -11,15 +11,10 @@
       border-top-color: $primary;
     }
   }
-
   .irs-min, .irs-max{
-    color: $muted;
+    color: $lightdark7;
   }
   .irs-grid-text{
-    font-size: 12px;
-  }
-  .irs-handle > i:nth-child(1){
-    width: 8px;
-    height: 8px;
+    font-size: 10px;
   }
 }

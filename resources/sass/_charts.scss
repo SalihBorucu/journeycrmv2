@@ -79,13 +79,6 @@
   border-radius: 1px;
 }
 
-.legend{
-  td{
-    background-color: lighten($dark, 4%) !important;
-    color: $lightgray;
-  }
-}
-
 /* Chartist chart */
 .ct-golden-section:before {
   float: none;
@@ -94,7 +87,7 @@
   height: 300px;
 }
 .ct-grid {
-  stroke: rgba($white, 0.09);
+  stroke: rgba(0, 0, 0, 0.09);
   stroke-width: 2px;
   stroke-dasharray: 3px;
 }
@@ -221,17 +214,11 @@
   }
 }
 
+.c3-line {
+  stroke-width: 2px;
+}
+
 .c3-legend-item {
   font-size: 13px;
   font-family: $font-primary;
-}
-
-
-.c3{
-  path, line{
-    stroke: $light;
-  }
-  text{
-    fill: $light;
-  }
 }

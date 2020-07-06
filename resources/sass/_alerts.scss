@@ -13,7 +13,7 @@
 
 .alert-success {
   color: $success;
-  background-color: rgba($success, 0.2);
+  background-color: lighten($success,30%);
   .alert-link {
     color: darken($success,10%);
   }
@@ -24,7 +24,7 @@
 
 .alert-info {
   color: $info;
-  background-color: rgba($info, 0.2);
+  background-color: lighten($info,24%);
   .alert-link {
     color: darken($info,10%);
   }
@@ -35,7 +35,7 @@
 
 .alert-warning {
   color: $warning;
-  background-color: rgba($warning, 0.2);
+  background-color: lighten($warning, 28%);
   .alert-link {
     color: darken($warning, 10%);
   }
@@ -46,7 +46,7 @@
 
 .alert-danger {
   color: $danger;
-  background-color: rgba($danger, 0.2);
+  background-color: lighten($danger,28%);
   .alert-link {
     color: darken($danger,10%);
   }

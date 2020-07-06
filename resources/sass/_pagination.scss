@@ -1,26 +1,14 @@
 /* ==============
   Pagination
 ===================*/
-
-.pagination{
-  .page-item{
-    .page-link {
-      color: $primary;
-      background-color: lighten($dark, 4%);
-      border-color: lighten($dark, 8%);
-    } 
-    &.disabled{
-      .page-link {
-        color: $white;
-        background-color: lighten($dark, 8%);
-      } 
-    }
-    &.active {
-      .page-link {
-        color: $white;
-        background-color: $primary;
-        border-color: $primary;
-      }
-    }
-  }
+.page-link {
+  color: $primary;
+}
+.page-item.active .page-link {
+  background-color: $primary;
+  border-color: $primary;
+}
+.page-link:focus, .page-link:hover {
+  color: $dark;
+  background-color: $light;
 }

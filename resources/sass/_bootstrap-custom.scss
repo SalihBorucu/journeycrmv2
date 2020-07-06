@@ -13,21 +13,18 @@
 .dropdown-menu {
   padding: 4px 0;
   box-shadow: $shadow;
-  border-color: $dark;
+  border-color: $light;
   font-size: 13px;
-  background: lighten($dark, 4%);
-  .dropdown-divider{
-    border-color: rgba($white, 0.07);
-  }
 }
 
-.dropdown-item{
-  color: $white;
+.dropdown-item.active, .dropdown-item:active {
+  color: $dark;
+  text-decoration: none;
+  background-color: $light;
+}
+
+.dropdown-item {
   padding: 6px 16px;
-  &:focus, &.active, &:active, &:hover {
-    background-color: lighten($dark, 8%);
-    color: $white;
-  }
 }
 
 .dropdown-menu-lg {
@@ -39,6 +36,10 @@
   visibility: hidden;
   opacity: 0;
   transition: all 300ms ease;
+  -moz-transition: all 300ms ease;
+  -webkit-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  -ms-transition: all 300ms ease;
   margin-top: 20px!important;
 }
 .show > .dropdown-menu {
@@ -47,9 +48,6 @@
   margin-top: 0px !important;
 }
 
-.border-bottom{
-  border-bottom: 1px solid lighten($dark, 8%) !important;
-}
 
 //Background color
 .bg-primary {
@@ -81,13 +79,13 @@
 }
 
 .bg-pink{
-  background-color: $pink !important;
+  background-color: $pink;
 }
 
 
 //Text Color
 .text-white {
-  color: $dark !important;
+  color: $white !important;
 }
 
 .text-danger {
@@ -119,19 +117,11 @@
 }
 
 .text-dark {
-  color: $white !important;
+  color: $dark !important;
 }
 
 .text-pink{
   color: $pink;
-}
-
-a{
-  &.text-dark{
-    &:hover, &:focus{
-      color: $white !important;
-    }
-  }
 }
 
 //Badge
@@ -180,32 +170,12 @@ a{
 }
 
 /* Navs & Tabs */
-
-.nav-tabs{
-  border-bottom: 1px solid lighten($dark, 8%);
-  .nav-item{
-    .nav-link{
-      &.active, &:hover, &:focus {
-        background: lighten($dark, 8%);
-        color: $light;
-        border-color: lighten($dark, 8%);
-      }
-    }
-  }
-}
-
 .nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
   background-color: $primary;
 }
 
 .nav-pills > .active > a > .badge {
   color: $primary;
-}
-
-#accordion{
-  .card{
-    background: lighten($dark, 8%);
-  }
 }
 
 // spinner
@@ -240,40 +210,4 @@ a{
       background: $primary;
     }
   }
-}
-
-hr{
-  border-color: rgba($white, 0.075);
-}
-
-// list-group-item
-
-.list-group-item{
-  background-color: transparent;
-  border-color: rgba($white, 0.125);
-}
-
-// modal
-
-.modal{
-  .modal-dialog {
-    .close {
-      color: $lightgray;
-    }
-
-    .modal-content {
-      background: lighten($dark, 8%);
-      border-color: lighten($dark, 8%);
-      .modal-header, .modal-footer {
-        border-color: lighten($dark, 10%);
-      }
-    }
-  }
-}
-
-// img-thumbnail
-
-.img-thumbnail{
-  background-color: rgba($white, 0.1);
-  border-color: rgba($white, 0.1);
 }

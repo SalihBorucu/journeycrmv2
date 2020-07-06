@@ -78,29 +78,7 @@ File: Main scss File
 @import "timeline";
 @import "account-pages";
 
-.table .merged-thead th {
-    padding-bottom: 5px;
-    vertical-align: middle;
-}
 
-.white-space-pre {
-    white-space: pre;
-}
-
-.cursor-pointer {
-    cursor: pointer;
-}
-
-.break-long-words {
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    -ms-word-break: break-all;
-    word-break: break-word;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-}
 
 
 

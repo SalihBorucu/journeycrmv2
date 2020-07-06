@@ -5,26 +5,6 @@
 .datepicker {
   border: 1px solid $lightgray;
   padding: 8px;
-  background: lighten($dark, 4%);
-  color: $white;
-  table{
-    tr{
-      .day, .month, .year, .prev, .next, .datepicker-switch {
-          &:hover, &.focused {
-            background: $primary !important;
-          }
-      }
-    }
-  }
-  tfoot {
-    tr{
-      th{
-        &:hover{
-          background: lighten($dark, 10%);
-        }
-      }
-    }
-  }
 }
 
 .datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled,
@@ -44,18 +24,25 @@
   }
 }
 
-.colorpicker-element{
-  .btn-light{
-    background-color: lighten($dark, 8%) !important;
-    border-color: lighten($dark, 8%) !important;
-  }
-}
-
 /* Bootstrap-touchSpin */
-.bootstrap-touchspin {
-  .btn {
-    font-size: 13px;
-  }
+.bootstrap-touchspin .input-group-btn-vertical .btn {
+  padding: 9px 12px;
+}
+.bootstrap-touchspin .input-group-btn-vertical i {
+  top: 4px;
+  left: 8px;
+}
+.input-group-addon {
+  padding: .375rem .75rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
 }
 
 /* Prism */

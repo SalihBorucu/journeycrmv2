@@ -73,7 +73,7 @@
     position: relative;
     padding-bottom: 26px;
     padding-left: 20px;
-    border-left: 2px solid lighten($dark, 8%);
+    border-left: 2px solid $light;
 
     &:last-child {
       border-color: transparent;
@@ -88,7 +88,7 @@
       width: 10px;
       height: 10px;
       transform: rotate(45deg);
-      background: $dark;
+      background: $white;
       border: 2px solid $primary;
     }
 

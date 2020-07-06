@@ -28,7 +28,6 @@
     display: block;
     font-size: 24px;
     margin-bottom: 5px;
-    color: $white;
   }
 
   .col-sm-6 {
@@ -40,8 +39,4 @@
       }
     }
   }
-}
-
-.symbol{
-  border-color: lighten($dark, 4%);
 }

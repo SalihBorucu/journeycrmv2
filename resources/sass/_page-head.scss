@@ -8,6 +8,7 @@
 
 .page-title-box {
     padding: 24px 0px;
+    color: $dark;
     .page-title {
         font-size: 16px;
         text-transform: uppercase;
@@ -20,11 +21,11 @@
               position: absolute;
               width: 12px;
               height: 12px;
-              background: lighten($dark, 4%);
+              background: $white;
               top: -6px;
               left: 18px;
               transform: rotate(45deg);
-              box-shadow: -2px -2px 0.25rem rgba(08, 18, 34, 0.1);
+              box-shadow: -2px -2px 0.25rem rgba(108, 118, 134, 0.1);
             }
         }
     }
