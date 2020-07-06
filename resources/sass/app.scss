@@ -78,7 +78,12 @@ File: Main scss File
 @import "timeline";
 @import "account-pages";
 
-
+#topnav .navigation-menu > li > a{
+    color: $light;
+}
+.jumbotron{
+    padding: 0.5rem 2rem;
+}
 
 
 

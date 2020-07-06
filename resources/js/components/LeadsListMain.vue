@@ -109,11 +109,22 @@
 
 
 <style>
-    .custom-table{
-        background: red;
-    }
+.vgt-wrap {
+    /* outline: 2px #2BCCA4 solid !important; */
+    box-shadow: 0 0 3pt 2pt #2BCCA4;
+    border: solid 2px white;
+    border-radius: 5px;
+}
+.vgt-input:focus{
+    border: solid 2px #2BCCA4;
+}
 
-    .custom-td{
-        background:blue;
-    }
+.vgt-table thead th.sorting-asc:after {
+    border-bottom: 5px solid #2BCCA4;
+}
+
+.vgt-table thead th.sorting-desc:before {
+    border-top: 5px solid #2BCCA4;
+}
+
 </style>
