@@ -27,7 +27,7 @@
                         </a>
                         <a href="#" class="latest-message-list">
                             <div class="border-bottom mt-3 position-relative">
-                                <div class="float-left user mr-3"><img src="assets/images/users/avatar-3.jpg" alt="" class="rounded-circle mb-3" /></div>
+                                <div class="float-left user mr-3"><img src="/assets/images/users/avatar-3.jpg" alt="" class="rounded-circle mb-3" /></div>
                                 <div class="message-time"><p class="m-0 text-muted">6 Min. ago</p></div>
                                 <div class="massage-desc">
                                     <h5 class="font-14 mt-0 text-dark">Ralph Ramirez</h5>
@@ -47,7 +47,7 @@
                         </a>
                         <a href="#" class="latest-message-list">
                             <div class="mt-3 position-relative">
-                                <div class="float-left user mr-3"><img src="assets/images/users/avatar-4.jpg" alt="" class="rounded-circle mb-3" /></div>
+                                <div class="float-left user mr-3"><img src="/assets/images/users/avatar-4.jpg" alt="" class="rounded-circle mb-3" /></div>
                                 <div class="message-time"><p class="m-0 text-muted">02:05 pm</p></div>
                                 <div class="massage-desc">
                                     <h5 class="font-14 mt-0 text-dark">James Sorrells</h5>

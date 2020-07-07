@@ -76,7 +76,6 @@
 
             <activity-component
             :step = this.lead.step></activity-component>
-
             <lead-history></lead-history>
         </div>
     </div>

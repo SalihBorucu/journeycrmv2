@@ -1,7 +1,7 @@
 <template>
     <div>
         <vue-good-table
-            v-if="listView"
+            v-show="listView"
             :columns="columns"
             :rows="rows"
             :fixed-header="true"
@@ -10,6 +10,7 @@
                 enabled: true,
                 mode: 'records',
                 perPage: 10,
+                setCurrentPage: parseInt(this.$route.query.page) || 1,
                 position: 'top',
                 nextLabel: 'next',
                 prevLabel: 'prev',
@@ -18,10 +19,16 @@
                 pageLabel: 'page', // for 'pages' mode
                 allLabel: 'All',
             }"
+            :sort-options="{
+                initialSortBy: this.currentTableProps.sort,
+            }"
             @on-row-click="openLeadView"
+            @on-page-change="pageChanged"
+            @on-sort-change="onSortChange"
             min-width="500px"
+            ref="dataTable"
         />
-        <div v-else>
+        <div v-if="!listView">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
@@ -31,19 +38,17 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="float-right d-none d-md-block" @click="listView = true">
-                                        <button class="btn btn-primary dropdown-toggle"
-                                        >
-                                            <i class="ti-settings mr-1" ></i>
-                                            Back to list
-                                        </button>
+                                    <button class="btn btn-primary dropdown-toggle">
+                                        <i class="ti-settings mr-1"></i>
+                                        Back to list
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <lead-view-modal
-            :lead=selectedLead></lead-view-modal>
+            <lead-view-modal :lead="selectedLead"></lead-view-modal>
         </div>
     </div>
 </template>
@@ -65,6 +70,10 @@
             return {
                 listView: true,
                 selectedLead: null,
+                currentTableProps: {
+                    page: 1,
+                    sort: this.$route.query.sortField ? {field: this.$route.query.sortField, type:this.$route.query.sortType} : {},
+                },
                 columns: [
                     {
                         label: 'Name',
@@ -128,13 +137,31 @@
             };
         },
 
+        mounted() {
+            console.log(this.$refs.dataTable.originalRows[0].children);
+        },
+
         methods: {
             openLeadView(params) {
                 this.listView = false;
+                console.log(this.$refs.dataTable.originalRows);
+
                 // params.pageIndex - index of this row on the current page.
                 console.log(params);
+                this.$router.push({ path: window.location.pathname + window.location.search, query: { leadIndex: params.pageIndex } });
                 //take page index from param then processed rows will give the list of things
-                this.selectedLead = params.row
+                this.selectedLead = params.row;
+            },
+
+            pageChanged(params) {
+                console.log(params);
+                this.$router.push({ path: window.location.pathname + window.location.search, query: { page: params.currentPage } });
+                this.currentTableProps.page = params.currentPage;
+            },
+
+            onSortChange(params) {
+                this.$router.push({ path: window.location.pathname + window.location.search, query: { sortField: params[0].field, sortType: params[0].type } });
+                this.currentTableProps.sort = params[0];
             },
         },
     };

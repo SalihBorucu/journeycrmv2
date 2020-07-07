@@ -7,6 +7,21 @@
 // require('./bootstrap');
 
 window.Vue = require('vue');
+import VueRouter from 'vue-router';
+
+import LeadViewModal from './components/LeadViewModal';
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path: '/asd',
+            name: 'test',
+            component: LeadViewModal
+        }
+    ]
+})
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,4 +44,5 @@ Vue.component('leads-list-main', require('./components/LeadsListMain.vue').defau
 
 const app = new Vue({
     el: '#app',
+    router,
 });
