@@ -37,10 +37,23 @@
                                 <h4 class="page-title m-0">Dashboard</h4>
                             </div>
                             <div class="col-md-4">
-                                <div class="float-right d-none d-md-block" @click="listView = true">
-                                    <button class="btn btn-primary dropdown-toggle">
-                                        <i class="ti-settings mr-1"></i>
+                                <div class="float-right d-none d-md-block" @click="nextLead"
+                                v-if="parseInt(this.$route.query.leadIndex) !== this.$refs.dataTable.processedRows[0].children.length -1"
+                                >
+                                    <button class="btn btn-primary">
+                                        <i class="ti-arrow-right ml-1"></i>
+                                    </button>
+                                </div>
+                                <div class="float-right d-none d-md-block mx-1" @click="changeToListView">
+                                    <button class="btn btn-primary">
+                                        <i class="ti-list mr-1"></i>
                                         Back to list
+                                    </button>
+                                </div>
+                                <div class="float-right d-none d-md-block" @click="previousLead"
+                                v-if="this.currentLeadIndex">
+                                    <button class="btn btn-primary">
+                                        <i class="ti-arrow-left mr-1"></i>
                                     </button>
                                 </div>
                             </div>
@@ -70,9 +83,10 @@
             return {
                 listView: true,
                 selectedLead: null,
+                currentLeadIndex: parseInt(this.$route.query.leadIndex) || null,
                 currentTableProps: {
                     page: 1,
-                    sort: this.$route.query.sortField ? {field: this.$route.query.sortField, type:this.$route.query.sortType} : {},
+                    sort: this.$route.query.sortField ? { field: this.$route.query.sortField, type: this.$route.query.sortType } : {},
                 },
                 columns: [
                     {
@@ -125,11 +139,13 @@
                         tdClass: 'text-center',
                         dateInputFormat: 'yyyy-MM-dd',
                         dateOutputFormat: 'dd/MM/yyyy',
+                        type: 'date'
                     },
                     {
                         label: 'Rating',
                         field: 'lead.global_notes.score',
                         tdClass: 'text-center',
+                        type: 'number'
                     },
                 ],
 
@@ -138,31 +154,51 @@
         },
 
         mounted() {
-            console.log(this.$refs.dataTable.originalRows[0].children);
+            if (this.$route.query.leadIndex) {
+                this.selectedLead = this.$refs.dataTable.processedRows[0].children[this.$route.query.leadIndex] || null;
+                this.listView = false;
+            }
         },
 
         methods: {
             openLeadView(params) {
                 this.listView = false;
-                console.log(this.$refs.dataTable.originalRows);
+                this.currentLeadIndex = params.row.originalIndex;
+                let processedIndex = this.$refs.dataTable.processedRows[0].children.findIndex(x=> x.originalIndex === params.row.originalIndex)
 
-                // params.pageIndex - index of this row on the current page.
-                console.log(params);
-                this.$router.push({ path: window.location.pathname + window.location.search, query: { leadIndex: params.pageIndex } });
+                this.$router.push({ path: window.location.search, query: { leadIndex: processedIndex } }).catch(() => {});
                 //take page index from param then processed rows will give the list of things
                 this.selectedLead = params.row;
             },
 
             pageChanged(params) {
-                console.log(params);
-                this.$router.push({ path: window.location.pathname + window.location.search, query: { page: params.currentPage } });
+                this.$router.push({ path: window.location.search, query: { page: params.currentPage } }).catch(() => {});
                 this.currentTableProps.page = params.currentPage;
             },
 
             onSortChange(params) {
-                this.$router.push({ path: window.location.pathname + window.location.search, query: { sortField: params[0].field, sortType: params[0].type } });
+                this.$router.push({ path: window.location.search, query: { sortField: params[0].field, sortType: params[0].type } }).catch(() => {});
                 this.currentTableProps.sort = params[0];
             },
+
+            changeToListView() {
+                this.listView = true;
+                this.$router.push({ path: window.location.search, query: { leadIndex: null } });
+            },
+
+            nextLead(){
+                // if(parseInt(this.$route.query.leadIndex) !== this.leads.length -1) return;
+                this.selectedLead = this.$refs.dataTable.processedRows[0].children[parseInt(this.$route.query.leadIndex) + 1]
+                this.$router.push({ path: window.location.search, query: { leadIndex: parseInt(this.$route.query.leadIndex) + 1 } }).catch(() => {});
+                this.currentLeadIndex = parseInt(this.$route.query.leadIndex);
+            },
+
+            previousLead(){
+                if(this.$route.query.leadIndex === 0) return;
+                this.selectedLead = this.$refs.dataTable.processedRows[0].children[this.$route.query.leadIndex - 1]
+                this.$router.push({ path: window.location.search, query: { leadIndex: this.$route.query.leadIndex - 1 } }).catch(() => {});
+                this.currentLeadIndex = parseInt(this.$route.query.leadIndex);
+            }
         },
     };
 </script>
