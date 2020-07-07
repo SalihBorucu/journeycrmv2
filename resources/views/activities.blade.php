@@ -15,7 +15,7 @@
                             <select class="form-control" name="activity_type">
                                 <option value="email">Email</option>
                                 <option value="social">Social</option>
-                                <option value="phone">Phone</option>
+                                <option value="call" selected>Phone</option>
                             </select>
                         </div>
                         <div class="w-100 mx-2">

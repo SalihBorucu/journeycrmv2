@@ -34,8 +34,15 @@ class ActivitiesController extends Controller
             //need more leads to check but it works
             ->get();
 
+        $account = Account::find(session()->get('user_current_account'));
+        $campaigns = $account->accountCampaigns;
+                // dd(request()->all());
         return view('leads')->with([
-            'leads' => $leads
+            'leads' => $leads,
+            'campaigns' => $campaigns,
+            'account' => $account->name,
+            'previous_request' => request(),
+            'campaign_id' => $campaign->id
         ]);
     }
 }
