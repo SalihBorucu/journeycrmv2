@@ -72,7 +72,7 @@
     import LeadViewModal from './LeadViewModal';
 
     export default {
-        props: ['leads'],
+        props: ['leads', 'outcomes'],
 
         components: {
             VueGoodTable,
@@ -91,7 +91,7 @@
                 columns: [
                     {
                         label: 'Name',
-                        field: 'lead.first_name',
+                        field: 'lead.full_name',
                         type: 'text',
                         thClass: 'custom-th',
                         // width: '1fr',

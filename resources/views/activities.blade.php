@@ -56,7 +56,7 @@
 @endsection
 
 <script>
-    let today = new Date();
+let today = new Date();
 let res = today.toISOString().replace(/\T(.*)/g, '');
 
 window.onload = () =>

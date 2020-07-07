@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card m-b-30 card-body">
-                        <h5 class="card-title mt-0">{{ lead.lead.first_name }} {{ lead.lead.last_name }}</h5>
+                        <h5 class="card-title mt-0">{{ lead.lead.full_name }} {{ lead.lead.last_name }}</h5>
                         <div class="d-flex justify-content-around">
                             <div>
                                 <h6>Company:</h6>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card m-b-30 card-body">
+                    <div class="card mb-3 p-2 card-body">
                         <div class="d-flex justify-content-center">
                             <div class="social-source-icon lg-icon mr-1">
                                 <i class="mdi mdi-phone bg-primary text-white" style="font-size: 60px"></i>
@@ -76,7 +76,8 @@
 
             <activity-component
             :step = this.lead.step></activity-component>
-            <lead-history></lead-history>
+            <lead-history
+            :lead= this.lead></lead-history>
         </div>
     </div>
 </template>

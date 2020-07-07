@@ -12,6 +12,7 @@
         <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/summernote-bs4.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
 
@@ -35,24 +36,11 @@
         </div>
 
         <script src="/js/plugins.js"></script>
+        @switch (true)
+        @case (Request::is('activities/campaign/*'))
         <script src="{{ mix('js/app.js') }}"></script>
-        {{-- @switch (true)
-        @case (Request::is('spot/create') || Request::is('spot/*/portal'))
-        <script src="{{ mix('js/spot-model-portal-app.js') }}"></script>
         @break
-        @case (Request::is('spot/*'))
-        <script src="{{ mix('js/spot-app.js') }}"></script>
-        @break
-        @case (Request::is('oldspot') || Request::is('oldspot/*'))
-        <script src="{{ mix('js/old-spot-app.js') }}"></script>
-        @break
-        @case (Request::is('target-earth-model') || Request::is('target-earth-model/*'))
-        <script src="{{ mix('js/target-earth-model-app.js') }}"></script>
-        @break
-        @case (Request::is('lv-model') || Request::is('lv-model/*'))
-        <script src="{{ mix('js/lv-model-app.js') }}"></script>
-        @break
-        @endswitch --}}
+        @endswitch
     </body>
 
 </html>

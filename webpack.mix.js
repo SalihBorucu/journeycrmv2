@@ -28,6 +28,7 @@ mix.js('resources/js/app.js', 'public/js')
             'resources/js/vendor/jquery.scrollTo.min.js',
             'resources/js/vendor/alertify.js',
             'resources/js/vendor/app.js',
+            'resources/js/vendor/summernote-bs4.min.js'
         ],
         'public/js/plugins.js'
     );

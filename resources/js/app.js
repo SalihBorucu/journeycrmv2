@@ -9,19 +9,9 @@
 window.Vue = require('vue');
 import VueRouter from 'vue-router';
 
-import LeadViewModal from './components/LeadViewModal';
 Vue.use(VueRouter);
 
-const router = new VueRouter({
-    mode: 'history',
-    routes: [
-        {
-            path: '/asd',
-            name: 'test',
-            component: LeadViewModal
-        }
-    ]
-})
+const router = new VueRouter()
 
 /**
  * The following block of code may be used to automatically register your

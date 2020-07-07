@@ -34,7 +34,6 @@ class ActivitiesController extends Controller
             //need more leads to check but it works
             ->get();
 
-
         return view('leads')->with([
             'leads' => $leads
         ]);
