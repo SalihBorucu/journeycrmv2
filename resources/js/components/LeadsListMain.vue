@@ -1,5 +1,9 @@
 <template>
     <div>
+        <search-sidebar
+        :previous_request_inj="previous_request"
+        :campaign_id="campaign_id">
+        </search-sidebar>
         <vue-good-table
             v-show="listView"
             :columns="columns"
@@ -70,13 +74,15 @@
     import 'vue-good-table/dist/vue-good-table.css';
     import { VueGoodTable } from 'vue-good-table';
     import LeadViewModal from './LeadViewModal';
+    import SearchSidebar from './SearchSidebar';
 
     export default {
-        props: ['leads', 'outcomes'],
+        props: ['leads', 'outcomes', 'previous_request', 'campaign_id'],
 
         components: {
             VueGoodTable,
             LeadViewModal,
+            SearchSidebar,
         },
 
         data() {
@@ -166,37 +172,37 @@
                 this.currentLeadIndex = params.row.originalIndex;
                 let processedIndex = this.$refs.dataTable.processedRows[0].children.findIndex(x=> x.originalIndex === params.row.originalIndex)
 
-                this.$router.push({ path: window.location.search, query: { leadIndex: processedIndex } }).catch(() => {});
+                this.$router.push({ path: this.$route.fullPath, query: { leadIndex: processedIndex } }).catch(() => {});
                 //take page index from param then processed rows will give the list of things
                 this.selectedLead = params.row;
             },
 
             pageChanged(params) {
-                this.$router.push({ path: window.location.search, query: { page: params.currentPage } }).catch(() => {});
+                this.$router.replace({ path: this.$route.fullPath, query: { page: params.currentPage } }).catch(() => {});
                 this.currentTableProps.page = params.currentPage;
             },
 
             onSortChange(params) {
-                this.$router.push({ path: window.location.search, query: { sortField: params[0].field, sortType: params[0].type } }).catch(() => {});
+                this.$router.push({ path: this.$route.fullPath, query: { sortField: params[0].field, sortType: params[0].type } }).catch(() => {});
                 this.currentTableProps.sort = params[0];
             },
 
             changeToListView() {
                 this.listView = true;
-                this.$router.push({ path: window.location.search, query: { leadIndex: null } });
+                this.$router.push({ path: this.$route.fullPath, query: { leadIndex: null } });
             },
 
             nextLead(){
                 // if(parseInt(this.$route.query.leadIndex) !== this.leads.length -1) return;
                 this.selectedLead = this.$refs.dataTable.processedRows[0].children[parseInt(this.$route.query.leadIndex) + 1]
-                this.$router.push({ path: window.location.search, query: { leadIndex: parseInt(this.$route.query.leadIndex) + 1 } }).catch(() => {});
+                this.$router.push({ path: this.$route.fullPath, query: { leadIndex: parseInt(this.$route.query.leadIndex) + 1 } }).catch(() => {});
                 this.currentLeadIndex = parseInt(this.$route.query.leadIndex);
             },
 
             previousLead(){
                 if(this.$route.query.leadIndex === 0) return;
                 this.selectedLead = this.$refs.dataTable.processedRows[0].children[this.$route.query.leadIndex - 1]
-                this.$router.push({ path: window.location.search, query: { leadIndex: this.$route.query.leadIndex - 1 } }).catch(() => {});
+                this.$router.push({ path: this.$route.fullPath, query: { leadIndex: this.$route.query.leadIndex - 1 } }).catch(() => {});
                 this.currentLeadIndex = parseInt(this.$route.query.leadIndex);
             }
         },
