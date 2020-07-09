@@ -1,6 +1,8 @@
 <template>
     <div>
-        <a class="toggle-wrapper" @click="sidebarOpen = !sidebarOpen"><i class="mdi mdi-arrow-left text-white toggle-button btn btn-primary waves-effect waves-light"></i></a>
+        <a class="outside-toggle-wrapper" @click="sidebarOpen = !sidebarOpen" v-if="!sidebarOpen">
+            <i class="mdi mdi-arrow-right text-white toggle-button btn btn-primary waves-effect waves-light"></i>
+        </a>
         <div class="sidebar card" v-if="sidebarOpen">
             <a class="toggle-wrapper" @click="sidebarOpen = !sidebarOpen"><i class="mdi mdi-arrow-left text-white toggle-button btn btn-primary waves-effect waves-light"></i></a>
             <div class="">
@@ -75,6 +77,12 @@
 <style>
     .toggle-wrapper {
         position: relative;
+    }
+
+    .outside-toggle-wrapper {
+        position: absolute;
+        left: 40;
+        top: 10%;
     }
 
     .toggle-button {
