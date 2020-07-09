@@ -20,16 +20,22 @@ class GlobalLeadNotesSeeder extends Seeder
         $leads = Lead::pluck('id')->toArray();
         $users = User::pluck('id')->toArray();
 
-        for ($i=0; $i < 10000; $i++) {
+        for ($i=0; $i < 50000; $i++) {
             $notes[] =
             [
                 'lead_id' => $leads[array_rand($leads, 1)],
                 'user_id' => $users[array_rand($users, 1)],
                 'note' => $faker->realText($maxNbChars = 200, $indexSize = 2),
                 'score' => rand(1, 10)
-            ];;
+            ];
+        }
+        $collection = collect($notes);
+        $chunks = $collection->chunk(1000);
+        $chunks->toArray();
+
+        foreach ($chunks as $chunk) {
+            GlobalLeadNotes::insert($chunk->toArray());
         }
 
-        GlobalLeadNotes::insert($notes);
     }
 }

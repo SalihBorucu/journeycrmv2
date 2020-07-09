@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(LeadSeeder::class);
         $this->call(GlobalLeadNotesSeeder::class);
+        $this->call(ActivityHistorySeeder::class);
     }
 }

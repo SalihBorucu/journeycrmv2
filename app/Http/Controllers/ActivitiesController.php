@@ -45,31 +45,4 @@ class ActivitiesController extends Controller
             'campaign_id' => $campaign->id
         ]);
     }
-
-    public function axiosFetch(Campaign $campaign)
-    {
-        $leads = LeadAccount::where('account_id', session()->get('user_current_account'))
-        ->where('campaign_id', $campaign->id)
-            ->with(['step', 'lead.globalNotes', 'activityHistory'])
-            ->whereHas('step', function ($query) {
-                $query->where('type', request()->activity_type);
-            })
-            ->whereBetween('due_date', [request()->start_date, request()->end_date])
-            // ->whereHas('lead', function ($query) {
-            //     $query->where('country', 'France');
-            // })
-            //need more leads to check but it works
-            ->get();
-
-        $account = Account::find(session()->get('user_current_account'));
-        $campaigns = $account->accountCampaigns;
-
-        return response()->json([
-            'leads' => $leads,
-            'campaigns' => $campaigns,
-            'account' => $account->name,
-            'previous_request' => request()->all(),
-            'campaign_id' => $campaign->id
-        ]);
-    }
 }

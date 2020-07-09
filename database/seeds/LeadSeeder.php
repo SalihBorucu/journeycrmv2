@@ -44,18 +44,18 @@ class LeadSeeder extends Seeder
         }
 
         $leadIds = Lead::pluck('id');
-        $accounts = Account::pluck('id')->toArray();
         $allAccounts = Account::get();
         $allCampaigns = Campaign::get();
         $allSchedules = Schedule::get();
-        // dd($allAccounts->find(1));
-        // dd($createdLeads);
-        foreach ($leadIds as $item) {
-            for ($i=0; $i < rand(1,3); $i++) {
-                $randomAccount = $accounts[array_rand($accounts, 1)];
-                unset($accounts[$randomAccount]);
+        $accountIdsX = [];
 
-                $randomCampaign = $allAccounts->find($randomAccount)->accountCampaigns->toArray();
+        foreach ($leadIds as $item) {
+            $accountIds = Account::pluck('id')->toArray();
+            for ($i=0; $i < rand(1,3); $i++) {
+                $randomAccountId = $accountIds[array_rand($accountIds, 1)];
+                unset($accountIds[$randomAccountId]);
+                $accountIdsX[] = $randomAccountId;
+                $randomCampaign = $allAccounts->find($randomAccountId)->accountCampaigns->toArray();
                 $randomCampaignId = $randomCampaign[array_rand($randomCampaign, 1)]['campaign_id'];
                 $schedule = $allCampaigns->find($randomCampaignId)->schedule;
 
@@ -71,7 +71,7 @@ class LeadSeeder extends Seeder
 
                 $leadAccountsArr[] = [
                     'lead_id' => $item,
-                    'account_id' => $randomAccount,
+                    'account_id' => $randomAccountId,
                     'campaign_id' => $randomCampaignId,
                     'schedule_id' => $schedule->id,
                     'step_id' => $randomStepId,
@@ -90,3 +90,4 @@ class LeadSeeder extends Seeder
 
     }
 }
+

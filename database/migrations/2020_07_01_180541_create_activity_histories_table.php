@@ -25,7 +25,7 @@ class CreateActivityHistoriesTable extends Migration
 
             $table->foreign('lead_account_id')
                 ->references('id')
-                ->on('leads')
+                ->on('lead_accounts')
                 ->onDelete('cascade');
         });
     }

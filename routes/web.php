@@ -38,7 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/activities', 'ActivitiesController@index');
 
     Route::get('/activities/campaign/{campaign}', 'ActivitiesController@fetch');
-    // Route::post('/activities/campaign/{campaign}', 'ActivitiesController@axiosFetch');
 
 
 
@@ -56,6 +55,6 @@ Route::middleware('auth')->group(function () {
         // dd(Lead::find(1)->leadAccounts->find(Session::get('user_current_account'))->step);
         // dd(Account::find(Session::get('user_current_account'))->accountCampaigns[0]->campaigns->schedule->steps);
         // dd(Schedule::find(1)->steps);
-        dd(Lead::find(1)->globalNotes);
+        dd(Lead::find(1));
     });
 });
