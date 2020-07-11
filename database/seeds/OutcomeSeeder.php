@@ -15,7 +15,7 @@ class OutcomeSeeder extends Seeder
         $outcomes = [
             'dnc' => [true, 7],
             'no_answer' => [false, null],
-            'call_back' => [false, null],
+            'call_back' => [true, 8],
             'interested' => [true, 6],
             'qualified' => [true, 5],
             'no_phone' => [true, 4],

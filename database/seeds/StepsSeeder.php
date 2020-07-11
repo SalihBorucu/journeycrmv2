@@ -30,6 +30,18 @@ class StepsSeeder extends Seeder
                 ];
             }
 
+            if ($schedule['name'] === 'Custom Step') {
+                foreach ($types as $key => $type) {
+                    $steps[] = [
+                        'schedule_id' => 8,
+                        'name' => $schedule['name'],
+                        'step_number' => $key,
+                        'type' => $type,
+                        'day_gap' => 1
+                    ];
+                }
+            }
+
             for ($i=1; $i < $stepCount; $i++) {
                 $randomType = $types[array_rand($types, 1)];
 
@@ -39,6 +51,7 @@ class StepsSeeder extends Seeder
                 };
 
                 if($schedule['name'] === 'Dnc') continue;
+                if ($schedule['name'] === 'Custom Step') continue;
 
                 $steps[] = [
                     'schedule_id' => $schedule['id'],

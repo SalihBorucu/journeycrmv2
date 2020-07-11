@@ -35,14 +35,30 @@
                             </p>
                         </div>
                         <textarea v-model="call_notes" id="textarea" class="form-control" maxlength="2000" rows="3" placeholder="Your notes.."></textarea>
-                        <div class="button-items d-flex justify-content-center mt-3">
+                        <div class="button-items d-flex justify-content-center mt-3" v-if="!callback_active">
                             <!-- <button type="button" class="btn btn-outline-primary waves-effect waves-light">Primary</button> -->
                             <button @click="submitOutcome" type="button" value="2" class="btn btn-outline-secondary waves-effect">No Answer</button>
-                            <button @click="submitOutcome" type="button" value="3" class="btn btn-outline-info waves-effect">Call Back</button>
+                            <button @click="callback_active = true" type="button" value="3" class="btn btn-outline-info waves-effect">Call Back</button>
                             <button @click="submitOutcome" type="button" value="4" class="btn btn-outline-primary waves-effect">Interested</button>
                             <button @click="submitOutcome" type="button" value="5" class="btn btn-outline-success waves-effect">Qualified</button>
                             <button @click="submitOutcome" type="button" value="6" class="btn btn-outline-warning waves-effect">Email Only</button>
                             <button @click="submitOutcome" type="button" value="1" class="btn btn-outline-danger waves-effect">DNC</button>
+                        </div>
+                        <div v-else class="d-flex flex-column align-items-center">
+                            <p>Create New Next Activity:</p>
+                            <div class="d-flex justify-content-center m-2">
+                                <label class="m-1">Due Date</label>
+                                <div class="w-25">
+                                    <input class="form-control" type="date" name="due_date" />
+                                </div>
+                                <label class="m-1">Activity Type</label>
+                                <select class="form-control w-25" name="activity_type">
+                                    <option value="email">Email</option>
+                                    <option value="social">Social</option>
+                                    <option value="call">Phone</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary waves-effect waves-light">Set New Activity</button>
                         </div>
                     </div>
                 </div>
@@ -60,7 +76,8 @@
         data() {
             return {
                 call_notes: null,
-            }
+                callback_active: false,
+            };
         },
 
         mounted() {
@@ -73,23 +90,18 @@
         },
 
         methods: {
-            submitOutcome(){
+            submitOutcome() {
                 let obj = {
                     outcome: event.target.value,
                     lead: this.lead,
                     call_notes: this.call_notes,
-                }
+                };
 
-                axios
-                    .post(`/activity`, obj
-                    )
-                    .then((res) => {
-                        this.call_notes = null;
-                        this.$emit('activity-complete', this.lead.id)
-                    });
-            }
+                axios.post(`/activity`, obj).then((res) => {
+                    this.call_notes = null;
+                    this.$emit('activity-complete', this.lead.id);
+                });
+            },
         },
     };
 </script>
-
-

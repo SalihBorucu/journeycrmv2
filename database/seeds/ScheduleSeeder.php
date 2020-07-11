@@ -19,7 +19,8 @@ class ScheduleSeeder extends Seeder
             'Email Only' => ['standard', 4],
             'Qualified' => ['standard', 5],
             'Interested' => ['standard', 6],
-            'Dnc' => ['standard', 7]
+            'Dnc' => ['standard', 7],
+            'Custom Step' => ['standard', 8]
         ];
 
         foreach ($schedules as $name => $values) {

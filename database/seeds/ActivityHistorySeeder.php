@@ -47,3 +47,9 @@ class ActivityHistorySeeder extends Seeder
         }
     }
 }
+
+
+// call back schedule
+// has 3 steps call, email, social
+// user chooses the step and due_date,
+// when schedule is completed need to go back to the old schedule somehow
