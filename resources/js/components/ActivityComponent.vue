@@ -42,7 +42,7 @@
                             <button @click="submitOutcome" type="button" value="4" class="btn btn-outline-primary waves-effect">Interested</button>
                             <button @click="submitOutcome" type="button" value="5" class="btn btn-outline-success waves-effect">Qualified</button>
                             <button @click="submitOutcome" type="button" value="6" class="btn btn-outline-warning waves-effect">Email Only</button>
-                            <button @click="submitOutcome" type="button" value="0" class="btn btn-outline-danger waves-effect">DNC</button>
+                            <button @click="submitOutcome" type="button" value="1" class="btn btn-outline-danger waves-effect">DNC</button>
                         </div>
                     </div>
                 </div>

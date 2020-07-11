@@ -18,7 +18,8 @@ class ScheduleSeeder extends Seeder
             'Event' => ['standard', 3],
             'Email Only' => ['standard', 4],
             'Qualified' => ['standard', 5],
-            'Interested' => ['standard', 6]
+            'Interested' => ['standard', 6],
+            'Dnc' => ['standard', 7]
         ];
 
         foreach ($schedules as $name => $values) {

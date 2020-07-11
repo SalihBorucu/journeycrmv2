@@ -13,13 +13,12 @@ class OutcomeSeeder extends Seeder
     public function run()
     {
         $outcomes = [
-            'dnc' => [false, null],
+            'dnc' => [true, 7],
             'no_answer' => [false, null],
             'call_back' => [false, null],
             'interested' => [true, 6],
             'qualified' => [true, 5],
             'no_phone' => [true, 4],
-
         ];
 
         foreach ($outcomes as $key => $value) {

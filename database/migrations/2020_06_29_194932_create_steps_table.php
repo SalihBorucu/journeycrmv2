@@ -18,8 +18,8 @@ class CreateStepsTable extends Migration
             $table->unsignedBigInteger('schedule_id');
             $table->text('name');
             $table->integer('step_number');
-            $table->text('type');
-            $table->integer('day_gap');
+            $table->text('type')->nullable();
+            $table->integer('day_gap')->nullable();
 
             $table->timestamps();
 

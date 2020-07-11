@@ -29,7 +29,7 @@ class ActivitiesController extends Controller
     {
         $leads = LeadAccount::where('account_id', session()->get('user_current_account'))
             ->where('campaign_id', $campaign->id)
-            ->with(['step', 'lead.globalNotes.user', 'activityHistory', 'lead.company.leads'])
+            ->with(['step', 'lead.globalNotes.user', 'activityHistory.outcome', 'lead.company.leads'])
             ->whereHas('step', function ($query) {
                 $query->where('type', request()->activity_type);
             })
@@ -67,7 +67,6 @@ class ActivitiesController extends Controller
 
         $outcome = Outcome::find(request('outcome'));
         $nextSchedule = $outcome->new_schedule_id ? $outcome->new_schedule_id :  request('lead.schedule_id');
-
         if($outcome->new_schedule_id){
             $nextStep = Steps::where('schedule_id', $outcome->new_schedule_id)
                 ->where('step_number', 1)

@@ -26,7 +26,8 @@
                     <ol class="activity-feed mb-0 history-col">
                         <li class="feed-item" v-for="activity in lead.activity_history">
                             <div class="feed-item-list">
-                                <p class="text-white">{{activity.type}}</p>
+                                <p class="text-white">Activity: {{activity.type}}</p>
+                                <p class="text-white">Outcome: {{activity.outcome.type}}</p>
                                 <span class="date text-white-50">{{ activity.created_at.replace(/\T(.*)/g, '') }}</span>
                                 <span class="activity-text text-white">{{activity.notes}}</span>
                             </div>

@@ -20,6 +20,16 @@ class StepsSeeder extends Seeder
         foreach ($schedules as $key => $schedule) {
             $stepCount = rand(15, 21);
 
+            if ($schedule['name'] === 'Dnc') {
+                $steps[] = [
+                    'schedule_id' => 7,
+                    'name' => $schedule['name'],
+                    'step_number' => 1,
+                    'type' => null,
+                    'day_gap' => null
+                ];
+            }
+
             for ($i=1; $i < $stepCount; $i++) {
                 $randomType = $types[array_rand($types, 1)];
 
@@ -27,7 +37,9 @@ class StepsSeeder extends Seeder
                     $randomType = 'email';
                     $stepCount = 10;
                 };
-                
+
+                if($schedule['name'] === 'Dnc') continue;
+
                 $steps[] = [
                     'schedule_id' => $schedule['id'],
                     'name' => $schedule['name'],
