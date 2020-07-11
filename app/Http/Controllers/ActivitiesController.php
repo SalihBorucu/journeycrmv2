@@ -54,7 +54,7 @@ class ActivitiesController extends Controller
     }
 
     public function create(){
-
+        // dd(request()->all());
         ActivityHistory::create([
             'user_id' => Auth::user()->id,
             'lead_account_id' => request('lead.id'),
@@ -76,6 +76,13 @@ class ActivitiesController extends Controller
                 ->first();
             $nextDueDate = request('lead.due_date');
             $nextStatus = $outcome->type;
+            //if new schedule is custom
+            if(request('outcome') === "3"){
+                $nextDueDate = request('custom_activity_date');
+                $nextStep = Steps::where('schedule_id', $outcome->new_schedule_id)
+                ->where('step_number', request('custom_activity_type'))
+                ->first();
+            }
         }else {
             $lastSchedule = request('lead.schedule_id');
             $lastStepNumber = request('lead.step.step_number');

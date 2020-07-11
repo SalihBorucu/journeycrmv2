@@ -38,7 +38,7 @@
                         <div class="button-items d-flex justify-content-center mt-3" v-if="!callback_active">
                             <!-- <button type="button" class="btn btn-outline-primary waves-effect waves-light">Primary</button> -->
                             <button @click="submitOutcome" type="button" value="2" class="btn btn-outline-secondary waves-effect">No Answer</button>
-                            <button @click="callback_active = true" type="button" value="3" class="btn btn-outline-info waves-effect">Call Back</button>
+                            <button @click="callback_active = true" type="button"  class="btn btn-outline-info waves-effect">Call Back</button>
                             <button @click="submitOutcome" type="button" value="4" class="btn btn-outline-primary waves-effect">Interested</button>
                             <button @click="submitOutcome" type="button" value="5" class="btn btn-outline-success waves-effect">Qualified</button>
                             <button @click="submitOutcome" type="button" value="6" class="btn btn-outline-warning waves-effect">Email Only</button>
@@ -49,16 +49,16 @@
                             <div class="d-flex justify-content-center m-2">
                                 <label class="m-1">Due Date</label>
                                 <div class="w-25">
-                                    <input class="form-control" type="date" name="due_date" />
+                                    <input class="form-control" type="date" name="due_date" v-model="custom_activity_date"/>
                                 </div>
                                 <label class="m-1">Activity Type</label>
-                                <select class="form-control w-25" name="activity_type">
-                                    <option value="email">Email</option>
-                                    <option value="social">Social</option>
-                                    <option value="call">Phone</option>
+                                <select class="form-control w-25" name="activity_type" v-model="custom_activity_type">
+                                    <option value="0">Email</option>
+                                    <option value="1">Social</option>
+                                    <option value="2">Phone</option>
                                 </select>
                             </div>
-                            <button type="button" class="btn btn-outline-primary waves-effect waves-light">Set New Activity</button>
+                            <button @click="submitOutcome" type="button" class="btn btn-outline-primary waves-effect waves-light" value="3">Set New Activity</button>
                         </div>
                     </div>
                 </div>
@@ -76,6 +76,8 @@
         data() {
             return {
                 call_notes: null,
+                custom_activity_type: null,
+                custom_activity_date: null,
                 callback_active: false,
             };
         },
@@ -95,6 +97,8 @@
                     outcome: event.target.value,
                     lead: this.lead,
                     call_notes: this.call_notes,
+                    custom_activity_type: this.custom_activity_type,
+                    custom_activity_date: this.custom_activity_date,
                 };
 
                 axios.post(`/activity`, obj).then((res) => {
