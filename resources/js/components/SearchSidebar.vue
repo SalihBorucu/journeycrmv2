@@ -55,7 +55,7 @@
         data() {
             return {
                 previous_request: this.previous_request_inj,
-                sidebarOpen: true,
+                sidebarOpen: false,
             };
         },
         methods: {

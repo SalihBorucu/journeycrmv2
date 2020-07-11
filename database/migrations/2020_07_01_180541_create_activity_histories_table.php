@@ -20,7 +20,7 @@ class CreateActivityHistoriesTable extends Migration
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('outcome_id');
             $table->text('type');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
 
             $table->foreign('lead_account_id')

@@ -65,7 +65,8 @@
                     </div>
                 </div>
             </div>
-            <lead-view-modal :lead="selectedLead"></lead-view-modal>
+            <lead-view :lead="selectedLead"
+            @activity-complete = "removeLeadFromView"></lead-view>
         </div>
     </div>
 </template>
@@ -73,7 +74,7 @@
 <script>
     import 'vue-good-table/dist/vue-good-table.css';
     import { VueGoodTable } from 'vue-good-table';
-    import LeadViewModal from './LeadViewModal';
+    import LeadView from './LeadView';
     import SearchSidebar from './SearchSidebar';
 
     export default {
@@ -81,7 +82,7 @@
 
         components: {
             VueGoodTable,
-            LeadViewModal,
+            LeadView,
             SearchSidebar,
         },
 
@@ -208,6 +209,11 @@
                 this.selectedLead = this.$refs.dataTable.processedRows[0].children[this.$route.query.leadIndex - 1]
                 this.$router.push({ path: this.$route.fullPath, query: { leadIndex: this.$route.query.leadIndex - 1 } }).catch(() => {});
                 this.currentLeadIndex = parseInt(this.$route.query.leadIndex);
+            },
+
+            removeLeadFromView(leadId){
+                this.nextLead();
+                this.leads.splice(this.leads.findIndex(lead => lead.id === leadId), 1)
             }
         },
     };

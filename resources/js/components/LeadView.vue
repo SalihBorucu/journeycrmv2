@@ -75,9 +75,11 @@
             </div>
 
             <activity-component
+            @activity-complete = "$emit('activity-complete', lead.id)"
+            :lead = this.lead
             :step = this.lead.step></activity-component>
             <lead-history
-            :lead= this.lead></lead-history>
+            :lead = this.lead></lead-history>
         </div>
     </div>
 </template>
@@ -92,4 +94,3 @@
     };
 </script>
 
-<style></style>

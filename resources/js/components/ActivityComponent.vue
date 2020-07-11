@@ -34,15 +34,15 @@
                                 ullamcorper dolor commodo at. Quisque dictum leo non tellus commodo fermentum. Sed fermentum leo erat, in volutpat eros porttitor a.
                             </p>
                         </div>
-                        <textarea id="textarea" class="form-control" maxlength="2000" rows="3" placeholder="Your notes.."></textarea>
+                        <textarea v-model="call_notes" id="textarea" class="form-control" maxlength="2000" rows="3" placeholder="Your notes.."></textarea>
                         <div class="button-items d-flex justify-content-center mt-3">
                             <!-- <button type="button" class="btn btn-outline-primary waves-effect waves-light">Primary</button> -->
-                            <button type="button" value="2" class="btn btn-outline-secondary waves-effect">No Answer</button>
-                            <button type="button" value="3" class="btn btn-outline-info waves-effect">Call Back</button>
-                            <button type="button" value="4" class="btn btn-outline-primary waves-effect">Interested</button>
-                            <button type="button" value="5" class="btn btn-outline-success waves-effect">Qualified</button>
-                            <button type="button" value="6" class="btn btn-outline-warning waves-effect">Email Only</button>
-                            <button type="button" value="0" class="btn btn-outline-danger waves-effect">DNC</button>
+                            <button @click="submitOutcome" type="button" value="2" class="btn btn-outline-secondary waves-effect">No Answer</button>
+                            <button @click="submitOutcome" type="button" value="3" class="btn btn-outline-info waves-effect">Call Back</button>
+                            <button @click="submitOutcome" type="button" value="4" class="btn btn-outline-primary waves-effect">Interested</button>
+                            <button @click="submitOutcome" type="button" value="5" class="btn btn-outline-success waves-effect">Qualified</button>
+                            <button @click="submitOutcome" type="button" value="6" class="btn btn-outline-warning waves-effect">Email Only</button>
+                            <button @click="submitOutcome" type="button" value="0" class="btn btn-outline-danger waves-effect">DNC</button>
                         </div>
                     </div>
                 </div>
@@ -52,8 +52,16 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
-        props: ['step'],
+        props: ['step', 'lead'],
+
+        data() {
+            return {
+                call_notes: null,
+            }
+        },
         mounted() {
             $('.summernote').summernote({
                 height: 300, // set editor height
@@ -62,5 +70,24 @@
                 focus: true, // set focus to editable area after initializing summernote
             });
         },
+
+        methods: {
+            submitOutcome(){
+                let obj = {
+                    outcome: event.target.value,
+                    lead: this.lead,
+                    call_notes: this.call_notes,
+                }
+
+                axios
+                    .post(`/activity`, obj
+                    )
+                    .then((res) => {
+                        this.$emit('activity-complete', this.lead.id)
+                    });
+            }
+        },
     };
 </script>
+
+
