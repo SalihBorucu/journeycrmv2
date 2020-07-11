@@ -5,13 +5,13 @@
                 <div class="card-body">
                     <h4 class="mt-0 header-title mb-4">Latest Global Notes</h4>
                     <div class="latest-massage history-col">
-                        <a href="#" class="latest-message-list" v-for="lead in this.lead.lead.global_notes">
-                            <div class="border-bottom position-relative">
+                        <a href="#" class="latest-message-list" v-for="note in this.lead.lead.global_notes">
+                            <div class="border-bottom position-relative mt-1">
                                 <div class="float-left user mr-3"><h5 class="bg-primary text-center rounded-circle text-white mt-0">v</h5></div>
-                                <div class="message-time"><p class="mr-2 text-muted">Just Now</p></div>
+                                <div class="message-time"><p class="mr-2 text-muted">{{ note.rating }}</p></div>
                                 <div class="massage-desc">
-                                    <h5 class="font-14 mt-0 text-dark">{{ lead.user.name }}</h5>
-                                    <p class="text-muted">{{ lead.notes }}</p>
+                                    <h5 class="font-14 mt-0 text-dark">{{ note.user.name }}</h5>
+                                    <p class="text-muted">{{ note.note }}</p>
                                 </div>
                             </div>
                         </a>
@@ -24,28 +24,11 @@
                 <div class="card-body">
                     <h4 class="mt-0 header-title mb-4">Recent History</h4>
                     <ol class="activity-feed mb-0 history-col">
-                        <li class="feed-item">
+                        <li class="feed-item" v-for="activity in lead.activity_history">
                             <div class="feed-item-list">
-                                <span class="date text-white-50">Jan 10</span>
-                                <span class="activity-text text-white">Responded to need “Volunteer Activities”</span>
-                            </div>
-                        </li>
-                        <li class="feed-item">
-                            <div class="feed-item-list">
-                                <span class="date text-white-50">Jan 09</span>
-                                <span class="activity-text text-white">Added an interest “Volunteer Activities”</span>
-                            </div>
-                        </li>
-                        <li class="feed-item">
-                            <div class="feed-item-list">
-                                <span class="date text-white-50">Jan 08</span>
-                                <span class="activity-text text-white">Joined the group “Boardsmanship Forum”</span>
-                            </div>
-                        </li>
-                        <li class="feed-item">
-                            <div class="feed-item-list">
-                                <span class="date text-white-50">Jan 07</span>
-                                <span class="activity-text text-white">Responded to need “In-Kind Opportunity”</span>
+                                <p class="text-white">{{activity.type}}</p>
+                                <span class="date text-white-50">{{ activity.created_at.replace(/\T(.*)/g, '') }}</span>
+                                <span class="activity-text text-white">{{activity.notes}}</span>
                             </div>
                         </li>
                     </ol>
@@ -55,11 +38,11 @@
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="mt-0 header-title mb-4">Other Leads In {{ lead.lead.company.name }}</h4>
+                    <h4 class="mt-0 header-title mb-4">Other Leads from {{ lead.lead.company.name }}</h4>
                     <p>{{lead.lead.company.tools_note}}</p>
                     <div class="latest-massage history-col">
                         <a href="#" class="latest-message-list" v-for="lead in this.lead.lead.company.leads">
-                            <div class="border-bottom position-relative">
+                            <div class="border-bottom position-relative mt-1">
                                 <div class="float-left user mr-3"><h5 class="bg-primary text-center rounded-circle text-white mt-0">v</h5></div>
                                 <div class="message-time"><p class="mr-2 text-muted">Just Now</p></div>
                                 <div class="massage-desc">

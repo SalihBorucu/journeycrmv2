@@ -2,9 +2,10 @@
 
 use App\User;
 use App\Account;
-use App\ActivityHistory;
 use App\Outcome;
+use Carbon\Carbon;
 use App\LeadAccount;
+use App\ActivityHistory;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
@@ -32,7 +33,8 @@ class ActivityHistorySeeder extends Seeder
             'account_id' => $accountIds[array_rand($accountIds, 1)],
             'outcome_id' => $outcomeIds[array_rand($outcomeIds, 1)],
             'type' => $activityTypes[array_rand($activityTypes, 1)],
-            'notes' => $faker-> realText($maxNbChars = 500, $indexSize = 2)
+            'notes' => $faker-> realText($maxNbChars = 500, $indexSize = 2),
+            'created_at' => Carbon::now()->format('Y-m-d')
             ];
         }
 

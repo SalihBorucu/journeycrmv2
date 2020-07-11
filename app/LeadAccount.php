@@ -35,6 +35,6 @@ class LeadAccount extends Model
     }
 
     public function activityHistory(){
-        return $this->hasOne(ActivityHistory::class);
+        return $this->hasMany(ActivityHistory::class);
     }
 }
