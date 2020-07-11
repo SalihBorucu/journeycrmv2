@@ -23,10 +23,13 @@ class ActivitiesController extends Controller
     {
         $leads = LeadAccount::where('account_id', session()->get('user_current_account'))
             ->where('campaign_id', $campaign->id)
-            ->with(['step', 'lead.globalNotes', 'activityHistory'])
+            ->with(['step', 'lead.globalNotes.user', 'activityHistory', 'lead.company.leads'])
             ->whereHas('step', function ($query) {
                 $query->where('type', request()->activity_type);
             })
+            // ->whereHas('schedule', function ($query) {
+            //     $query->where('id', 2);
+            // }) // Hard coded - Todo - accountlead needs a qualified, prospecting etc id
             ->whereBetween('due_date', [request()->start_date, request()->end_date])
             // ->whereHas('lead', function ($query) {
             //     $query->where('country', 'France');

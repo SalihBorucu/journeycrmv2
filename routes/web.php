@@ -3,6 +3,7 @@
 use App\Lead;
 use App\User;
 use App\Account;
+use App\Company;
 use App\Schedule;
 use App\UserRole;
 use App\UserAccount;
@@ -55,6 +56,6 @@ Route::middleware('auth')->group(function () {
         // dd(Lead::find(1)->leadAccounts->find(Session::get('user_current_account'))->step);
         // dd(Account::find(Session::get('user_current_account'))->accountCampaigns[0]->campaigns->schedule->steps);
         // dd(Schedule::find(1)->steps);
-        dd(Lead::find(1));
+        dd(Company::find(2)->leads);
     });
 });

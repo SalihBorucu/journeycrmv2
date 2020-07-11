@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Company;
+use App\LeadAccount;
 use App\GlobalLeadNotes;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +18,11 @@ class Lead extends Model
     }
 
     public function globalNotes(){
-        return $this->hasOne(GlobalLeadNotes::class);
+        return $this->hasMany(GlobalLeadNotes::class);
+    }
+
+    public function company(){
+        return $this->belongsTo(Company::class);
     }
 
     protected $appends = ['full_name'];

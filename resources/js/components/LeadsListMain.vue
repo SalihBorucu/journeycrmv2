@@ -108,7 +108,7 @@
                     },
                     {
                         label: 'Company',
-                        field: 'lead.company',
+                        field: 'lead.company.name',
                         type: 'text',
                         filterOptions: {
                             enabled: true,
@@ -149,7 +149,11 @@
                     },
                     {
                         label: 'Rating',
-                        field: 'lead.global_notes.score',
+                        field: function(row){
+                                let scoresArray = row.lead.global_notes.map(note => note.score)
+                                let avgScore = scoresArray.reduce((a,b) => a + b, 0) / scoresArray.length
+                            return `${Math.round(avgScore)}`
+                        },
                         tdClass: 'text-center',
                         type: 'number'
                     },

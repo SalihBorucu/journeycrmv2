@@ -26,7 +26,7 @@ class LeadSeeder extends Seeder
             $leads[] = [
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
-                'company' => $faker->company,
+                'company_id' => rand(1, 5000),
                 'country' => $faker->country,
                 'title' => $faker->jobTitle,
                 'email' => $faker->companyEmail,

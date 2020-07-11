@@ -10,8 +10,8 @@
                                 <div class="float-left user mr-3"><h5 class="bg-primary text-center rounded-circle text-white mt-0">v</h5></div>
                                 <div class="message-time"><p class="mr-2 text-muted">Just Now</p></div>
                                 <div class="massage-desc">
-                                    <h5 class="font-14 mt-0 text-dark">Victor Zamora</h5>
-                                    <p class="text-muted">Hey! there I'm available...</p>
+                                    <h5 class="font-14 mt-0 text-dark">{{ lead.user.name }}</h5>
+                                    <p class="text-muted">{{ lead.notes }}</p>
                                 </div>
                             </div>
                         </a>
@@ -55,15 +55,16 @@
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="mt-0 header-title mb-4">Other Leads In CompanyX</h4>
+                    <h4 class="mt-0 header-title mb-4">Other Leads In {{ lead.lead.company.name }}</h4>
+                    <p>{{lead.lead.company.tools_note}}</p>
                     <div class="latest-massage history-col">
-                        <a href="#" class="latest-message-list">
+                        <a href="#" class="latest-message-list" v-for="lead in this.lead.lead.company.leads">
                             <div class="border-bottom position-relative">
                                 <div class="float-left user mr-3"><h5 class="bg-primary text-center rounded-circle text-white mt-0">v</h5></div>
                                 <div class="message-time"><p class="mr-2 text-muted">Just Now</p></div>
                                 <div class="massage-desc">
-                                    <h5 class="font-14 mt-0 text-dark">Victor Zamora</h5>
-                                    <p class="text-muted">Hey! there I'm available...</p>
+                                    <h5 class="font-14 mt-0 text-dark">{{lead.full_name}}</h5>
+                                    <p class="text-muted">Something about this lead...</p>
                                 </div>
                             </div>
                         </a>

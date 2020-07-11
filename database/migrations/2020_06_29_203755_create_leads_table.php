@@ -17,7 +17,7 @@ class CreateLeadsTable extends Migration
             $table->id();
             $table->text('first_name');
             $table->text('last_name');
-            $table->text('company');
+            $table->unsignedBigInteger('company_id');
             $table->text('country');
             $table->text('title');
             $table->text('email');

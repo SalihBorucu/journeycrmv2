@@ -8,7 +8,7 @@
                         <div class="d-flex justify-content-around">
                             <div>
                                 <h6>Company:</h6>
-                                <p>{{ lead.lead.company }}</p>
+                                <p>{{ lead.lead.company.name }}</p>
                                 <hr />
                                 <h6>Title:</h6>
                                 <p>{{ lead.lead.title }}</p>
