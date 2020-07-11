@@ -69,13 +69,16 @@ class LeadSeeder extends Seeder
                     date("y-m-d")
                 ];
 
+                $randomStatus = ['prospecting', 'interested', 'qualified'];
+
                 $leadAccountsArr[] = [
                     'lead_id' => $item,
                     'account_id' => $randomAccountId,
                     'campaign_id' => $randomCampaignId,
                     'schedule_id' => $schedule->id,
                     'step_id' => $randomStepId,
-                    'due_date' => $dueDates[array_rand($dueDates, 1)]
+                    'due_date' => $dueDates[array_rand($dueDates, 1)],
+                    'current_status' => $randomStatus[array_rand($randomStatus, 1)]
                 ];
             }
         }

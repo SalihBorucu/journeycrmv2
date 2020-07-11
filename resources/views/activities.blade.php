@@ -24,6 +24,7 @@
                                 <option value="prospecting">Prospecting</option>
                                 <option value="interested">Interested</option>
                                 <option value="qualified">Qualified</option>
+                                <option value="no_phone">Email_only</option>
                             </select>
                         </div>
 

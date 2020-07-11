@@ -62,6 +62,7 @@
                 call_notes: null,
             }
         },
+
         mounted() {
             $('.summernote').summernote({
                 height: 300, // set editor height
@@ -83,6 +84,7 @@
                     .post(`/activity`, obj
                     )
                     .then((res) => {
+                        this.call_notes = null;
                         this.$emit('activity-complete', this.lead.id)
                     });
             }

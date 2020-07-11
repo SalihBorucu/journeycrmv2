@@ -33,9 +33,7 @@ class ActivitiesController extends Controller
             ->whereHas('step', function ($query) {
                 $query->where('type', request()->activity_type);
             })
-            // ->whereHas('schedule', function ($query) {
-            //     $query->where('id', 2);
-            // }) // Hard coded - Todo - accountlead needs a qualified, prospecting etc id
+            ->where('current_status', request('lead_stage'))
             ->whereBetween('due_date', [request()->start_date, request()->end_date])
             // ->whereHas('lead', function ($query) {
             //     $query->where('country', 'France');
@@ -75,19 +73,22 @@ class ActivitiesController extends Controller
                 ->where('step_number', 1)
                 ->first();
             $nextDueDate = request('lead.due_date');
+
+            $nextStatus = $outcome->type;
         }else {
             $nextStep = Steps::where('schedule_id', request('lead.schedule_id'))
                 ->where('step_number', request('lead.step.step_number') + 1)
                 ->first();
                 $day_gap = request('lead.step.day_gap');
                 $nextDueDate = date('Y-m-d', strtotime(request('lead.due_date') . " +{$day_gap} day"));
+                $nextStatus = 'prospecting';
         }
 
-        // dd($nextDueDate);
         LeadAccount::find(request('lead.id'))->update([
             'schedule_id' => $nextSchedule,
             'step_id' => $nextStep->id,
-            'due_date' => $nextDueDate
+            'due_date' => $nextDueDate,
+            'current_status' => $nextStatus
         ]);
 
         return response()->json();

@@ -20,6 +20,7 @@ class CreateLeadAccountsTable extends Migration
             $table->unsignedBigInteger('campaign_id');
             $table->unsignedBigInteger('schedule_id');
             $table->unsignedBigInteger('step_id');
+            $table->text('current_status');
             $table->date('due_date');
             $table->timestamps();
 
