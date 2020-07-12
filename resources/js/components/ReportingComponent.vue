@@ -71,7 +71,7 @@
                     </div>
                 </div>
             </div>
-        <results-component v-if="results"></results-component>
+        <results-component v-if="results" :results="results"></results-component>
         </div>
 </template>
 
