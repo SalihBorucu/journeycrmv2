@@ -25,6 +25,8 @@ mix.js('resources/js/activity-app.js', 'public/js')
             'resources/js/vendor/jquery.slimscroll.js',
             // "resources/js/vendor/jquery.blockUI.js",
             // "resources/js/vendor/waves.js",
+            // 'resources/js/vendor/morris.min.js',
+            // 'resources/js/vendor/raphael.min.js',
             'resources/js/vendor/jquery.nicescroll.js',
             'resources/js/vendor/jquery.scrollTo.min.js',
             'resources/js/vendor/alertify.js',

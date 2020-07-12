@@ -11,7 +11,9 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-const router = new VueRouter()
+const router = new VueRouter({
+    mode: 'history'
+})
 
 /**
  * The following block of code may be used to automatically register your

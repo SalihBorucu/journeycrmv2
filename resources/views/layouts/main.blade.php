@@ -13,6 +13,7 @@
         <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/summernote-bs4.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/morris.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
 
@@ -36,11 +37,12 @@
         </div>
 
         <script src="/js/plugins.js"></script>
+
         @switch (true)
         @case (Request::is('activities/campaign/*'))
         <script src="{{ mix('js/activity-app.js') }}"></script>
         @break
-        @case (Request::is('reporting' || 'reporting/*'))
+        @case (Request::is('reporting'))
         <script src="{{ mix('js/reporting-app.js') }}"></script>
         @break
         @endswitch

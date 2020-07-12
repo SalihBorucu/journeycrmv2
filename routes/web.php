@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/accounts', 'AccountController@index');
 
     Route::get('/reporting', 'ReportingController@index');
+    Route::post('/reporting', 'ReportingController@show');
 
     Route::get('/home', 'HomeController@index')->name('home');
 
