@@ -7,15 +7,15 @@
                     <div v-if="step.type === 'email'">
                         <input type="text" class="form-control mb-1" placeholder="Email Subject" v-model="email_subject"/>
                         <div class="summernote"></div>
-                        <button @click="submitOutcome" value="2" type="submit" class="btn btn-primary waves-effect waves-light w-100 mt-3">Send Mail</button>
+                        <button @click="submitOutcome" value="7" type="submit" class="btn btn-primary waves-effect waves-light w-100 mt-3">Send Mail</button>
                     </div>
                     <div v-if="step.type === 'social'">
                         <textarea v-model="notes" id="textarea" class="form-control" maxlength="2000" rows="3">
                             This will be where the social media message template will be. Nice to meet you my name is Lalala and I am from Lalala
                         </textarea>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light w-100 mt-3">Message Sent</button>
-                            <button type="submit" class="btn btn-danger waves-effect waves-light w-100 mt-3">Unable to Send Message</button>
+                            <button @click="submitOutcome" type="submit" class="btn btn-primary waves-effect waves-light w-100 mt-3 mx-2" value="7">Message Sent</button>
+                            <button @click="submitOutcome" type="submit" class="btn btn-danger waves-effect waves-light w-100 mt-3 mx-2" value="8">Unable to Send Message</button>
                         </div>
                     </div>
                     <div v-if="step.type === 'call'">
@@ -122,7 +122,8 @@
                 };
 
                 axios.post(`/activity`, obj).then((res) => {
-                    this.call_notes = null;
+                    this.notes = null;
+                    this.email_subject = null;
                     this.$emit('activity-complete', this.lead.id);
                 });
             },
