@@ -109,10 +109,6 @@
                     this.notes = `Subject: ${this.email_subject} <br> ${$('.summernote').summernote('code')}`
                 }
 
-                if(this.step.type === 'social'){
-
-                }
-
                 let obj = {
                     outcome: event.target.value,
                     lead: this.lead,

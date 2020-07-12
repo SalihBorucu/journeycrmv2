@@ -36,12 +36,12 @@
                             <div class="social-source-icon lg-icon mr-1">
                                 <i class="mdi mdi-phone bg-primary text-white" style="font-size: 60px"></i>
                             </div>
-                            <div class="social-source-icon lg-icon mr-1">
+                            <a class="social-source-icon lg-icon mr-1" >
                                 <i class="mdi mdi-email bg-primary text-white" style="font-size: 60px"></i>
-                            </div>
-                            <div class="social-source-icon lg-icon mr-1">
+                            </a>
+                            <a class="social-source-icon lg-icon mr-1" :href="this.lead.lead.linkedin">
                                 <i class="mdi mdi-linkedin bg-primary text-white" style="font-size: 60px"></i>
-                            </div>
+                            </a>
                             <div class="social-source-icon lg-icon mr-1">
                                 <i class="mdi mdi-google bg-primary text-white" style="font-size: 60px"></i>
                             </div>

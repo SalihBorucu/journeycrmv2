@@ -36,26 +36,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function() {
         return view('dashboard');
     });
-    Route::get('/activities', 'ActivitiesController@index');
 
+    Route::get('/activities', 'ActivitiesController@index');
     Route::get('/activities/campaign/{campaign}', 'ActivitiesController@fetch');
     Route::post('/activity', 'ActivitiesController@create');
 
+    Route::get('/accounts', 'AccountController@index');
+
+    Route::get('/reporting', 'ReportingController@index');
 
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::post('/useraccount', 'UserAccountController@update');
 
     Route::get('/test', function(){
-        // dd(User::find(2)->userAccounts[0]->accounts->name);
-        // dd(Account::find(3)->users[1]->accountUsers->name);
-        // dd(UserAccount::find(1)->accountUsers);
-        // Session::put('id', 1);
-        // dd(Account::find(1)->accountLeads[0]->lead);
-        //Lead::find(1)->account->campaign->schedule->steps->find('current_step')
-        // dd(Lead::find(1)->leadAccounts->find(Session::get('user_current_account'))->step);
-        // dd(Account::find(Session::get('user_current_account'))->accountCampaigns[0]->campaigns->schedule->steps);
-        // dd(Schedule::find(1)->steps);
-        dd(Company::find(2)->leads);
+        dd(Auth::user()->activityHistories);
     });
 });

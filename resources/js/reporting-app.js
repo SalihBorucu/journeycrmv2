@@ -24,7 +24,7 @@ const router = new VueRouter()
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('leads-list-main', require('./components/LeadsListMain.vue').default);
+Vue.component('reporting-component', require('./components/ReportingComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -33,6 +33,6 @@ Vue.component('leads-list-main', require('./components/LeadsListMain.vue').defau
  */
 
 const app = new Vue({
-    el: '#app',
+    el: '#reporting-app',
     router,
 });

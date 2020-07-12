@@ -38,7 +38,10 @@
         <script src="/js/plugins.js"></script>
         @switch (true)
         @case (Request::is('activities/campaign/*'))
-        <script src="{{ mix('js/app.js') }}"></script>
+        <script src="{{ mix('js/activity-app.js') }}"></script>
+        @break
+        @case (Request::is('reporting' || 'reporting/*'))
+        <script src="{{ mix('js/reporting-app.js') }}"></script>
         @break
         @endswitch
     </body>

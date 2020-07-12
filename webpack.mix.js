@@ -11,7 +11,8 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js('resources/js/activity-app.js', 'public/js')
+    .js('resources/js/reporting-app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .version()
     .scripts(
@@ -28,7 +29,7 @@ mix.js('resources/js/app.js', 'public/js')
             'resources/js/vendor/jquery.scrollTo.min.js',
             'resources/js/vendor/alertify.js',
             'resources/js/vendor/app.js',
-            'resources/js/vendor/summernote-bs4.min.js'
+            'resources/js/vendor/summernote-bs4.min.js',
         ],
         'public/js/plugins.js'
     );
