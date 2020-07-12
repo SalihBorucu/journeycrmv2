@@ -20,7 +20,8 @@ class ScheduleSeeder extends Seeder
             'Qualified' => ['standard', 5],
             'Interested' => ['standard', 6],
             'Dnc' => ['standard', 7],
-            'Custom Step' => ['standard', 8]
+            'Custom Step' => ['standard', 8],
+            'Completed' => ['standard', 9]
         ];
 
         foreach ($schedules as $name => $values) {

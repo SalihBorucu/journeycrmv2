@@ -30,6 +30,16 @@ class StepsSeeder extends Seeder
                 ];
             }
 
+            if ($schedule['name'] === 'Completed') {
+                $steps[] = [
+                    'schedule_id' => 9,
+                    'name' => $schedule['name'],
+                    'step_number' => 1,
+                    'type' => null,
+                    'day_gap' => null
+                ];
+            }
+
             if ($schedule['name'] === 'Custom Step') {
                 foreach ($types as $key => $type) {
                     $steps[] = [

@@ -5,12 +5,14 @@
                 <div class="card-body">
                     <h4 class="mt-0 header-title">New {{ step.type }}</h4>
                     <div v-if="step.type === 'email'">
-                        <input type="text" class="form-control mb-1" placeholder="Email Topic" />
+                        <input type="text" class="form-control mb-1" placeholder="Email Subject" v-model="email_subject"/>
                         <div class="summernote"></div>
-                        <button type="submit" class="btn btn-primary waves-effect waves-light w-100 mt-3">Send Mail</button>
+                        <button @click="submitOutcome" value="2" type="submit" class="btn btn-primary waves-effect waves-light w-100 mt-3">Send Mail</button>
                     </div>
                     <div v-if="step.type === 'social'">
-                        <p>This will be where the social media message template will be. Nice to meet you my name is Lalala and I am from Lalala</p>
+                        <textarea v-model="notes" id="textarea" class="form-control" maxlength="2000" rows="3">
+                            This will be where the social media message template will be. Nice to meet you my name is Lalala and I am from Lalala
+                        </textarea>
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary waves-effect waves-light w-100 mt-3">Message Sent</button>
                             <button type="submit" class="btn btn-danger waves-effect waves-light w-100 mt-3">Unable to Send Message</button>
@@ -75,11 +77,18 @@
 
         data() {
             return {
-                call_notes: null,
+                email_subject: null,
+                notes: null,
                 custom_activity_type: null,
                 custom_activity_date: null,
                 callback_active: false,
             };
+        },
+
+        computed: {
+            email(){
+                return $('.summernote').summernote('code');
+            }
         },
 
         mounted() {
@@ -93,10 +102,21 @@
 
         methods: {
             submitOutcome() {
+
+                if(this.step.type === 'email'){
+                    if(!this.email_subject) {alert("Doesnt have a subject"); return}; // handle errors properly
+                    if($('.summernote').summernote('code') === "<p><br></p>") {alert("Doesnt have a content"); return}; // handle errors properly
+                    this.notes = `Subject: ${this.email_subject} <br> ${$('.summernote').summernote('code')}`
+                }
+
+                if(this.step.type === 'social'){
+
+                }
+
                 let obj = {
                     outcome: event.target.value,
                     lead: this.lead,
-                    call_notes: this.call_notes,
+                    notes: this.notes,
                     custom_activity_type: this.custom_activity_type,
                     custom_activity_date: this.custom_activity_date,
                 };

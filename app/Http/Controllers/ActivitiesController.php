@@ -53,15 +53,15 @@ class ActivitiesController extends Controller
         ]);
     }
 
-    public function create(){
-        // dd(request()->all());
+    public function create()
+    {
         ActivityHistory::create([
             'user_id' => Auth::user()->id,
             'lead_account_id' => request('lead.id'),
             'account_id' => request('lead.account_id'),
             'outcome_id' => request('outcome'),
             'type' => request('lead.step.type'),
-            'notes' => request('call_notes'),
+            'notes' => request('notes'),
             'created_at' => Carbon::now()->format('Y-m-d')
         ]);
 
@@ -70,25 +70,25 @@ class ActivitiesController extends Controller
         $previousScheduleId = request('lead.schedule_id');
         $previousStepNumber = request('lead.step.step_number');
 
-        if($outcome->new_schedule_id){
+        if ($outcome->new_schedule_id) {
             $nextStep = Steps::where('schedule_id', $outcome->new_schedule_id)
                 ->where('step_number', 1)
                 ->first();
             $nextDueDate = request('lead.due_date');
             $nextStatus = $outcome->type;
             //if new schedule is custom
-            if(request('outcome') === "3"){
+            if (request('outcome') === "3") {
                 $nextDueDate = request('custom_activity_date');
                 $nextStep = Steps::where('schedule_id', $outcome->new_schedule_id)
-                ->where('step_number', request('custom_activity_type'))
-                ->first();
+                    ->where('step_number', request('custom_activity_type'))
+                    ->first();
             }
-        }else {
+        } else {
             $lastSchedule = request('lead.schedule_id');
             $lastStepNumber = request('lead.step.step_number');
 
             //custom previous schedule
-            if(request('lead.schedule_id') === 8){
+            if (request('lead.schedule_id') === 8) {
                 $lastSchedule = request('lead.previous_schedule_id');
                 $lastStepNumber = request('lead.previous_step_number');
             }
@@ -96,6 +96,12 @@ class ActivitiesController extends Controller
             $nextStep = Steps::where('schedule_id', $lastSchedule)
                 ->where('step_number', $lastStepNumber + 1)
                 ->first();
+
+            //if the completed schedule
+            if(!$nextStep){
+                $nextStep = 1;
+                $nextSchedule = 9;
+            }
 
             $day_gap = request('lead.step.day_gap');
             $nextDueDate = date('Y-m-d', strtotime(request('lead.due_date') . " +{$day_gap} day"));
