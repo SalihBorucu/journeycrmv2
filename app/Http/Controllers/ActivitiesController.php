@@ -25,7 +25,7 @@ class ActivitiesController extends Controller
         ]);
     }
 
-    public function fetch(Campaign $campaign)
+    public function show(Campaign $campaign)
     {
         $leads = LeadAccount::where('account_id', session()->get('user_current_account'))
             ->where('campaign_id', $campaign->id)
@@ -38,8 +38,7 @@ class ActivitiesController extends Controller
             // ->whereHas('lead', function ($query) {
             //     $query->where('country', 'France');
             // })
-            //need more leads to check but it works
-            ->get();
+            ->get(); //need more leads to check but it works
 
         $account = Account::find(session()->get('user_current_account'));
         $campaigns = $account->accountCampaigns;
@@ -119,8 +118,11 @@ class ActivitiesController extends Controller
 
         return response()->json();
     }
+
+
+    public function edit(LeadAccount $leadAccount){
+        dd($leadAccount);
+
+    }
 }
 
-
-//if the current schedule is id of 8
-//

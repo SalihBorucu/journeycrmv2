@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/activities', 'ActivitiesController@index');
-    Route::get('/activities/campaign/{campaign}', 'ActivitiesController@fetch');
+    Route::get('/activities/campaign/{campaign}', 'ActivitiesController@show');
     Route::post('/activity', 'ActivitiesController@create');
 
     Route::get('/accounts', 'AccountController@index');
@@ -50,7 +50,5 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/useraccount', 'UserAccountController@update');
 
-    Route::get('/test', function(){
-        dd(Auth::user()->activityHistories);
-    });
+    Route::get('/test', 'ActivitiesController@create');
 });

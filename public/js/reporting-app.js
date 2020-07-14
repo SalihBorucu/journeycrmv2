@@ -1988,6 +1988,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -11054,6 +11055,8 @@ var render = function() {
     "div",
     { staticClass: "jumbotron" },
     [
+      _c("h1", [_vm._v("Under Construction")]),
+      _vm._v(" "),
       _c("h4", { staticClass: "page-title mb-2" }, [_vm._v("Reporting")]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [

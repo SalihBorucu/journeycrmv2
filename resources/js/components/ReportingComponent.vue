@@ -1,5 +1,6 @@
 <template>
         <div class="jumbotron">
+            <h1>Under Construction</h1>
             <h4 class="page-title mb-2">Reporting</h4>
             <div class="row">
                 <div class="w-100">

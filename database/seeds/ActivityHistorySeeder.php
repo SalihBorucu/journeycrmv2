@@ -3,7 +3,6 @@
 use App\User;
 use App\Account;
 use App\Outcome;
-use Carbon\Carbon;
 use App\LeadAccount;
 use App\ActivityHistory;
 use Faker\Factory as Faker;
@@ -25,6 +24,12 @@ class ActivityHistorySeeder extends Seeder
         $outcomeIds = Outcome::pluck('id')->toArray();
         $activityTypes = ['email', 'social', 'call'];
         $userIds = User::pluck('id')->toArray();
+        $dueDates = [
+            '2020-07-04',
+            '2020-07-01',
+            '2020-06-01',
+            date("y-m-d")
+        ];
 
         foreach ($leadIds as $leadId) {
             $activityHistories[] = [
@@ -34,7 +39,7 @@ class ActivityHistorySeeder extends Seeder
             'outcome_id' => $outcomeIds[array_rand($outcomeIds, 1)],
             'type' => $activityTypes[array_rand($activityTypes, 1)],
             'notes' => $faker-> realText($maxNbChars = 500, $indexSize = 2),
-            'created_at' => Carbon::now()->format('Y-m-d')
+            'created_at' => $dueDates[array_rand($dueDates, 1)]
             ];
         }
 

@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'standard' => ['Salih Borucu', 'salihborucu@hotmail.com', '12345678', 1],
             'admin' => ['Admin Admin', 'admin@crm.com', '12345678', 2]
         ];
+
         foreach ($users as $key => $user) {
             $user = User::create([
                 'name' => $user[0],
