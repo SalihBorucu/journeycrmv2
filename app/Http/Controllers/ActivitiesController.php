@@ -6,7 +6,6 @@ use App\Steps;
 use App\Account;
 use App\Outcome;
 use App\Campaign;
-use App\Schedule;
 use Carbon\Carbon;
 use App\LeadAccount;
 use App\ActivityHistory;
@@ -52,6 +51,7 @@ class ActivitiesController extends Controller
         ]);
     }
 
+
     public function create()
     {
         ActivityHistory::create([
@@ -75,6 +75,7 @@ class ActivitiesController extends Controller
                 ->first();
             $nextDueDate = request('lead.due_date');
             $nextStatus = $outcome->type;
+
             //if new schedule is custom
             if (request('outcome') === "3") {
                 $nextDueDate = request('custom_activity_date');
@@ -96,8 +97,8 @@ class ActivitiesController extends Controller
                 ->where('step_number', $lastStepNumber + 1)
                 ->first();
 
-            //if the completed schedule
-            if(!$nextStep){
+            //if completed schedule
+            if (!$nextStep) {
                 $nextStep = 1;
                 $nextSchedule = 9;
             }
@@ -115,14 +116,5 @@ class ActivitiesController extends Controller
             'previous_step_number' => $previousStepNumber,
             'previous_schedule_id' => $previousScheduleId,
         ]);
-
-        return response()->json();
-    }
-
-
-    public function edit(LeadAccount $leadAccount){
-        dd($leadAccount);
-
     }
 }
-

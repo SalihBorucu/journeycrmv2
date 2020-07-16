@@ -7,7 +7,6 @@
                     <p class="text-muted m-b-30 d-inline-block text-truncate w-100">
                         The public API is terribly simple. It's just one function: Morris.Line (options), where options is an object containing some of the configuration options.
                     </p>
-
                     <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
                         <li class="list-inline-item">
                             <h5>3654</h5>
@@ -26,9 +25,7 @@
                 </div>
             </div>
         </div>
-        <!-- end col -->
     </div>
-    <!-- end row -->
 </template>
 
 <script>

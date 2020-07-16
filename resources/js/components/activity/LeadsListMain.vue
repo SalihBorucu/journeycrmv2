@@ -1,9 +1,6 @@
 <template>
     <div>
-        <search-sidebar
-        :previous_request_inj="previous_request"
-        :campaign_id="campaign_id">
-        </search-sidebar>
+        <search-sidebar :previous_request_inj="previous_request" :campaign_id="campaign_id"></search-sidebar>
         <vue-good-table
             v-show="listView"
             :columns="columns"
@@ -41,9 +38,7 @@
                                 <h4 class="page-title m-0">Dashboard</h4>
                             </div>
                             <div class="col-md-4">
-                                <div class="float-right d-none d-md-block" @click="nextLead"
-                                v-if="parseInt(this.$route.query.leadIndex) !== this.$refs.dataTable.processedRows[0].children.length -1"
-                                >
+                                <div class="float-right d-none d-md-block" @click="nextLead" v-if="parseInt(this.$route.query.leadIndex) !== this.$refs.dataTable.processedRows[0].children.length - 1">
                                     <button class="btn btn-primary">
                                         <i class="ti-arrow-right ml-1"></i>
                                     </button>
@@ -54,8 +49,7 @@
                                         Back to list
                                     </button>
                                 </div>
-                                <div class="float-right d-none d-md-block" @click="previousLead"
-                                v-if="this.currentLeadIndex">
+                                <div class="float-right d-none d-md-block" @click="previousLead" v-if="this.currentLeadIndex">
                                     <button class="btn btn-primary">
                                         <i class="ti-arrow-left mr-1"></i>
                                     </button>
@@ -65,8 +59,7 @@
                     </div>
                 </div>
             </div>
-            <lead-view :lead="selectedLead"
-            @activity-complete = "removeLeadFromView"></lead-view>
+            <lead-view :lead="selectedLead" @activity-complete="removeLeadFromView"></lead-view>
         </div>
     </div>
 </template>
@@ -101,8 +94,6 @@
                         field: 'lead.full_name',
                         type: 'text',
                         thClass: 'custom-th',
-                        // width: '1fr',
-                        // tdClass: 'custom-td',
                         filterOptions: {
                             enabled: true,
                         },
@@ -146,17 +137,17 @@
                         tdClass: 'text-center',
                         dateInputFormat: 'yyyy-MM-dd',
                         dateOutputFormat: 'dd/MM/yyyy',
-                        type: 'date'
+                        type: 'date',
                     },
                     {
                         label: 'Rating',
-                        field: function(row){
-                                let scoresArray = row.lead.global_notes.map(note => note.score)
-                                let avgScore = scoresArray.reduce((a,b) => a + b, 0) / scoresArray.length
-                            return `${Math.round(avgScore)}`
+                        field: function(row) {
+                            let scoresArray = row.lead.global_notes.map((note) => note.score);
+                            let avgScore = scoresArray.reduce((a, b) => a + b, 0) / scoresArray.length;
+                            return `${Math.round(avgScore)}`;
                         },
                         tdClass: 'text-center',
-                        type: 'number'
+                        type: 'number',
                     },
                 ],
 
@@ -175,10 +166,9 @@
             openLeadView(params) {
                 this.listView = false;
                 this.currentLeadIndex = params.row.originalIndex;
-                let processedIndex = this.$refs.dataTable.processedRows[0].children.findIndex(x=> x.originalIndex === params.row.originalIndex)
+                let processedIndex = this.$refs.dataTable.processedRows[0].children.findIndex((x) => x.originalIndex === params.row.originalIndex);
 
                 this.$router.push({ path: this.$route.fullPath, query: { leadIndex: processedIndex } }).catch(() => {});
-                //take page index from param then processed rows will give the list of things
                 this.selectedLead = params.row;
             },
 
@@ -197,50 +187,28 @@
                 this.$router.push({ path: this.$route.fullPath, query: { leadIndex: null } });
             },
 
-            nextLead(){
-                // if(parseInt(this.$route.query.leadIndex) !== this.leads.length -1) return;
-                this.selectedLead = this.$refs.dataTable.processedRows[0].children[parseInt(this.$route.query.leadIndex) + 1]
+            nextLead() {
+                this.selectedLead = this.$refs.dataTable.processedRows[0].children[parseInt(this.$route.query.leadIndex) + 1];
                 this.$router.push({ path: this.$route.fullPath, query: { leadIndex: parseInt(this.$route.query.leadIndex) + 1 } }).catch(() => {});
                 this.currentLeadIndex = parseInt(this.$route.query.leadIndex);
             },
 
-            previousLead(){
-                if(this.$route.query.leadIndex === 0) return;
-                this.selectedLead = this.$refs.dataTable.processedRows[0].children[this.$route.query.leadIndex - 1]
+            previousLead() {
+                if (this.$route.query.leadIndex === 0) return;
+                this.selectedLead = this.$refs.dataTable.processedRows[0].children[this.$route.query.leadIndex - 1];
                 this.$router.push({ path: this.$route.fullPath, query: { leadIndex: this.$route.query.leadIndex - 1 } }).catch(() => {});
                 this.currentLeadIndex = parseInt(this.$route.query.leadIndex);
             },
 
-            removeLeadFromView(leadId){
+            removeLeadFromView(leadId) {
                 this.nextLead();
-                this.leads.splice(this.leads.findIndex(lead => lead.id === leadId), 1)
-            }
+                this.leads.splice(this.leads.findIndex((lead) => lead.id === leadId),1);
+            },
         },
     };
 </script>
 
 <style>
-    .vgt-wrap {
-        box-shadow: 0 0 2pt 1pt #2bcca4;
-        border: solid 2px white;
-        border-radius: 5px;
-    }
-    .vgt-input:focus {
-        border: solid 2px #2bcca4;
-    }
-
-    .vgt-table thead th.sorting-asc:after {
-        border-bottom: 5px solid #2bcca4;
-    }
-
-    .vgt-table thead th.sorting-desc:before {
-        border-top: 5px solid #2bcca4;
-    }
-
-    table.vgt-table tr.clickable:hover {
-        background-color: rgba(43, 204, 164, 0.274);
-    }
-
     .vgt-wrap__footer .footer__navigation__page-btn .chevron.left::after {
         border-right: 6px solid #2bcca4;
     }

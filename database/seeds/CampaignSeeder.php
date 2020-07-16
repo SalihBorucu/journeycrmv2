@@ -17,7 +17,7 @@ class CampaignSeeder extends Seeder
                 'outbound',
                 1,
                 'This campaign focuses on leads that did not have any previous interactions with the account'
-                    ],
+            ],
             'Inbound' => [
                 'inbound',
                 2,
@@ -27,7 +27,7 @@ class CampaignSeeder extends Seeder
                 'event',
                 3,
                 'This campaign involves leads that had an interaction with X Event at X country.'
-                ]
+            ]
         ];
 
         foreach ($campaigns as $name => $type) {

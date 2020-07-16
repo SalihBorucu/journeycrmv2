@@ -23,7 +23,6 @@
                         <option value="qualified">Qualified</option>
                     </select>
                 </div>
-
                 <div class="m-2">
                     <label for="">Country</label>
                     <select class="form-control" name="country">
@@ -31,13 +30,11 @@
                     </select>
                 </div>
             </div>
-
             <div class="mb-2">
                 <div class="m-2">
                     <label for="example-date-input">Starting Date</label>
                     <input class="form-control" type="date" name="start_date" id="start_date" v-model="previous_request.start_date" />
                 </div>
-
                 <div class="m-2">
                     <label for="example-date-input">End Date</label>
                     <input class="form-control" type="date" name="end_date" id="end_date" v-model="previous_request.end_date" />
@@ -73,34 +70,3 @@
         },
     };
 </script>
-
-<style>
-    .toggle-wrapper {
-        position: relative;
-    }
-
-    .outside-toggle-wrapper {
-        position: absolute;
-        left: 40;
-        top: 10%;
-    }
-
-    .toggle-button {
-        padding: 0;
-        font-size: 40px;
-        position: absolute;
-        right: 0;
-        top: -15;
-    }
-
-    .sidebar {
-        z-index: 30;
-        position: absolute !important;
-        top: 61px;
-        left: 0;
-        width: 15vw;
-        height: 90vh;
-        min-height: 500px;
-        padding-top: 5vh;
-    }
-</style>

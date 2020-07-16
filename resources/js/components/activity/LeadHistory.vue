@@ -64,12 +64,3 @@
         props: ['lead'],
     };
 </script>
-
-<style>
-    .history-col {
-        max-height: 367px;
-        overflow-y: scroll;
-        overflow: auto;
-    }
-
-</style>

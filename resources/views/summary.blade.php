@@ -50,20 +50,9 @@
                     @endforeach
                 </ul>
             </div>
-{{--
-            <div>
-                <ul>
-                @foreach ($steps as $step)
-                    <li>{{ $step->type }}</li>
-                @endforeach
-                </ul>
-            </div> --}}
-
-
         </div>
     </div>
     @endif
-    {{-- <example-component></example-component> --}}
 </div>
 
 @endsection

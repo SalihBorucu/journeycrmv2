@@ -1,12 +1,5 @@
 <?php
 
-use App\Lead;
-use App\User;
-use App\Account;
-use App\Company;
-use App\Schedule;
-use App\UserRole;
-use App\UserAccount;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,16 +15,16 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::middleware('auth')->group(function () {
-    Route::get('/summary', function () {
-        $campaigns = Account::find(Session::get('user_current_account'))->accountCampaigns;
-        $leads = Account::find(Session::get('user_current_account'))->accountLeads;
-        // $steps = Lead::find(1)->leadAccounts[0]->account->accountCampaigns[0]->campaign->schedule->steps;
-        return view('welcome')->with([
-            'campaigns' => $campaigns,
-            'leads' => $leads,
-            // 'steps' => $steps
-        ]);
-    });
+    // Route::get('/summary', function () {
+    //     $campaigns = Account::find(Session::get('user_current_account'))->accountCampaigns;
+    //     $leads = Account::find(Session::get('user_current_account'))->accountLeads;
+    //     // $steps = Lead::find(1)->leadAccounts[0]->account->accountCampaigns[0]->campaign->schedule->steps;
+    //     return view('summary')->with([
+    //         'campaigns' => $campaigns,
+    //         'leads' => $leads,
+    //         // 'steps' => $steps
+    //     ]);
+    // });
 
     Route::get('/', function() {
         return view('dashboard');
@@ -50,5 +43,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/useraccount', 'UserAccountController@update');
 
-    Route::get('/test', 'ActivitiesController@create');
+    Route::get('/test', function(){
+        dd("value");
+    });
 });

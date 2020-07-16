@@ -1,7 +1,6 @@
 <?php
 
 use App\Lead;
-use App\Steps;
 use App\Account;
 use App\Campaign;
 use App\Schedule;
@@ -51,7 +50,7 @@ class LeadSeeder extends Seeder
 
         foreach ($leadIds as $item) {
             $accountIds = Account::pluck('id')->toArray();
-            for ($i=0; $i < rand(1,3); $i++) {
+            for ($i = 0; $i < rand(1, 3); $i++) {
                 $randomAccountId = $accountIds[array_rand($accountIds, 1)];
                 unset($accountIds[$randomAccountId]);
                 $accountIdsX[] = $randomAccountId;
@@ -90,7 +89,5 @@ class LeadSeeder extends Seeder
         foreach ($chunks1 as $chunk) {
             LeadAccount::insert($chunk->toArray());
         }
-
     }
 }
-

@@ -36,7 +36,7 @@
                                 ullamcorper dolor commodo at. Quisque dictum leo non tellus commodo fermentum. Sed fermentum leo erat, in volutpat eros porttitor a.
                             </p>
                         </div>
-                        <textarea v-model="call_notes" id="textarea" class="form-control" maxlength="2000" rows="3" placeholder="Your notes.."></textarea>
+                        <textarea v-model="notes" id="textarea" class="form-control" maxlength="2000" rows="3" placeholder="Your notes.."></textarea>
                         <div class="button-items d-flex justify-content-center mt-3" v-if="!callback_active">
                             <!-- <button type="button" class="btn btn-outline-primary waves-effect waves-light">Primary</button> -->
                             <button @click="submitOutcome" type="button" value="2" class="btn btn-outline-secondary waves-effect">No Answer</button>
@@ -93,19 +93,20 @@
 
         mounted() {
             $('.summernote').summernote({
-                height: 300, // set editor height
-                minHeight: null, // set minimum height of editor
-                maxHeight: null, // set maximum height of editor
-                focus: true, // set focus to editable area after initializing summernote
+                height: 300,
+                minHeight: null,
+                maxHeight: null,
+                focus: true,
             });
         },
 
         methods: {
             submitOutcome() {
+                this.callback_active = false;
 
                 if(this.step.type === 'email'){
-                    if(!this.email_subject) {alert("Doesnt have a subject"); return}; // handle errors properly
-                    if($('.summernote').summernote('code') === "<p><br></p>") {alert("Doesnt have a content"); return}; // handle errors properly
+                    if(!this.email_subject) {alert("Doesnt have a subject"); return};
+                    if($('.summernote').summernote('code') === "<p><br></p>") {alert("Doesnt have a content"); return};
                     this.notes = `Subject: ${this.email_subject} <br> ${$('.summernote').summernote('code')}`
                 }
 
