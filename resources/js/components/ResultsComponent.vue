@@ -21,7 +21,16 @@
                             <p class="text-muted">Last Month</p>
                         </li>
                     </ul>
-                    <bar-chart id="bar" :data="barData" resize="true" xkey="type" bar-colors='["#2BCCA4", "#fdba45", "#a462e0"]'></bar-chart>
+                    <bar-chart
+                    id="bar"
+                    :data="barData"
+                    resize="true"
+                    xkey="type"
+                    ykeys='["call", "email", "social"]'
+                    labels='["call", "email", "social"]'
+                    bar-colors='["#2BCCA4", "#fdba45", "#a462e0"]'
+                    >
+                    </bar-chart>
                 </div>
             </div>
         </div>
@@ -41,16 +50,15 @@
 
         data() {
             return {
-                barData: [
-                    { type: 'email', value: 300 },
-                    { type: 'social', value: 50 },
-                    { type: 'call', value: 100 },
-                ],
+                barData: this.results,
+                ykeys: Object.keys(this.results[0])
             };
         },
 
-        computed: {
-            types() {},
+        watch: {
+            results(){
+                this.barData = this.results
+            }
         },
     };
 </script>

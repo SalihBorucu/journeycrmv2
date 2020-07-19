@@ -40,18 +40,34 @@ class ReportingController extends Controller
 
     public function show()
     {
-        $activityHistories = ActivityHistory::where('user_id', Auth::user()->id)
-            ->where('type', request('activity_type'))
+        //user activities
+        $activityHistories = ActivityHistory::with('user')
+            ->selectRaw('count(*) AS cnt, user_id, type')
             ->where('account_id', request('account'))
-            ->with(['leadAccount'])
-            ->whereHas('leadAccount', function ($query) {
-                return $query->where('current_status', request('lead_stage'));
-            })
+            ->groupBy('user_id', 'type')
             ->get();
 
+        $activitiesByUser = [];
+        foreach ($activityHistories as $key => $value) {
+            $activitiesByUser[$value->user->name] = null;
+        };
+
+        foreach ($activityHistories as $key => $value) {
+            foreach ($activitiesByUser as $name => $x) {
+                if ($value->user->name === $name) {
+                    $activitiesByUser[$name][$value->type] = $value->cnt;
+                };
+            }
+        };
+
+        foreach ($activitiesByUser as $key => $value) {
+            $activitiesByUser[$key]['type'] = $key;
+        }
+
+        // dd();
 
         return response()->json([
-            'activityHistories' => $activityHistories
+            'activitiesByUser' => array_values($activitiesByUser)
         ]);
     }
 }

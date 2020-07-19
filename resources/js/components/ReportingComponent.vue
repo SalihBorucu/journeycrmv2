@@ -82,15 +82,15 @@
             return {
                 campaigns: this.campaignsInj.slice(),
                 companies: this.companiesInj.slice(), //consider virtual scroller since it is slow with full
-                account: null,
-                campaign: null,
+                account: 3,
+                campaign: 1,
                 company: null,
-                activity_type: null,
-                lead_stage: null,
+                activity_type: 'call',
+                lead_stage: 'prospecting',
                 country: null,
                 start_date: null,
                 end_date: null,
-                results: this.resultsInj,
+                results: null,
             };
         },
 
@@ -112,8 +112,7 @@
                         path: this.$route.fullPath,
                         query: obj,
                     });
-
-                    this.results = res.data;
+                    this.results = res.data.activitiesByUser;
                 });
             },
 

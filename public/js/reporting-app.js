@@ -1997,15 +1997,15 @@ __webpack_require__.r(__webpack_exports__);
       campaigns: this.campaignsInj.slice(),
       companies: this.companiesInj.slice(),
       //consider virtual scroller since it is slow with full
-      account: null,
-      campaign: null,
+      account: 3,
+      campaign: 1,
       company: null,
-      activity_type: null,
-      lead_stage: null,
+      activity_type: 'call',
+      lead_stage: 'prospecting',
       country: null,
       start_date: null,
       end_date: null,
-      results: this.resultsInj
+      results: null
     };
   },
   methods: {
@@ -2028,7 +2028,7 @@ __webpack_require__.r(__webpack_exports__);
           query: obj
         });
 
-        _this.results = res.data;
+        _this.results = res.data.activitiesByUser;
       });
     },
     selectedAccount: function selectedAccount() {
@@ -2088,6 +2088,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 global.Raphael = raphael_raphael__WEBPACK_IMPORTED_MODULE_0___default.a;
 
@@ -2098,20 +2107,14 @@ global.Raphael = raphael_raphael__WEBPACK_IMPORTED_MODULE_0___default.a;
   props: ['results'],
   data: function data() {
     return {
-      barData: [{
-        type: 'email',
-        value: 300
-      }, {
-        type: 'social',
-        value: 50
-      }, {
-        type: 'call',
-        value: 100
-      }]
+      barData: this.results,
+      ykeys: Object.keys(this.results[0])
     };
   },
-  computed: {
-    types: function types() {}
+  watch: {
+    results: function results() {
+      this.barData = this.results;
+    }
   }
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
@@ -11467,6 +11470,8 @@ var render = function() {
                 data: _vm.barData,
                 resize: "true",
                 xkey: "type",
+                ykeys: '["call", "email", "social"]',
+                labels: '["call", "email", "social"]',
                 "bar-colors": '["#2BCCA4", "#fdba45", "#a462e0"]'
               }
             })
