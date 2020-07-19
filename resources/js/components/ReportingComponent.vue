@@ -5,8 +5,18 @@
         <div class="row">
             <div class="w-100">
                 <div class="card m-b-30 card-body">
-                    <p class="card-text"></p>
                     <div class="d-flex justify-content-around mb-2">
+                        <div class="w-100 mx-2">
+                            <label for="">Report Type</label>
+                            <select class="form-control" v-model="reportType">
+                                <option value="activitiesUser">Activities By User</option>
+                                <option value="activitiesByAccount">Activities By Account</option>
+                                <option value="resultsUser">Results By User</option>
+                                <option value="resultsByAccount">Results By Accounts</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around mb-2" v-if="reportType === 'activitiesUser'">
                         <div class="w-100 mx-2">
                             <label for="">Account</label>
                             <select class="form-control" v-model="account" @change="selectedAccount">
@@ -19,38 +29,6 @@
                             <select class="form-control" v-model="campaign">
                                 <option value="null"></option>
                                 <option :value="campaign.id" v-for="campaign in campaigns">{{ campaign.name }}</option>
-                            </select>
-                        </div>
-                        <div class="w-100 mx-2">
-                            <label for="">Company</label>
-                            <select class="form-control" v-model="company">
-                                <option value="null"></option>
-                                <option :value="company" v-for="company in companies">{{ company.name }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-around mb-2">
-                        <div class="w-100 mx-2">
-                            <label for="">Activity Type</label>
-                            <select class="form-control" v-model="activity_type">
-                                <option value="email">Email</option>
-                                <option value="social">Social</option>
-                                <option value="call" selected>Phone</option>
-                            </select>
-                        </div>
-                        <div class="w-100 mx-2">
-                            <label for="">Lead Stage</label>
-                            <select class="form-control" v-model="lead_stage">
-                                <option value="prospecting">Prospecting</option>
-                                <option value="interested">Interested</option>
-                                <option value="qualified">Qualified</option>
-                                <option value="no_phone">Email_only</option>
-                            </select>
-                        </div>
-                        <div class="w-100 mx-2">
-                            <label for="">Country</label>
-                            <select class="form-control" v-model="country">
-                                <option value="united_kingdom">United Kingdom</option>
                             </select>
                         </div>
                     </div>
@@ -80,14 +58,11 @@
         props: ['accounts', 'campaignsInj', 'companiesInj', 'resultsInj'],
         data() {
             return {
+                reportType: null,
                 campaigns: this.campaignsInj.slice(),
                 companies: this.companiesInj.slice(), //consider virtual scroller since it is slow with full
                 account: 3,
                 campaign: 1,
-                company: null,
-                activity_type: 'call',
-                lead_stage: 'prospecting',
-                country: null,
                 start_date: null,
                 end_date: null,
                 results: null,
@@ -97,12 +72,10 @@
         methods: {
             getResults() {
                 let obj = {
+                    report_type: this.reportType,
                     account: this.account,
                     campaign: this.campaign,
-                    company: this.company,
                     activity_type: this.activity_type,
-                    lead_stage: this.lead_stage,
-                    country: this.country,
                     start_date: this.start_date,
                     end_date: this.end_date,
                 };

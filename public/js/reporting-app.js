@@ -1963,28 +1963,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1994,15 +1972,12 @@ __webpack_require__.r(__webpack_exports__);
   props: ['accounts', 'campaignsInj', 'companiesInj', 'resultsInj'],
   data: function data() {
     return {
+      reportType: null,
       campaigns: this.campaignsInj.slice(),
       companies: this.companiesInj.slice(),
       //consider virtual scroller since it is slow with full
       account: 3,
       campaign: 1,
-      company: null,
-      activity_type: 'call',
-      lead_stage: 'prospecting',
-      country: null,
       start_date: null,
       end_date: null,
       results: null
@@ -2013,12 +1988,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var obj = {
+        report_type: this.reportType,
         account: this.account,
         campaign: this.campaign,
-        company: this.company,
         activity_type: this.activity_type,
-        lead_stage: this.lead_stage,
-        country: this.country,
         start_date: this.start_date,
         end_date: this.end_date
       };
@@ -11058,11 +11031,9 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "w-100" }, [
           _c("div", { staticClass: "card m-b-30 card-body" }, [
-            _c("p", { staticClass: "card-text" }),
-            _vm._v(" "),
             _c("div", { staticClass: "d-flex justify-content-around mb-2" }, [
               _c("div", { staticClass: "w-100 mx-2" }, [
-                _c("label", { attrs: { for: "" } }, [_vm._v("Account")]),
+                _c("label", { attrs: { for: "" } }, [_vm._v("Report Type")]),
                 _vm._v(" "),
                 _c(
                   "select",
@@ -11071,272 +11042,150 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.account,
-                        expression: "account"
+                        value: _vm.reportType,
+                        expression: "reportType"
                       }
                     ],
                     staticClass: "form-control",
                     on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.account = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.reportType = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "activitiesUser" } }, [
+                      _vm._v("Activities By User")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "activitiesByAccount" } }, [
+                      _vm._v("Activities By Account")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "resultsUser" } }, [
+                      _vm._v("Results By User")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "resultsByAccount" } }, [
+                      _vm._v("Results By Accounts")
+                    ])
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _vm.reportType === "activitiesUser"
+              ? _c(
+                  "div",
+                  { staticClass: "d-flex justify-content-around mb-2" },
+                  [
+                    _c("div", { staticClass: "w-100 mx-2" }, [
+                      _c("label", { attrs: { for: "" } }, [_vm._v("Account")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.account,
+                              expression: "account"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: [
+                              function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.account = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              },
+                              _vm.selectedAccount
+                            ]
+                          }
                         },
-                        _vm.selectedAccount
-                      ]
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "null" } }),
-                    _vm._v(" "),
-                    _vm._l(_vm.accounts, function(account) {
-                      return _c("option", { domProps: { value: account.id } }, [
-                        _vm._v(_vm._s(account.name))
-                      ])
-                    })
-                  ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "w-100 mx-2" }, [
-                _c("label", { attrs: { for: "" } }, [_vm._v("Campaign")]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.campaign,
-                        expression: "campaign"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
+                        [
+                          _c("option", { attrs: { value: "null" } }),
+                          _vm._v(" "),
+                          _vm._l(_vm.accounts, function(account) {
+                            return _c(
+                              "option",
+                              { domProps: { value: account.id } },
+                              [_vm._v(_vm._s(account.name))]
+                            )
                           })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.campaign = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "null" } }),
-                    _vm._v(" "),
-                    _vm._l(_vm.campaigns, function(campaign) {
-                      return _c(
-                        "option",
-                        { domProps: { value: campaign.id } },
-                        [_vm._v(_vm._s(campaign.name))]
+                        ],
+                        2
                       )
-                    })
-                  ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "w-100 mx-2" }, [
-                _c("label", { attrs: { for: "" } }, [_vm._v("Company")]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.company,
-                        expression: "company"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.company = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "null" } }),
-                    _vm._v(" "),
-                    _vm._l(_vm.companies, function(company) {
-                      return _c("option", { domProps: { value: company } }, [
-                        _vm._v(_vm._s(company.name))
-                      ])
-                    })
-                  ],
-                  2
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "d-flex justify-content-around mb-2" }, [
-              _c("div", { staticClass: "w-100 mx-2" }, [
-                _c("label", { attrs: { for: "" } }, [_vm._v("Activity Type")]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.activity_type,
-                        expression: "activity_type"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.activity_type = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "email" } }, [
-                      _vm._v("Email")
                     ]),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "social" } }, [
-                      _vm._v("Social")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "call", selected: "" } }, [
-                      _vm._v("Phone")
+                    _c("div", { staticClass: "w-100 mx-2" }, [
+                      _c("label", { attrs: { for: "" } }, [_vm._v("Campaign")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.campaign,
+                              expression: "campaign"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.campaign = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "null" } }),
+                          _vm._v(" "),
+                          _vm._l(_vm.campaigns, function(campaign) {
+                            return _c(
+                              "option",
+                              { domProps: { value: campaign.id } },
+                              [_vm._v(_vm._s(campaign.name))]
+                            )
+                          })
+                        ],
+                        2
+                      )
                     ])
                   ]
                 )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "w-100 mx-2" }, [
-                _c("label", { attrs: { for: "" } }, [_vm._v("Lead Stage")]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.lead_stage,
-                        expression: "lead_stage"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.lead_stage = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "prospecting" } }, [
-                      _vm._v("Prospecting")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "interested" } }, [
-                      _vm._v("Interested")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "qualified" } }, [
-                      _vm._v("Qualified")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "no_phone" } }, [
-                      _vm._v("Email_only")
-                    ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "w-100 mx-2" }, [
-                _c("label", { attrs: { for: "" } }, [_vm._v("Country")]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.country,
-                        expression: "country"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.country = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "united_kingdom" } }, [
-                      _vm._v("United Kingdom")
-                    ])
-                  ]
-                )
-              ])
-            ]),
+              : _vm._e(),
             _vm._v(" "),
             _c("div", { staticClass: "d-flex justify-content-around mb-2" }, [
               _c("div", { staticClass: "w-100 mx-2" }, [

@@ -41,11 +41,29 @@ class ReportingController extends Controller
     public function show()
     {
         //user activities
-        $activityHistories = ActivityHistory::with('user')
-            ->selectRaw('count(*) AS cnt, user_id, type')
-            ->where('account_id', request('account'))
-            ->groupBy('user_id', 'type')
-            ->get();
+        $query = ActivityHistory::with('user', 'leadAccount')->whereBetween('created_at', [request('start_date'), request('end_date')]);
+
+        if(request('report_type') === 'activitiesUser'){
+            $query->selectRaw('count(*) AS cnt, user_id, type')->groupBy('user_id', 'type');
+        }
+
+        // if(request('report_type') === 'activitiesAccount'){
+        //     $query->selectRaw('count(*) AS cnt,  account_id')->groupBy('account_id');
+        // } WORKING ON ACTIVITIES BY ACCOUNT
+
+        if (request('account') !== "null") {
+            $query->where('account_id', request('account'));
+        }
+
+        if (request('campaign') !== "null") {
+            $query->whereHas('leadAccount', function ($query) {
+                return $query->where('campaign_id', request('campaign'));
+            });
+        }
+
+        $activityHistories = $query->limit(5)->get();
+
+        // dd($activityHistories);
 
         $activitiesByUser = [];
         foreach ($activityHistories as $key => $value) {
@@ -64,7 +82,6 @@ class ReportingController extends Controller
             $activitiesByUser[$key]['type'] = $key;
         }
 
-        // dd();
 
         return response()->json([
             'activitiesByUser' => array_values($activitiesByUser)
