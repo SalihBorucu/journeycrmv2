@@ -25,7 +25,7 @@ class OutcomeSeeder extends Seeder
 
         foreach ($outcomes as $key => $value) {
             Outcome::create([
-                'type' => $key,
+                'name' => $key,
                 'leads_to_new_schedule' => $value[0],
                 'new_schedule_id' => $value[1]
             ]);

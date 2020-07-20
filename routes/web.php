@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/reporting', 'ReportingController@index');
     Route::post('/reporting', 'ReportingController@show');
-    // Route::get('/reporting', 'ReportingController@show');
+    // Route::get('/reporting/results', 'ReportingController@show');
 
 
     Route::get('/home', 'HomeController@index')->name('home');

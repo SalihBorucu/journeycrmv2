@@ -65,7 +65,7 @@
                 campaign: null,
                 start_date: null,
                 end_date: null,
-                results: null,
+                results: this.resultsInj,
             };
         },
 
@@ -79,7 +79,7 @@
                     start_date: this.start_date,
                     end_date: this.end_date,
                 };
-                if(this.reportType === 'activitiesAccount'){
+                if(this.reportType.includes('Account')){
                     obj.account = null;
                     obj.campaign = null;
                 }

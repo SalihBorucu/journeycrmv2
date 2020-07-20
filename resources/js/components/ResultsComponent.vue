@@ -26,8 +26,8 @@
                     :data="barData"
                     resize="true"
                     xkey="type"
-                    ykeys='["call", "email", "social"]'
-                    labels='["call", "email", "social"]'
+                    :ykeys = ykeys
+                    :labels = ykeys
                     bar-colors='["#2BCCA4", "#fdba45", "#a462e0"]'
                     >
                     </bar-chart>
@@ -51,13 +51,14 @@
         data() {
             return {
                 barData: this.results,
-                ykeys: Object.keys(this.results[0])
+                ykeys: Object.keys(this.results[0]).filter(key=> key !== 'type')
             };
         },
 
         watch: {
             results(){
                 this.barData = this.results
+                this.ykeys = Object.keys(this.results[0]).filter(key=> key !== 'type')
             }
         },
     };

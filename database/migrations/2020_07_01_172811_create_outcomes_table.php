@@ -15,7 +15,7 @@ class CreateOutcomesTable extends Migration
     {
         Schema::create('outcomes', function (Blueprint $table) {
             $table->id();
-            $table->text('type');
+            $table->text('name');
             $table->boolean('leads_to_new_schedule');
             $table->unsignedBigInteger('new_schedule_id')->nullable();
             $table->timestamps();
