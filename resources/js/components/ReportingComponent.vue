@@ -1,6 +1,5 @@
 <template>
     <div class="jumbotron">
-        <h1>Under Construction</h1>
         <h4 class="page-title mb-2">Reporting</h4>
         <div class="row">
             <div class="w-100">
@@ -16,7 +15,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-around mb-2" v-if="reportType === 'activitiesUser'">
+                    <div class="d-flex justify-content-around mb-2" v-if="reportType === 'activitiesUser' || reportType === 'resultsUser'">
                         <div class="w-100 mx-2">
                             <label for="">Account</label>
                             <select class="form-control" v-model="account" @change="selectedAccount">
@@ -46,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <results-component v-if="results" :results="results"></results-component>
+        <results-component v-if="results.length" :results="results"></results-component>
     </div>
 </template>
 
@@ -58,13 +57,13 @@
         props: ['accounts', 'campaignsInj', 'companiesInj', 'resultsInj'],
         data() {
             return {
-                reportType: null,
+                reportType: this.$route.query.report_type,
                 campaigns: this.campaignsInj.slice(),
-                companies: this.companiesInj.slice(), //consider virtual scroller since it is slow with full
-                account: null,
-                campaign: null,
-                start_date: null,
-                end_date: null,
+                // companies: this.companiesInj.slice(), //remove appropriately
+                account: this.$route.query.report_type,
+                campaign: this.$route.query.campaign,
+                start_date: this.$route.query.start_date,
+                end_date: this.$route.query.end_date,
                 results: this.resultsInj,
             };
         },
