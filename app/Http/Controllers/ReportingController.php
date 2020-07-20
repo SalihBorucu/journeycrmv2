@@ -40,39 +40,39 @@ class ReportingController extends Controller
 
     public function show()
     {
-        //user activities
-        $query = ActivityHistory::with('user', 'leadAccount')->whereBetween('created_at', [request('start_date'), request('end_date')]);
 
+        $query = ActivityHistory::with('user', 'leadAccount', 'account')->whereBetween('created_at', [request('start_date'), request('end_date')]);
+        //user activities
         if(request('report_type') === 'activitiesUser'){
             $query->selectRaw('count(*) AS cnt, user_id, type')->groupBy('user_id', 'type');
+            $reportType = 'user';
+        }
+        //account activities
+        if(request('report_type') === 'activitiesAccount'){
+            $query->selectRaw('count(*) AS cnt,  account_id, type')->groupBy('account_id', 'type');
+            $reportType = 'account';
         }
 
-        // if(request('report_type') === 'activitiesAccount'){
-        //     $query->selectRaw('count(*) AS cnt,  account_id')->groupBy('account_id');
-        // } WORKING ON ACTIVITIES BY ACCOUNT
-
-        if (request('account') !== "null") {
+        if (request('account')) {
             $query->where('account_id', request('account'));
         }
 
-        if (request('campaign') !== "null") {
+        if (request('campaign')) {
             $query->whereHas('leadAccount', function ($query) {
                 return $query->where('campaign_id', request('campaign'));
             });
         }
 
-        $activityHistories = $query->limit(5)->get();
-
-        // dd($activityHistories);
+        $activityHistories = $query->get();
 
         $activitiesByUser = [];
         foreach ($activityHistories as $key => $value) {
-            $activitiesByUser[$value->user->name] = null;
+            $activitiesByUser[$value->$reportType->name] = null; //change user and account
         };
 
         foreach ($activityHistories as $key => $value) {
             foreach ($activitiesByUser as $name => $x) {
-                if ($value->user->name === $name) {
+                if ($value->$reportType->name === $name) { // change user and account
                     $activitiesByUser[$name][$value->type] = $value->cnt;
                 };
             }

@@ -10,9 +10,9 @@
                             <label for="">Report Type</label>
                             <select class="form-control" v-model="reportType">
                                 <option value="activitiesUser">Activities By User</option>
-                                <option value="activitiesByAccount">Activities By Account</option>
+                                <option value="activitiesAccount">Activities By Account</option>
                                 <option value="resultsUser">Results By User</option>
-                                <option value="resultsByAccount">Results By Accounts</option>
+                                <option value="resultsAccount">Results By Accounts</option>
                             </select>
                         </div>
                     </div>
@@ -20,14 +20,14 @@
                         <div class="w-100 mx-2">
                             <label for="">Account</label>
                             <select class="form-control" v-model="account" @change="selectedAccount">
-                                <option value="null"></option>
+                                <option value=null></option>
                                 <option :value="account.id" v-for="account in accounts">{{ account.name }}</option>
                             </select>
                         </div>
                         <div class="w-100 mx-2">
                             <label for="">Campaign</label>
                             <select class="form-control" v-model="campaign">
-                                <option value="null"></option>
+                                <option value=null></option>
                                 <option :value="campaign.id" v-for="campaign in campaigns">{{ campaign.name }}</option>
                             </select>
                         </div>
@@ -61,8 +61,8 @@
                 reportType: null,
                 campaigns: this.campaignsInj.slice(),
                 companies: this.companiesInj.slice(), //consider virtual scroller since it is slow with full
-                account: 3,
-                campaign: 1,
+                account: null,
+                campaign: null,
                 start_date: null,
                 end_date: null,
                 results: null,
@@ -79,6 +79,10 @@
                     start_date: this.start_date,
                     end_date: this.end_date,
                 };
+                if(this.reportType === 'activitiesAccount'){
+                    obj.account = null;
+                    obj.campaign = null;
+                }
 
                 axios.post(`/reporting`, obj).then((res) => {
                     this.$router.push({
