@@ -3,9 +3,11 @@
 namespace App;
 
 use App\User;
+use App\Steps;
 use App\Account;
 use App\Outcome;
 use App\LeadAccount;
+use App\QueryFilter;
 use Illuminate\Database\Eloquent\Model;
 
 class ActivityHistory extends Model
@@ -98,5 +100,11 @@ class ActivityHistory extends Model
     public function leadAccount()
     {
         return $this->belongsTo(LeadAccount::class);
+    }
+
+    public function scopeFilter($query, QueryFilter $filters)
+    {
+        // dd($query);
+        return $filters->apply($query);
     }
 }

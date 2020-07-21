@@ -8,25 +8,25 @@
                         <div class="w-100 mx-2">
                             <label for="">Report Type</label>
                             <select class="form-control" v-model="reportType">
-                                <option value="activitiesUser">Activities By User</option>
-                                <option value="activitiesAccount">Activities By Account</option>
-                                <option value="resultsUser">Results By User</option>
-                                <option value="resultsAccount">Results By Accounts</option>
+                                <option value="userActivities">Activities By User</option>
+                                <option value="accountActivities">Activities By Account</option>
+                                <option value="userResults">Results By User</option>
+                                <option value="accountResults">Results By Accounts</option>
                             </select>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-around mb-2" v-if="reportType === 'activitiesUser' || reportType === 'resultsUser'">
+                    <div class="d-flex justify-content-around mb-2" v-if="reportType === 'userActivities' || reportType === 'userResults'">
                         <div class="w-100 mx-2">
                             <label for="">Account</label>
                             <select class="form-control" v-model="account" @change="selectedAccount">
-                                <option value=null></option>
+                                <option value=''></option>
                                 <option :value="account.id" v-for="account in accounts">{{ account.name }}</option>
                             </select>
                         </div>
                         <div class="w-100 mx-2">
                             <label for="">Campaign</label>
                             <select class="form-control" v-model="campaign">
-                                <option value=null></option>
+                                <option value=''></option>
                                 <option :value="campaign.id" v-for="campaign in campaigns">{{ campaign.name }}</option>
                             </select>
                         </div>
@@ -57,7 +57,7 @@
         props: ['accounts', 'campaignsInj', 'companiesInj', 'resultsInj'],
         data() {
             return {
-                reportType: this.$route.query.report_type,
+                reportType: this.$route.query.reportType,
                 campaigns: this.campaignsInj.slice(),
                 // companies: this.companiesInj.slice(), //remove appropriately
                 account: this.$route.query.report_type,
@@ -71,14 +71,13 @@
         methods: {
             getResults() {
                 let obj = {
-                    report_type: this.reportType,
+                    reportType: this.reportType,
                     account: this.account,
                     campaign: this.campaign,
-                    activity_type: this.activity_type,
                     start_date: this.start_date,
                     end_date: this.end_date,
                 };
-                if(this.reportType.includes('Account')){
+                if(this.reportType.includes('account')){
                     obj.account = null;
                     obj.campaign = null;
                 }

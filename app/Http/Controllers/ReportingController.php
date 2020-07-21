@@ -3,155 +3,59 @@
 namespace App\Http\Controllers;
 
 use App\Account;
-use App\Company;
+// use App\Company;
 use App\Campaign;
 use App\ActivityHistory;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\ReportingFilters;
 
 class ReportingController extends Controller
 {
-    public function index()
+    public function index(ReportingFilters $filters)
     {
-        $activitiesByUser = [];
-
         if (request()->all()) {
-            $query = ActivityHistory::with('user', 'leadAccount', 'account', 'outcome')->whereBetween('created_at', [request('start_date'), request('end_date')]);
-            //user activities
-            if (request('report_type') === 'activitiesUser') {
-                $query->selectRaw('count(*) AS cnt, user_id, type')->groupBy('user_id', 'type');
-                $reportType = 'user';
-                $reportY = 'type';
-            }
-            //account activities
-            if (request('report_type') === 'activitiesAccount') {
-                $query->selectRaw('count(*) AS cnt, account_id, type')->groupBy('account_id', 'type');
-                $reportType = 'account';
-                $reportY = 'type';
-            }
-
-            //account results
-            if (request('report_type') === 'resultsAccount') {
-                $query->selectRaw('count(*) AS cnt, account_id, outcome_id')->groupBy('account_id', 'outcome_id');
-                $reportType = 'account';
-                $reportY = 'outcome';
-            }
-
-            //account results
-            if (request('report_type') === 'resultsUser') {
-                $query->selectRaw('count(*) AS cnt, user_id, outcome_id')->groupBy('user_id', 'outcome_id');
-                $reportType = 'user';
-                $reportY = 'outcome';
-            }
-
-            if (request('account')) {
-                $query->where('account_id', request('account'));
-            }
-
-            if (request('campaign')) {
-                $query->whereHas('leadAccount', function ($query) {
-                    return $query->where('campaign_id', request('campaign'));
-                });
-            }
-
-            $activityHistories = $query->get();
-            $activitiesByUser = [];
-            foreach ($activityHistories as $key => $value) {
-                $activitiesByUser[$value->$reportType->name] = null;
-            };
-
-            foreach ($activityHistories as $key => $value) {
-                foreach ($activitiesByUser as $name => $x) {
-                    if ($value->$reportType->name === $name) {
-                        if ($reportY === 'outcome') {
-                            $activitiesByUser[$name][$value->$reportY->name] = $value->cnt; // this part is too manual
-                        } else {
-                            $activitiesByUser[$name][$value->$reportY] = $value->cnt;
-                        }
-                    };
-                }
-            };
-
-            foreach ($activitiesByUser as $key => $value) {
-                $activitiesByUser[$key]['type'] = $key;
-            }
+            $activityHistories = ActivityHistory::with('user', 'leadAccount', 'account', 'outcome')
+                ->whereBetween('created_at', [request('start_date'), request('end_date')])
+                ->filter($filters)->get();
         }
 
         $accounts = Account::with(['accountCampaigns.campaign'])->get();
         $campaigns = Campaign::get();
-        $companies = Company::take(200)->get();
+        // $companies = Company::take(200)->get(); //might need later
+
         return view('reporting')->with([
-            'results' => array_values($activitiesByUser),
+            'results' => array_values($this->convertActivityHistories($activityHistories, request('reportType'))),
             'accounts' => $accounts,
             'campaigns' => $campaigns,
-            'companies' => $companies
+            // 'companies' => $companies
         ]);
     }
 
-    public function show()
+    public function show(ReportingFilters $filters)
     {
-        $query = ActivityHistory::with('user', 'leadAccount', 'account', 'outcome')->whereBetween('created_at', [request('start_date'), request('end_date')]);
-        //user activities
-        if (request('report_type') === 'activitiesUser') {
-            $query->selectRaw('count(*) AS cnt, user_id, type')->groupBy('user_id', 'type');
-            $reportType = 'user';
-            $reportY = 'type';
-        }
-        //account activities
-        if (request('report_type') === 'activitiesAccount') {
-            $query->selectRaw('count(*) AS cnt, account_id, type')->groupBy('account_id', 'type');
-            $reportType = 'account';
-            $reportY = 'type';
-        }
-
-        //account results
-        if (request('report_type') === 'resultsAccount') {
-            $query->selectRaw('count(*) AS cnt, account_id, outcome_id')->groupBy('account_id', 'outcome_id');
-            $reportType = 'account';
-            $reportY = 'outcome';
-        }
-
-        //account results
-        if (request('report_type') === 'resultsUser') {
-            $query->selectRaw('count(*) AS cnt, user_id, outcome_id')->groupBy('user_id', 'outcome_id');
-            $reportType = 'user';
-            $reportY = 'outcome';
-        }
-
-        if (request('account')) {
-            $query->where('account_id', request('account'));
-        }
-
-        if (request('campaign')) {
-            $query->whereHas('leadAccount', function ($query) {
-                return $query->where('campaign_id', request('campaign'));
-            });
-        }
-
-        $activityHistories = $query->get();
-        $activitiesByUser = [];
-        foreach ($activityHistories as $key => $value) {
-            $activitiesByUser[$value->$reportType->name] = null;
-        };
-
-        foreach ($activityHistories as $key => $value) {
-            foreach ($activitiesByUser as $name => $x) {
-                if ($value->$reportType->name === $name) {
-                    if ($reportY === 'outcome') {
-                        $activitiesByUser[$name][$value->$reportY->name] = $value->cnt; // this part is too manual
-                    } else {
-                        $activitiesByUser[$name][$value->$reportY] = $value->cnt;
-                    }
-                };
-            }
-        };
-
-        foreach ($activitiesByUser as $key => $value) {
-            $activitiesByUser[$key]['type'] = $key;
-        }
+        $activityHistories = ActivityHistory::with('user', 'leadAccount', 'account', 'outcome')
+            ->whereBetween('created_at', [request('start_date'), request('end_date')])
+            ->filter($filters)->get();
 
         return response()->json([
-            'activitiesByUser' => array_values($activitiesByUser)
+            'activitiesByUser' => array_values($this->convertActivityHistories($activityHistories, request('reportType')))
         ]);
+    }
+
+    protected function convertActivityHistories($activityHistories, $reportType)
+    {
+        $xAxis = strpos($reportType, 'ser') ? 'user' : 'account';
+        $results = [];
+
+        foreach ($activityHistories as $key => $value) {
+            if (strpos($reportType, 'Results')) {
+                $results[$value->$xAxis->name][$value->outcome->name] = $value->cnt;
+                $results[$value->$xAxis->name]['type'] = $value->$xAxis->name;
+            } else {
+                $results[$value->$xAxis->name][$value->type] = $value->cnt;
+                $results[$value->$xAxis->name]['type'] = $value->$xAxis->name;
+            }
+        }
+
+        return $results;
     }
 }
