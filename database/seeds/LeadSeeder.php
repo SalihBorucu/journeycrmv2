@@ -29,7 +29,7 @@ class LeadSeeder extends Seeder
                 'country' => $faker->country,
                 'title' => $faker->jobTitle,
                 'email' => $faker->companyEmail,
-                'phone' => $faker->e164PhoneNumber,
+                'phone_1' => $faker->e164PhoneNumber,
                 'linkedin' => $faker->url
             ];
         }

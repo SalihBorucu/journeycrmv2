@@ -45,6 +45,9 @@
         @case (Request::is('reporting'))
         <script src="{{ mix('js/reporting-app.js') }}"></script>
         @break
+        @case (Request::is('lead'))
+        <script src="{{ mix('js/create-lead-app.js') }}"></script>
+        @break
         @endswitch
     </body>
 

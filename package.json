@@ -23,6 +23,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@trevoreyre/autocomplete-vue": "^2.2.0",
         "raphael": "^2.3.0",
         "vue-good-table": "^2.19.5",
         "vue-morris": "^1.1.0",

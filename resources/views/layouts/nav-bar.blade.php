@@ -33,6 +33,11 @@
                         <li class="has-submenu">
                             <a href="/reporting"><i class="dripicons-graph-line"></i> Reporting</a>
                         </li>
+
+                        <li class="has-submenu">
+                            <a href="/lead"><i class="dripicons-user-id"></i> Lead Creation</a>
+                        </li>
+
                         {{-- Admin Choices --}}
                         @if(Auth::user()->user_role_id === 2)
                         <li class="has-submenu">

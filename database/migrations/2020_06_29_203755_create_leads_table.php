@@ -21,8 +21,8 @@ class CreateLeadsTable extends Migration
             $table->text('country');
             $table->text('title');
             $table->text('email');
-            $table->text('phone');
-            $table->text('phone 2')->nullable();
+            $table->text('phone_1');
+            $table->text('phone_2')->nullable();
             $table->text('linkedin');
             $table->timestamps();
         });

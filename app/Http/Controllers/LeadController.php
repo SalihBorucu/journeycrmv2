@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Lead;
+use App\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LeadController extends Controller
 {
@@ -14,17 +16,38 @@ class LeadController extends Controller
      */
     public function index()
     {
-        //
+        $companies = Company::all();
+        $leadEmails = Lead::pluck('email')->toArray();
+        $countries = DB::table('countries')->pluck('name')->toArray();
+
+        return view('new-lead', compact('companies', 'countries', 'leadEmails'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        // dd(request()->all());
+        $companyId = request('company');
+        if(gettype(request('company')) === "string"){
+            $company = Company::create([
+                'name' => request('company'),
+                'tools_note' => 'sthing'
+            ]);
+            $companyId = $company->id;
+        };
+
+        Lead::create([
+            'first_name' => request('first_name'),
+            'last_name' => request('last_name'),
+            'company_id' => $companyId,
+            'email' => request('email'),
+            'title' => request('title'),
+            'phone_1' => request('phone_1'),
+            'phone_2' => request('phone_2'),
+            'country' => request('country'),
+            'linkedin' => request('linkedin')
+        ]);
+
+        return response()->json(request()->all());
     }
 
     /**

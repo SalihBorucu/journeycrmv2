@@ -36,6 +36,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/accounts', 'AccountController@index');
 
+    Route::get('/lead', 'LeadController@index');
+    Route::post('/lead', 'LeadController@create');
+
     Route::get('/reporting', 'ReportingController@index');
     Route::post('/reporting', 'ReportingController@show');
     // Route::get('/reporting/results', 'ReportingController@show');

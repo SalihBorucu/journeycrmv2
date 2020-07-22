@@ -16,7 +16,7 @@ class ActivitiesController extends Controller
         $account = Account::find(session()->get('user_current_account'));
         $campaigns = $account->accountCampaigns;
 
-        return view('activities')->with([
+        return view('campaigns')->with([
             'campaigns' => $campaigns,
             'account' => $account->name
         ]);
@@ -40,7 +40,7 @@ class ActivitiesController extends Controller
         $account = Account::find(session()->get('user_current_account'));
         $campaigns = $account->accountCampaigns;
 
-        return view('leads')->with([
+        return view('activity-list')->with([
             'leads' => $leads,
             'campaigns' => $campaigns,
             'account' => $account->name,
