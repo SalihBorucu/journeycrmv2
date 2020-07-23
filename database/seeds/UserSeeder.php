@@ -15,9 +15,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         $users = [
-            'standard1' => ['Salih Borucu1', 'salih@hotmail.com', '12345678', 1],
-            'standard' => ['Salih Borucu', 'salihborucu@hotmail.com', '12345678', 1],
-            'admin' => ['Admin Admin', 'admin@crm.com', '12345678', 2]
+            'standard1' => ['Salih Borucu1', 'salih@hotmail1.com', '12345678', 1],
+            'standard' => ['Salih Borucu', 'salihborucu@hotma1il.com', '12345678', 1],
+            'admin' => ['Admin Admin', 'admin@1crm.com', '12345678', 2]
         ];
 
         foreach ($users as $key => $user) {
@@ -30,13 +30,14 @@ class UserSeeder extends Seeder
 
             $accountIds = Account::pluck('id')->toArray();
 
-            for ($i=0; $i <= rand(0, 2); $i++) {
-                $randomAccount = $accountIds[array_rand($accountIds, 1)];
-                unset($accountIds[$randomAccount]);
+            for ($i = 0; $i <= rand(1, 3); $i++) {
+                $randomAccountIndex = array_rand($accountIds, 1);
+                $randomAccountId = $accountIds[$randomAccountIndex];
+                unset($accountIds[$randomAccountIndex]);
 
                 UserAccount::create([
                     'user_id' => $user->id,
-                    'account_id' => $randomAccount
+                    'account_id' => $randomAccountId
                 ]);
             }
         }

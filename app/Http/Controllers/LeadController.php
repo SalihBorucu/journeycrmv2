@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Lead;
+use App\User;
 use App\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class LeadController extends Controller
 {
@@ -20,18 +22,17 @@ class LeadController extends Controller
         $leadEmails = Lead::pluck('email')->toArray();
         $countries = DB::table('countries')->pluck('name')->toArray();
 
-        return view('new-lead', compact('companies', 'countries', 'leadEmails'));
+        return view('new-leads.new-lead', compact('companies', 'countries', 'leadEmails'));
     }
 
     public function create()
     {
-        // dd(request()->all());
         $companyId = request('company');
         if(gettype(request('company')) === "string"){
             $company = Company::create([
                 'name' => request('company'),
-                'tools_note' => 'sthing'
             ]);
+
             $companyId = $company->id;
         };
 
@@ -44,32 +45,25 @@ class LeadController extends Controller
             'phone_1' => request('phone_1'),
             'phone_2' => request('phone_2'),
             'country' => request('country'),
-            'linkedin' => request('linkedin')
+            'linkedin' => request('linkedin'),
+            'user_id' => Auth::user()->id,
+            'unassigned' => true,
         ]);
 
         return response()->json(request()->all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Lead  $lead
-     * @return \Illuminate\Http\Response
-     */
     public function show(Lead $lead)
     {
-        //
+        $unassignedLeads = $lead->where('unassigned', 1)->with(['company'])->get();
+        $user = User::with(['userAccounts.account.accountCampaigns.campaign'])->find(Auth::id());
+
+        return view('new-leads.unassigned-leads', compact('unassignedLeads', 'user'));
     }
 
     /**

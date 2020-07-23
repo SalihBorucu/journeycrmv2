@@ -28,6 +28,7 @@ Vue.use(Autocomplete);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('create-lead', require('./components/CreateLead.vue').default);
+Vue.component('unassigned-leads', require('./components/UnassignedLeads.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

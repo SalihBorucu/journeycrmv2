@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Auth::routes();
 
 Route::middleware('auth')->group(function () {
@@ -26,7 +28,7 @@ Route::middleware('auth')->group(function () {
     //     ]);
     // });
 
-    Route::get('/', function() {
+    Route::get('/', function () {
         return view('dashboard');
     });
 
@@ -38,6 +40,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/lead', 'LeadController@index');
     Route::post('/lead', 'LeadController@create');
+    Route::get('/lead/unassigned-leads', 'LeadController@show');
+    Route::get('/lead/incomplete-leads', 'IncompleteLeadController@index');
+
+    Route::post('/lead-account', 'LeadAccountController@create');
 
     Route::get('/reporting', 'ReportingController@index');
     Route::post('/reporting', 'ReportingController@show');
@@ -48,7 +54,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/useraccount', 'UserAccountController@update');
 
-    Route::get('/test', function(){
-        dd("value");
+    Route::get('/test', function () {
+        dd(User::with(['userAccounts.account'])->find(Auth::user()->id));
     });
 });

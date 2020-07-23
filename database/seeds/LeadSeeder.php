@@ -30,7 +30,9 @@ class LeadSeeder extends Seeder
                 'title' => $faker->jobTitle,
                 'email' => $faker->companyEmail,
                 'phone_1' => $faker->e164PhoneNumber,
-                'linkedin' => $faker->url
+                'linkedin' => $faker->url,
+                'user_id' => rand(0, 2),
+                'unassigned' => false
             ];
         }
 

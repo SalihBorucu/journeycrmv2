@@ -13,8 +13,8 @@
                 @csrf
                 <select class="form-control m-2" name="user_account">
                     @foreach (Auth::user()->userAccounts as $item)
-                    <option value={{ $item->accounts->id }} {{ Session::get('user_current_account') == $item->accounts->id ? 'selected' : ''}}>
-                        {{ $item->accounts->name }}
+                    <option value={{ $item->account->id }} {{ Session::get('user_current_account') == $item->account->id ? 'selected' : ''}}>
+                        {{ $item->account->name }}
                     </option>
                     @endforeach
                 </select>

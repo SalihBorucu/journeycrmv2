@@ -1,102 +1,94 @@
 <template>
-    <div class="jumbotron">
-        <h4 class="page-title mb-2">New Lead</h4>
-        <div class="row">
-            <div class="w-100">
-                <div class="card m-b-30 card-body">
-                    <div class="d-flex justify-content-around mb-2">
-                        <div class="w-100 mx-2">
-                            <label for>First Name</label>
-                            <input
-                                :class="[this.first_name === '' ? 'form-control-danger' : '', 'form-control']"
-                                v-model="first_name"
-                            />
-                        </div>
-                        <div class="w-100 mx-2">
-                            <label for>Last Name</label>
-                            <input
-                                :class="[this.last_name === '' ? 'form-control-danger' : '', 'form-control']"
-                                v-model="last_name"
-                            />
-                        </div>
+    <div class="w-100">
+        <div class="card card-body">
+            <h4 class="page-title mb-2">New Lead</h4>
+            <div class="d-flex justify-content-around mb-2">
+                <div class="w-100 mx-2">
+                    <label for>First Name</label>
+                    <input
+                        :class="[this.first_name === '' ? 'form-control-danger' : '', 'form-control']"
+                        v-model="first_name"
+                    />
+                </div>
+                <div class="w-100 mx-2">
+                    <label for>Last Name</label>
+                    <input
+                        :class="[this.last_name === '' ? 'form-control-danger' : '', 'form-control']"
+                        v-model="last_name"
+                    />
+                </div>
 
-                        <div class="w-100 mx-2">
-                            <label for>Company</label>
-                            <autocomplete
-                                id="company-field"
-                                @blur="setCompanyName"
-                                :search="searchCompany"
-                                placeholder="Search for a company"
-                                aria-label="Search for a company"
-                            ></autocomplete>
-                            <small
-                                v-if="creating_new_company"
-                                class="form-control-feedback text-warning"
-                            >This company does not exist, creating new.</small>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-around mb-2">
-                        <div class="w-100 mx-2">
-                            <label for>Email</label>
-                            <input
-                                :class="[this.email === '' ? 'form-control-danger' : '', 'form-control']"
-                                type="email"
-                                v-model="email"
-                                @blur="checkIfExists"
-                            />
-                            <small
-                                v-if="email_error"
-                                class="form-control-feedback text-danger"
-                            >This email is already used, potential duplicate lead.</small>
-                        </div>
-                        <div class="w-100 mx-2">
-                            <label for>Title</label>
-                            <input
-                                :class="[this.title === '' ? 'form-control-danger' : '', 'form-control']"
-                                v-model="title"
-                            />
-                        </div>
-                        <div class="w-100 mx-2">
-                            <label for>Linkedin</label>
-                            <input
-                                :class="[this.linkedin === '' ? 'form-control-danger' : '', 'form-control']"
-                                type="url"
-                                v-model="linkedin"
-                            />
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-around mb-2">
-                        <div class="w-100 mx-2">
-                            <label for>Phone 1</label>
-                            <input
-                                :class="[this.phone_1 === '' ? 'form-control-danger' : '', 'form-control']"
-                                type="tel"
-                                v-model="phone_1"
-                            />
-                        </div>
-                        <div class="w-100 mx-2">
-                            <label for>Phone 2</label>
-                            <input type="tel" class="form-control" v-model="phone_2" />
-                        </div>
-                        <div class="w-100 mx-2">
-                            <label for>Country</label>
-                            <autocomplete @blur="setCountryName" :search="searchCountry"></autocomplete>
-                        </div>
-                    </div>
-                    <div
-                        class="alert alert-danger mb-0"
-                        role="alert"
-                        v-if="this.empty_fields_error"
-                    >
-                        <strong>Oh snap!</strong> There seems to be some empty fields and try submitting again.
-                    </div>
-                    <button
-                        @click="createLead"
-                        type="submit"
-                        class="btn btn-primary waves-effect waves-light w-100 mt-3"
-                    >Create Lead</button>
+                <div class="w-100 mx-2">
+                    <label for>Company</label>
+                    <autocomplete
+                        id="company-field"
+                        @blur="setCompanyName"
+                        :search="searchCompany"
+                        placeholder="Search for a company"
+                        aria-label="Search for a company"
+                    ></autocomplete>
+                    <small
+                        v-if="creating_new_company"
+                        class="form-control-feedback text-warning"
+                    >This company does not exist, creating new.</small>
                 </div>
             </div>
+            <div class="d-flex justify-content-around mb-2">
+                <div class="w-100 mx-2">
+                    <label for>Email</label>
+                    <input
+                        :class="[this.email === '' ? 'form-control-danger' : '', 'form-control']"
+                        type="email"
+                        v-model="email"
+                        @blur="checkIfExists"
+                    />
+                    <small
+                        v-if="email_error"
+                        class="form-control-feedback text-danger"
+                    >This email is already used, potential duplicate lead.</small>
+                </div>
+                <div class="w-100 mx-2">
+                    <label for>Title</label>
+                    <input
+                        :class="[this.title === '' ? 'form-control-danger' : '', 'form-control']"
+                        v-model="title"
+                    />
+                </div>
+                <div class="w-100 mx-2">
+                    <label for>Linkedin</label>
+                    <input
+                        :class="[this.linkedin === '' ? 'form-control-danger' : '', 'form-control']"
+                        type="url"
+                        v-model="linkedin"
+                    />
+                </div>
+            </div>
+            <div class="d-flex justify-content-around mb-2">
+                <div class="w-100 mx-2">
+                    <label for>Phone 1</label>
+                    <input
+                        :class="[this.phone_1 === '' ? 'form-control-danger' : '', 'form-control']"
+                        type="tel"
+                        v-model="phone_1"
+                    />
+                </div>
+                <div class="w-100 mx-2">
+                    <label for>Phone 2</label>
+                    <input type="tel" class="form-control" v-model="phone_2" />
+                </div>
+                <div class="w-100 mx-2">
+                    <label for>Country</label>
+                    <autocomplete @blur="setCountryName" :search="searchCountry"></autocomplete>
+                </div>
+            </div>
+            <div class="alert alert-danger mb-0" role="alert" v-if="this.empty_fields_error">
+                <strong>Oh snap!</strong> There seems to be some empty fields and try submitting again.
+            </div>
+            <button
+                @click="createLead"
+                type="submit"
+                class="btn btn-primary waves-effect waves-light w-100 mt-3"
+            >Create Lead</button>
         </div>
     </div>
 </template>
@@ -200,8 +192,8 @@
                         (company) => company.name === this.company
                     )
                         ? this.companies.find(
-                            (company) => company.name === this.company
-                        ).id
+                              (company) => company.name === this.company
+                          ).id
                         : this.company, //try and refactor
                     email: this.email,
                     title: this.title,
@@ -219,9 +211,29 @@
                     return;
                 }
 
+                if (this.email_error) {
+                    this.email = '';
+                    this.empty_fields_error = true;
+                    return;
+                }
+
                 obj["phone_2"] = this.phone_2;
 
-                axios.post(`/lead`, obj).then((res) => {});
+                axios.post(`/lead`, obj).then((res) => {
+                    this.creating_new_company = false;
+                    this.email_error = false;
+                    this.empty_fields_error = false;
+
+                    this.first_name = null;
+                    this.last_name = null;
+                    this.company = null;
+                    this.email = null;
+                    this.title = null;
+                    this.phone_1 = null;
+                    this.phone_2 = null;
+                    this.country = null;
+                    this.linkedin = null;
+                });
             },
 
             checkIfExists() {
@@ -230,6 +242,7 @@
                     event.target.className = "form-control form-control-danger";
                     return;
                 }
+
                 this.email_error = false;
                 event.target.className = "form-control";
                 // throw error class

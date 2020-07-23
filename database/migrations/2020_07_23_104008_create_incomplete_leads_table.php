@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLeadsTable extends Migration
+class CreateIncompleteLeadsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateLeadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('leads', function (Blueprint $table) {
+        Schema::create('incomplete_leads', function (Blueprint $table) {
             $table->id();
-            $table->text('first_name');
-            $table->text('last_name');
-            $table->unsignedBigInteger('company_id');
-            $table->text('country');
-            $table->text('title');
-            $table->text('email');
-            $table->text('phone_1');
+            $table->text('first_name')->nullable();
+            $table->text('last_name')->nullable();
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->text('country')->nullable();
+            $table->text('title')->nullable();
+            $table->text('email')->nullable();
+            $table->text('phone_1')->nullable();
             $table->text('phone_2')->nullable();
-            $table->text('linkedin');
+            $table->text('linkedin')->nullable();
             $table->unsignedBigInteger('user_id'); //createBy
             $table->boolean('unassigned');
             $table->timestamps();
@@ -37,6 +37,6 @@ class CreateLeadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leads');
+        Schema::dropIfExists('incomplete_leads');
     }
 }
