@@ -29,6 +29,7 @@ Vue.use(Autocomplete);
 
 Vue.component('create-lead', require('./components/CreateLead.vue').default);
 Vue.component('unassigned-leads', require('./components/UnassignedLeads.vue').default);
+Vue.component('lead-shopping', require('./components/LeadShopping.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

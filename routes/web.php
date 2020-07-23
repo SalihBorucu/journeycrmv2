@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/lead', 'LeadController@create');
     Route::get('/lead/unassigned-leads', 'LeadController@show');
     Route::get('/lead/incomplete-leads', 'IncompleteLeadController@index');
+    Route::get('/lead/lead-shopping', 'LeadAccountController@index');
+
 
     Route::post('/lead-account', 'LeadAccountController@create');
 

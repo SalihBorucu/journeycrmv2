@@ -4,13 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Lead;
 use App\Steps;
+use App\Company;
 use App\Campaign;
 use Carbon\Carbon;
 use App\LeadAccount;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LeadAccountController extends Controller
 {
+    public function index(){
+        $companies = Company::all();
+        $countries = DB::table('countries')->pluck('name');
+
+        return view('new-leads.lead-shopping', compact('companies', 'countries'));
+    }
+
     public function create()
     {
         $schedule_id = Campaign::find(request('campaign_id'))->schedule_id;

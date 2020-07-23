@@ -77,3 +77,13 @@ table.vgt-table tr.clickable:hover {
     overflow-y: scroll;
     overflow: auto;
 }
+
+//autoloader
+.autocomplete-result-list {
+    z-index: 2 !important;
+}
+
+//form error
+.form-control-danger {
+    border: 1px $danger solid;
+}

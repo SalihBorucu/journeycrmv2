@@ -251,13 +251,3 @@
     };
 </script>
 
-<style>
-.autocomplete-result-list {
-    z-index: 2 !important;
-}
-
-.form-control-danger {
-    border: 1px red solid;
-}
-/* //change this to danger */
-</style>

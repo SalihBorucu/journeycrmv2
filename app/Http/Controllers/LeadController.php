@@ -66,35 +66,16 @@ class LeadController extends Controller
         return view('new-leads.unassigned-leads', compact('unassignedLeads', 'user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Lead  $lead
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Lead $lead)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Lead  $lead
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Lead $lead)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Lead  $lead
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Lead $lead)
     {
         //

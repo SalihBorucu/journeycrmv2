@@ -14,5 +14,10 @@
             <span class="d-none d-md-block {{ Request::is('lead/unassigned-leads') ? 'text-white' : 'text-primary' }}">Unassigned Leads</span><span class="d-block d-md-none"><i class="mdi mdi-email h5"></i></span>
         </a>
     </li>
+    <li class="nav-item waves-effect waves-light">
+        <a class="nav-link {{ Request::is('lead/lead-shopping') ? 'active' : '' }}" href="{{ Request::is('lead/lead-shopping') ? 'javascript: void(0)' : '/lead/lead-shopping' }}">
+            <span class="d-none d-md-block {{ Request::is('lead/lead-shopping') ? 'text-white' : 'text-primary' }}">Lead Shopping</span><span class="d-block d-md-none"><i class="mdi mdi-email h5"></i></span>
+        </a>
+    </li>
 
 </ul>
