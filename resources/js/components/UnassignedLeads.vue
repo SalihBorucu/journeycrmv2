@@ -8,7 +8,7 @@
             :pagination-options="{
                 enabled: true,
                 mode: 'records',
-                perPage: 10,
+                perPage: 20,
                 setCurrentPage: 1,
                 position: 'top',
                 nextLabel: 'next',
@@ -18,117 +18,98 @@
                 pageLabel: 'page', // for 'pages' mode
                 allLabel: 'All',
             }"
+            :sort-options="{
+                enabled:false,
+            }"
             min-width="500px"
             ref="dataTable"
-            @on-row-click="openLeadView"
         />
-        <!-- :sort-options="{
-                initialSortBy: this.currentTableProps.sort,
-        }"-->
-        <!-- Modal Start -->
-        <div class="row">
-            <div
-                id="myModal"
-                class="modal fade show"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="myModalLabel"
-            >
-                <unassigned-lead-modal :lead="selectedLead" :user="user"></unassigned-lead-modal>
+        <div class="row card m-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-around w-75">
+                        <label class="m-2">Account:</label>
+                        <select name id class="form-control" v-model="global_account">
+                            <option
+                                :value="account.account_id"
+                                v-for="account in this.user.user_accounts"
+                            >{{account.account.name}}</option>
+                        </select>
+                    </div>
+                    <div class="d-flex justify-content-around w-75">
+                        <label class="m-2">Campaign:</label>
+                        <select name id class="form-control" v-model="global_campaign">
+                            <option value v-if="!global_account"></option>
+                            <option
+                                v-if="global_account"
+                                :value="campaign.campaign_id"
+                                v-for="campaign in this.user.user_accounts.find(account => account.account_id === 1).account.account_campaigns"
+                            >{{campaign.campaign.name}}</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary w-50 ml-2" @click="assignAll">Assign All</button>
+                </div>
             </div>
         </div>
-
-        <!-- @on-page-change="pageChanged"
-        @on-sort-change="onSortChange"-->
     </div>
 </template>
 <script>
     import "vue-good-table/dist/vue-good-table.css";
     import { VueGoodTable } from "vue-good-table";
-    import UnassignedLeadModal from "./UnassignedLeadModal";
     import axios from "axios";
 
     export default {
-        components: { UnassignedLeadModal },
         props: ["unassignedLeads", "user"],
 
         data() {
             return {
+                global_account: null,
+                global_campaign: null,
                 leadModal: false,
                 selectedLead: null,
-                // currentLeadIndex: parseInt(this.$route.query.leadIndex) || null,
-                currentTableProps: {
-                    page: 1,
-                    // sort: this.$route.query.sortField
-                    //     ? {
-                    //           field: this.$route.query.sortField,
-                    //           type: this.$route.query.sortType,
-                    //       }
-                    //     : {},
-                },
+
                 columns: [
                     {
                         label: "Name",
                         field: "full_name",
                         type: "text",
                         thClass: "custom-th",
-                        filterOptions: {
-                            enabled: true,
-                        },
                     },
                     {
                         label: "Company",
                         field: "company.name",
                         type: "text",
-                        filterOptions: {
-                            enabled: true,
-                        },
                     },
                     {
                         label: "Title",
                         field: "title",
                         type: "text",
-                        filterOptions: {
-                            enabled: true,
-                        },
                     },
                     {
                         label: "Country",
                         field: "country",
                         type: "text",
-                        filterOptions: {
-                            enabled: true,
-                        },
                     },
                     {
                         label: "Phone",
                         field: "phone_1",
                         type: "text",
-                        filterOptions: {
-                            enabled: true,
-                        },
                     },
                     {
                         label: "Phone",
                         field: "phone_2",
                         type: "text",
-                        filterOptions: {
-                            enabled: true,
-                        },
                     },
                     {
                         label: "Linkedin",
                         field: "linkedin",
                         type: "text",
-                        filterOptions: {
-                            enabled: true,
-                        },
                     },
                     {
                         label: "Account",
                         field: function (row) {
                             return `<select class="form-control" id="account${row.originalIndex}">
-                                                                        </select>`;
+                                                                                                                    </select>`;
                         },
                         html: true,
                         // filterOptions: {
@@ -140,7 +121,7 @@
                         field: function (row) {
                             // can I add inline onchange??
                             return `<select class="form-control" id="campaign${row.originalIndex}">
-                                                                        </select>`;
+                                                                                                                    </select>`;
                         },
                         html: true,
                         // filterOptions: {
@@ -175,6 +156,10 @@
         },
 
         mounted() {
+            console.log(
+                this.user.user_accounts.find((account) => account.account_id === 1)
+                    .account.account_campaigns
+            );
             this.rows.forEach((row, index) => {
                 $(`#submit${index}`).click(() => {
                     let obj = {
@@ -183,9 +168,9 @@
                         lead_id: row.id,
                     };
 
-                    if(Object.keys(obj).some(key => !obj[key])){
-                        console.error("Empty fields.")
-                        return
+                    if (Object.keys(obj).some((key) => !obj[key])) {
+                        console.error("Empty fields.");
+                        return;
                     }
 
                     axios.post(`/lead-account`, obj).then((res) => {
@@ -233,20 +218,21 @@
         },
 
         methods: {
-            openLeadView(params) {
-                this.leadModal = true;
-                // this.currentLeadIndex = params.row.originalIndex;
-                // let processedIndex = this.$refs.dataTable.processedRows[0].children.findIndex(
-                //     (x) => x.originalIndex === params.row.originalIndex
-                // );
+            assignAll() {
+                let obj = {
+                    account_id: this.global_account,
+                    campaign_id: this.global_campaign,
+                    lead_id: "all",
+                };
 
-                // this.$router
-                //     .push({
-                //         path: this.$route.fullPath,
-                //         query: { leadIndex: processedIndex },
-                //     })
-                //     .catch(() => {});
-                this.selectedLead = params.row;
+                if (Object.keys(obj).some((key) => !obj[key])) {
+                    console.error("Empty fields.");
+                    return;
+                }
+
+                axios.post(`/lead-account`, obj).then((res) => {
+                    this.rows = [];
+                });
             },
         },
     };
