@@ -138,7 +138,8 @@
                     {
                         label: "Campaign",
                         field: function (row) {
-                            return `<select class="form-control" onchange="something" id="campaign${row.originalIndex}">
+                            // can I add inline onchange??
+                            return `<select class="form-control" id="campaign${row.originalIndex}">
                                                                         </select>`;
                         },
                         html: true,
@@ -182,8 +183,13 @@
                         lead_id: row.id,
                     };
 
+                    if(Object.keys(obj).some(key => !obj[key])){
+                        console.error("Empty fields.")
+                        return
+                    }
+
                     axios.post(`/lead-account`, obj).then((res) => {
-                        console.log(res.data)
+                        this.rows.splice(row.originalIndex, 1);
                     });
                 });
 

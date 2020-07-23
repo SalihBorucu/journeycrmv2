@@ -3074,7 +3074,8 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         label: "Campaign",
         field: function field(row) {
-          return "<select class=\"form-control\" onchange=\"something\" id=\"campaign".concat(row.originalIndex, "\">\n                                                                    </select>");
+          // can I add inline onchange??
+          return "<select class=\"form-control\" id=\"campaign".concat(row.originalIndex, "\">\n                                                                    </select>");
         },
         html: true // filterOptions: {
         //     enabled: true,
@@ -3116,8 +3117,16 @@ __webpack_require__.r(__webpack_exports__);
           campaign_id: $("#campaign".concat(index)).val(),
           lead_id: row.id
         };
+
+        if (Object.keys(obj).some(function (key) {
+          return !obj[key];
+        })) {
+          console.error("Empty fields.");
+          return;
+        }
+
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("/lead-account", obj).then(function (res) {
-          console.log(res.data);
+          _this3.rows.splice(row.originalIndex, 1);
         });
       });
       $("#account".concat(index)).append($("<option/>", {
