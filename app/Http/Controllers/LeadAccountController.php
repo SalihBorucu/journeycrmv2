@@ -19,6 +19,10 @@ class LeadAccountController extends Controller
         return view('new-leads.lead-shopping', compact('companies', 'countries'));
     }
 
+    public function show(){
+
+    }
+
     public function create()
     {
         $schedule_id = Campaign::find(request('campaign_id'))->schedule_id;
@@ -26,7 +30,7 @@ class LeadAccountController extends Controller
         $leadAccounts = [];
 
         if (request('lead_id') === "all") {
-            $leads = Lead::where('unassigned', 1)->with(['company'])->get();
+            $leads = Lead::where([['unassigned', 1], ['user_id', Auth::id()]])->with(['company'])->get();
 
             foreach ($leads as $key => $lead) {
                 $leadAccounts[] = [

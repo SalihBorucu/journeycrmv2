@@ -3074,6 +3074,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3085,8 +3124,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       global_account: null,
       global_campaign: null,
-      leadModal: false,
-      selectedLead: null,
       columns: [{
         label: "Name",
         field: "full_name",
@@ -3109,41 +3146,21 @@ __webpack_require__.r(__webpack_exports__);
         field: "phone_1",
         type: "text"
       }, {
-        label: "Phone",
+        label: "Phone 2",
         field: "phone_2",
         type: "text"
       }, {
         label: "Linkedin",
-        field: "linkedin",
-        type: "text"
+        field: "linkedin"
       }, {
         label: "Account",
-        field: function field(row) {
-          return "<select class=\"form-control\" id=\"account".concat(row.originalIndex, "\"></select>");
-        },
-        html: true // filterOptions: {
-        //     enabled: true,
-        // },
-
+        field: "account"
       }, {
         label: "Campaign",
-        field: function field(row) {
-          // can I add inline onchange??
-          return "<select class=\"form-control\" id=\"campaign".concat(row.originalIndex, "\"></select>");
-        },
-        html: true // filterOptions: {
-        //     enabled: true,
-        // },
-
+        field: "campaign"
       }, {
         label: "",
-        field: function field(row) {
-          return "<button class=\"btn btn-primary\" id=\"submit".concat(row.originalIndex, "\">Assign</button>");
-        },
-        html: true // filterOptions: {
-        //     enabled: true,
-        // },
-
+        field: "button"
       }],
       rows: this.unassignedLeads.map(function (lead) {
         lead["currentUser"] = _this.user;
@@ -3151,75 +3168,9 @@ __webpack_require__.r(__webpack_exports__);
       })
     };
   },
-  computed: {
-    leadsWithUser: function leadsWithUser() {
-      var _this2 = this;
-
-      return this.unassignedLeads.map(function (lead) {
-        lead["currentUser"] = _this2.user;
-        return lead;
-      });
-    }
-  },
-  mounted: function mounted() {
-    var _this3 = this;
-
-    this.rows.forEach(function (row, index) {
-      $("#submit".concat(index)).click(function () {
-        var obj = {
-          account_id: $("#account".concat(index)).val(),
-          campaign_id: $("#campaign".concat(index)).val(),
-          lead_id: row.id
-        };
-
-        if (Object.keys(obj).some(function (key) {
-          return !obj[key];
-        })) {
-          console.error("Empty fields.");
-          return;
-        }
-
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/lead-account", obj).then(function (res) {
-          _this3.rows.splice(row.originalIndex, 1);
-        });
-      });
-      $("#account".concat(index)).append($("<option/>", {
-        text: "",
-        value: null
-      }));
-
-      _this3.user.user_accounts.forEach(function (account) {
-        $("#account".concat(index)).append($("<option/>", {
-          text: account.account.name,
-          value: account.account.id
-        }));
-        $("#account".concat(index)).change(function () {
-          if (!event.target.value) {
-            $("#campaign".concat(index)).html("");
-            return;
-          }
-
-          var selectedAccountId = event.target.value;
-
-          var accountObject = _this3.user.user_accounts.find(function (account) {
-            return account.account_id == selectedAccountId;
-          });
-
-          var campaignsArray = accountObject.account.account_campaigns;
-          $("#campaign".concat(index)).html("");
-          campaignsArray.forEach(function (campaign) {
-            $("#campaign".concat(index)).append($("<option/>", {
-              text: campaign.campaign.name,
-              value: campaign.campaign.id
-            }));
-          });
-        });
-      });
-    });
-  },
   methods: {
     assignAll: function assignAll() {
-      var _this4 = this;
+      var _this2 = this;
 
       var obj = {
         account_id: this.global_account,
@@ -3235,7 +3186,40 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/lead-account", obj).then(function (res) {
-        _this4.rows = [];
+        _this2.rows = [];
+      });
+    },
+    selectedIndividualAccount: function selectedIndividualAccount() {
+      var campaignsArray = this.user.user_accounts.find(function (account) {
+        return account.account_id == event.target.value;
+      }).account.account_campaigns;
+      $("#campaign".concat(event.target.id)).html("");
+      campaignsArray.forEach(function (campaign) {
+        $("#campaign".concat(event.target.id)).append($("<option/>", {
+          text: campaign.campaign.name,
+          value: campaign.campaign.id
+        }));
+      });
+    },
+    assignIndividualCampaign: function assignIndividualCampaign(row) {
+      var _this3 = this;
+
+      var obj = {
+        account_id: $("#".concat(row.id)).val(),
+        campaign_id: $("#campaign".concat(row.id)).val(),
+        lead_id: row.id
+      };
+
+      if (Object.keys(obj).some(function (key) {
+        return !obj[key];
+      })) {
+        console.error("Empty fields."); //create appropriate error
+
+        return;
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/lead-account", obj).then(function (res) {
+        _this3.rows.splice(row.originalIndex, 1);
       });
     }
   }
@@ -19935,7 +19919,81 @@ var render = function() {
             enabled: false
           },
           "min-width": "500px"
-        }
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "table-row",
+            fn: function(props) {
+              return [
+                props.column.field == "linkedin"
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "social-source-icon",
+                        attrs: { href: props.row.linkedin, target: "_blank" }
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "mdi mdi-linkedin bg-primary text-white",
+                          staticStyle: { "font-size": "40px" }
+                        })
+                      ]
+                    )
+                  : props.column.field == "account"
+                  ? _c(
+                      "select",
+                      {
+                        staticClass: "form-control",
+                        attrs: { id: props.row.id },
+                        on: { change: _vm.selectedIndividualAccount }
+                      },
+                      _vm._l(_vm.user.user_accounts, function(account) {
+                        return _c(
+                          "option",
+                          { domProps: { value: account.account.id } },
+                          [_vm._v(_vm._s(account.account.name))]
+                        )
+                      }),
+                      0
+                    )
+                  : props.column.field == "campaign"
+                  ? _c(
+                      "select",
+                      {
+                        staticClass: "form-control",
+                        attrs: { id: "campaign" + props.row.id }
+                      },
+                      _vm._l(
+                        _vm.user.user_accounts[0].account.account_campaigns,
+                        function(campaign) {
+                          return _c(
+                            "option",
+                            { domProps: { value: campaign.campaign_id } },
+                            [_vm._v(_vm._s(campaign.campaign.name))]
+                          )
+                        }
+                      ),
+                      0
+                    )
+                  : props.column.field == "button"
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { id: "btn" + props.row.id },
+                        on: {
+                          click: function($event) {
+                            return _vm.assignIndividualCampaign(props.row)
+                          }
+                        }
+                      },
+                      [_vm._v("Assign")]
+                    )
+                  : _vm._e()
+              ]
+            }
+          }
+        ])
       }),
       _vm._v(" "),
       _c("div", { staticClass: "row card m-3" }, [
@@ -19956,7 +20014,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { name: "", id: "" },
+                  attrs: { name: "" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -19999,7 +20057,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { name: "", id: "" },
+                  attrs: { name: "" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter

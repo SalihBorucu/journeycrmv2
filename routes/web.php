@@ -57,6 +57,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/useraccount', 'UserAccountController@update');
 
     Route::get('/test', function () {
-        dd(User::with(['userAccounts.account'])->find(Auth::user()->id));
+        dd(Auth::user()->userAccounts[0]->accounts);
     });
 });

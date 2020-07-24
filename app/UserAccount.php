@@ -20,8 +20,4 @@ class UserAccount extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    // public function characteristics()
-    // {
-    //     return $this->belongsTo(TransformerPreset::class, 'transformer_preset_id');
-    // }
 }
