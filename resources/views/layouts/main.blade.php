@@ -31,9 +31,7 @@
         </div>
         @include('layouts.nav-bar')
         <div class="wrapper">
-            <div class="container-fluid">
                 @yield('content')
-            </div>
         </div>
 
         <script src="/js/plugins.js"></script>

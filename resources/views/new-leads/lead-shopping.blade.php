@@ -1,8 +1,8 @@
 @extends('layouts.main')
 @section('content')
-@include('layouts.new-lead-bar')
 
 <div id="create-lead-app">
+    @include('layouts.new-lead-bar')
     <lead-shopping
     :companies="{{ json_encode($companies) }}"
     :countries="{{ json_encode($countries) }}">

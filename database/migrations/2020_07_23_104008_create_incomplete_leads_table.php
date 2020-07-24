@@ -17,7 +17,7 @@ class CreateIncompleteLeadsTable extends Migration
             $table->id();
             $table->text('first_name')->nullable();
             $table->text('last_name')->nullable();
-            $table->unsignedBigInteger('company_id')->nullable();
+            $table->text('company_name')->nullable();
             $table->text('country')->nullable();
             $table->text('title')->nullable();
             $table->text('email')->nullable();

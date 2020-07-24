@@ -86,4 +86,15 @@ table.vgt-table tr.clickable:hover {
 //form error
 .form-control-danger {
     border: 1px $danger solid;
+    border-radius: 5px;
+}
+
+.form-control-success {
+    border: 1px $success solid;
+    border-radius: 5px;
+}
+
+.form-control-warning {
+    border: 1px $warning solid;
+    border-radius: 5px;
 }

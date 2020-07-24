@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('content')
-<div id="reporting-app">
+<div id="reporting-app" class="container-fluid">
     <reporting-component
     :accounts="{{ json_encode($accounts) }}"
     :campaigns-inj="{{ json_encode($campaigns) }}"

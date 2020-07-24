@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h1>Under construction</h1>
         <div class="w-100">
             <div class="card card-body">
                 <h4 class="page-title mb-2">New Lead</h4>

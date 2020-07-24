@@ -8,7 +8,7 @@
             :pagination-options="{
                 enabled: true,
                 mode: 'records',
-                perPage: 20,
+                perPage: 10,
                 setCurrentPage: 1,
                 position: 'top',
                 nextLabel: 'next',
@@ -23,34 +23,59 @@
             }"
             min-width="500px"
             ref="dataTable"
-        />
-        <div class="row card m-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div class="d-flex justify-content-around w-75">
-                        <label class="m-2">Account:</label>
-                        <select name id class="form-control" v-model="global_account">
-                            <option
-                                :value="account.account_id"
-                                v-for="account in this.user.user_accounts"
-                            >{{account.account.name}}</option>
-                        </select>
-                    </div>
-                    <div class="d-flex justify-content-around w-75">
-                        <label class="m-2">Campaign:</label>
-                        <select name id class="form-control" v-model="global_campaign">
-                            <option value v-if="!global_account"></option>
-                            <option
-                                v-if="global_account"
-                                :value="campaign.campaign_id"
-                                v-for="campaign in this.user.user_accounts.find(account => account.account_id === 1).account.account_campaigns"
-                            >{{campaign.campaign.name}}</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary w-50 ml-2" @click="assignAll">Assign All</button>
+        >
+            <template slot="table-row" slot-scope="props">
+                <span v-if="props.column.field == 'first_name'">
+                    <textarea class="form-control btn" v-model="props.row.first_name" />
+                </span>
+                <span v-else-if="props.column.field == 'last_name'">
+                    <textarea class="form-control btn" v-model="props.row.last_name" />
+                </span>
+                <!-- <span v-else-if="props.column.field == 'company_name'">
+                    <div
+                        v-if="props.row.company_name"
+                        :class="[companies.find(company => company.name === props.row.company_name)? 'form-control-success':'form-control-danger', 'p-1'
+                    ]">{{props.row.company_name}}</div>
+                    <small
+                        v-if="!companies.find(company => company.name === props.row.company_name)"
+                        class="text-danger"
+                    >Couldn't find company.</small>
+                </span> -->
+                <span v-else-if="props.column.field == 'company_search'">
+                    <autocomplete
+                    @blur="setCompanyName"
+                    :search="searchCompany"
+                    :default-value="props.row.company_name"
+                    :class="[companies.find(company => company.name === props.row.company_name) ? 'form-control-success': 'form-control-danger'
+                    ]"
+                    >
+                    </autocomplete>
+                </span>
+                <span v-else-if="props.column.field == 'title'">
+                    <textarea class="form-control btn" v-model="props.row.title" />
+                </span>
+                <span v-else-if="props.column.field == 'email'">
+                    <textarea class="form-control btn" v-model="props.row.email" />
+                </span>
+                <span v-else-if="props.column.field == 'phone_1'">
+                    <textarea class="form-control btn" v-model="props.row.phone_1" />
+                </span>
+                <span v-else-if="props.column.field == 'phone_2'">
+                    <textarea class="form-control btn" v-model="props.row.phone_2" />
+                </span>
+                <span v-else-if="props.column.field == 'linkedin'">
+                    <textarea class="form-control btn" v-model="props.row.linkedin" />
+                </span>
+                <div v-else-if="props.column.field == 'button'" class="d-flex">
+                    <button class="btn btn-primary" @click="completeLead(props.row)">
+                        <i class="mdi mdi-check text-white"></i>
+                    </button>
+                    <button class="btn btn-danger">
+                        <i class="mdi mdi-trash-can text-white"></i>
+                    </button>
                 </div>
-            </div>
-        </div>
+            </template>
+        </vue-good-table>
     </div>
 </template>
 <script>
@@ -59,174 +84,92 @@
     import axios from "axios";
 
     export default {
-        props: ["unassignedLeads", "user"],
+        props: ["companies", "leads", "user"],
 
         data() {
             return {
-                global_account: null,
-                global_campaign: null,
-                leadModal: false,
-                selectedLead: null,
-
                 columns: [
                     {
-                        label: "Name",
-                        field: "full_name",
-                        type: "text",
-                        thClass: "custom-th",
+                        label: "First Name",
+                        field: "first_name",
                     },
                     {
-                        label: "Company",
-                        field: "company.name",
-                        type: "text",
+                        label: "Last Name",
+                        field: "last_name",
+                    },
+                    // {
+                    //     label: "Company",
+                    //     field: "company_name",
+                    // },
+                    {
+                        label: "Company Search",
+                        field: "company_search",
                     },
                     {
                         label: "Title",
                         field: "title",
-                        type: "text",
                     },
                     {
                         label: "Country",
                         field: "country",
-                        type: "text",
+                    },
+                    {
+                        label: "Email",
+                        field: "email",
                     },
                     {
                         label: "Phone",
                         field: "phone_1",
-                        type: "text",
                     },
                     {
                         label: "Phone",
                         field: "phone_2",
-                        type: "text",
                     },
                     {
                         label: "Linkedin",
                         field: "linkedin",
-                        type: "text",
                     },
                     {
-                        label: "Account",
-                        field: function (row) {
-                            return `<select class="form-control" id="account${row.originalIndex}"></select>`;
-                        },
-                        html: true,
-                        // filterOptions: {
-                        //     enabled: true,
-                        // },
-                    },
-                    {
-                        label: "Campaign",
-                        field: function (row) {
-                            // can I add inline onchange??
-                            return `<select class="form-control" id="campaign${row.originalIndex}"></select>`;
-                        },
-                        html: true,
-                        // filterOptions: {
-                        //     enabled: true,
-                        // },
-                    },
-                    {
-                        label: "",
-                        field: function (row) {
-                            return `<button class="btn btn-primary" id="submit${row.originalIndex}">Assign</button>`;
-                        },
-                        html: true,
-                        // filterOptions: {
-                        //     enabled: true,
-                        // },
+                        label: "Complete Button",
+                        field: "button",
                     },
                 ],
-                rows: this.unassignedLeads.map((lead) => {
+                rows: this.leads.map((lead) => {
                     lead["currentUser"] = this.user;
                     return lead;
                 }),
             };
         },
 
-        computed: {
-            leadsWithUser() {
-                return this.unassignedLeads.map((lead) => {
-                    lead["currentUser"] = this.user;
-                    return lead;
-                });
-            },
-        },
-
         mounted() {
-            this.rows.forEach((row, index) => {
-                $(`#submit${index}`).click(() => {
-                    let obj = {
-                        account_id: $(`#account${index}`).val(),
-                        campaign_id: $(`#campaign${index}`).val(),
-                        lead_id: row.id,
-                    };
-
-                    if (Object.keys(obj).some((key) => !obj[key])) {
-                        console.error("Empty fields.");
-                        return;
-                    }
-
-                    axios.post(`/lead-account`, obj).then((res) => {
-                        this.rows.splice(row.originalIndex, 1);
-                    });
-                });
-
-                $(`#account${index}`).append(
-                    $("<option/>", {
-                        text: "",
-                        value: null,
-                    })
-                );
-                this.user.user_accounts.forEach((account) => {
-                    $(`#account${index}`).append(
-                        $("<option/>", {
-                            text: account.account.name,
-                            value: account.account.id,
-                        })
-                    );
-                    $(`#account${index}`).change(() => {
-                        if (!event.target.value) {
-                            $(`#campaign${index}`).html("");
-                            return;
-                        }
-                        let selectedAccountId = event.target.value;
-                        let accountObject = this.user.user_accounts.find(
-                            (account) => account.account_id == selectedAccountId
-                        );
-                        let campaignsArray =
-                            accountObject.account.account_campaigns;
-
-                        $(`#campaign${index}`).html("");
-                        campaignsArray.forEach((campaign) => {
-                            $(`#campaign${index}`).append(
-                                $("<option/>", {
-                                    text: campaign.campaign.name,
-                                    value: campaign.campaign.id,
-                                })
-                            );
-                        });
-                    });
-                });
-            });
+            $(".autocomplete-input").attr("class", "form-control");
         },
 
         methods: {
-            assignAll() {
-                let obj = {
-                    account_id: this.global_account,
-                    campaign_id: this.global_campaign,
-                    lead_id: "all",
-                };
-
-                if (Object.keys(obj).some((key) => !obj[key])) {
-                    console.error("Empty fields.");
-                    return;
+            searchCompany(input) {
+                if (input.length < 1) {
+                    return [];
                 }
+                return this.companies
+                    .map((company) => company.name)
+                    .filter((country) => {
+                        return country
+                            .toLowerCase()
+                            .startsWith(input.toLowerCase());
+                    });
+            },
 
-                axios.post(`/lead-account`, obj).then((res) => {
-                    this.rows = [];
-                });
+            completeLead(row) {
+                console.log(row);
+            },
+
+            setCompanyName() {
+                if(this.companies.find(company => company.name === event.target.value)){
+                    event.target.className = 'form-control form-control-success'
+                }else{
+                    if(event.target.value !== '')
+                    event.target.className = 'form-control form-control-warning'
+                }
             },
         },
     };
