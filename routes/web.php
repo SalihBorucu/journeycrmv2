@@ -59,7 +59,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/useraccount', 'UserAccountController@update');
 
-    Route::get('/test', function () {
-        dd(Auth::user()->userAccounts[0]->accounts);
-    });
 });
+        Route::get('/test', function () {
+            if (Auth::attempt(['email' => 'salih@hotmail1.com', 'password' => '12345678'])) {
+                dd('hello');
+            }
+        });

@@ -19,6 +19,14 @@ Route::get('/user', function (Request $request) {
 });
 
 Route::post('/incomplete-leads', 'IncompleteLeadController@create');
-Route::get('/incomplete-leads', function(){
-    return response('hello');
+Route::post('/login', function(){
+    $request = json_decode(request()->getContent(), true);
+
+    if (Auth::attempt(['email' => $request['userEmail'], 'password' => $request['userPassword']])) {
+        return response('done');
+    }
+
+    return response()->json('No user with these credentials.');
+
+
 });
