@@ -15,9 +15,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         $users = [
-            'standard1' => ['Salih Borucu1', 'salih@hotmail1.com', '12345678', 1],
-            'standard' => ['Salih Borucu', 'salihborucu@hotma1il.com', '12345678', 1],
-            'admin' => ['Admin Admin', 'admin@1crm.com', '12345678', 2]
+            'standard1' => ['Salih Borucu1', 'salih@hotmail.com', '12345678', 1],
+            'standard' => ['Salih Borucu', 'salihborucu@hotmail.com', '12345678', 1],
+            'admin' => ['Admin Admin', 'admin@crm.com', '12345678', 2]
         ];
 
         foreach ($users as $key => $user) {

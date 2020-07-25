@@ -31,25 +31,54 @@
                 <span v-else-if="props.column.field == 'last_name'">
                     <textarea class="form-control btn" v-model="props.row.last_name" />
                 </span>
-                <!-- <span v-else-if="props.column.field == 'company_name'">
-                    <div
-                        v-if="props.row.company_name"
-                        :class="[companies.find(company => company.name === props.row.company_name)? 'form-control-success':'form-control-danger', 'p-1'
-                    ]">{{props.row.company_name}}</div>
-                    <small
-                        v-if="!companies.find(company => company.name === props.row.company_name)"
-                        class="text-danger"
-                    >Couldn't find company.</small>
-                </span> -->
                 <span v-else-if="props.column.field == 'company_search'">
-                    <autocomplete
-                    @blur="setCompanyName"
-                    :search="searchCompany"
-                    :default-value="props.row.company_name"
-                    :class="[companies.find(company => company.name === props.row.company_name) ? 'form-control-success': 'form-control-danger'
-                    ]"
-                    >
+                    <autocomplete :search="searchCompany" autoSelect>
+                        <template
+                            #default="{
+                                rootProps,
+                                inputProps,
+                                inputListeners,
+                                resultListProps,
+                                resultListListeners,
+                                results,
+                                resultProps
+                                }"
+                        >
+                            <div v-bind="rootProps">
+                                <input
+                                    v-bind="inputProps"
+                                    v-on="inputListeners"
+                                    v-model="props.row.company_name"
+                                    :class="[
+                                    companies.find(company => company.name === props.row.company_name) ? 'form-control-success': 'form-control-warning',
+                                    'form-control',
+                                        { 'autocomplete-input-no-results': false },
+                                        { 'autocomplete-input-focused': false }
+                                        ]"
+                                />
+                                <ul
+                                    v-if="false"
+                                    class="autocomplete-result-list"
+                                    style="position: absolute; z-index: 1; width: 100%; top: 100%;"
+                                >
+                                    <li class="autocomplete-result">No results found</li>
+                                </ul>
+                                <ul v-bind="resultListProps" v-on="resultListListeners">
+                                    <li
+                                        v-for="(result, index) in results"
+                                        @click="props.row.company_name = result"
+                                        :key="resultProps[index].id"
+                                        v-bind="resultProps[index]"
+                                    >{{ result }}</li>
+                                    <!-- Need to add event listener keydown.enter, can't work it out, will get back later  -->
+                                </ul>
+                            </div>
+                        </template>
                     </autocomplete>
+                    <small
+                        class="text-warning small"
+                        v-if="!companies.find(company => company.name === props.row.company_name) && props.row.company_name"
+                    >Couldn't find this company, creating new.</small>
                 </span>
                 <span v-else-if="props.column.field == 'title'">
                     <textarea class="form-control btn" v-model="props.row.title" />
@@ -70,7 +99,7 @@
                     <button class="btn btn-primary" @click="completeLead(props.row)">
                         <i class="mdi mdi-check text-white"></i>
                     </button>
-                    <button class="btn btn-danger">
+                    <button class="btn btn-danger" @click="deleteLead(props.row)">
                         <i class="mdi mdi-trash-can text-white"></i>
                     </button>
                 </div>
@@ -97,10 +126,6 @@
                         label: "Last Name",
                         field: "last_name",
                     },
-                    // {
-                    //     label: "Company",
-                    //     field: "company_name",
-                    // },
                     {
                         label: "Company Search",
                         field: "company_search",
@@ -122,7 +147,7 @@
                         field: "phone_1",
                     },
                     {
-                        label: "Phone",
+                        label: "Phone 2",
                         field: "phone_2",
                     },
                     {
@@ -141,10 +166,6 @@
             };
         },
 
-        mounted() {
-            $(".autocomplete-input").attr("class", "form-control");
-        },
-
         methods: {
             searchCompany(input) {
                 if (input.length < 1) {
@@ -160,15 +181,57 @@
             },
 
             completeLead(row) {
-                console.log(row);
+                let obj = {
+                    first_name: row.first_name,
+                    last_name: row.last_name,
+                    company: this.companies.find(
+                        (company) => company.name === row.company_name
+                    )
+                        ? this.companies.find(
+                              (company) => company.name === row.company_name
+                          ).id
+                        : row.company_name, //try and refactor
+                    email: row.email,
+                    title: row.title,
+                    linkedin: row.linkedin,
+                    phone_1: row.phone_1,
+                    country: row.country,
+                };
+
+                if (Object.keys(obj).some((key) => !obj[key])) {
+                    Object.keys(obj).map((key) => {
+                        if (!obj[key]) {
+                            this[key] = "";
+                        }
+                    });
+                    console.error("empty field");
+                    return;
+                }
+
+                obj["phone_2"] = row.phone_2;
+
+                axios.post(`/lead`, obj).then((res) => {
+                    this.deleteLead(row)
+                });
+            },
+
+            deleteLead(row) {
+                axios.delete(`/incomplete-leads/${row.id}`).then((res) => {
+                    this.rows.splice(row.originalIndex, 1);
+                    });
             },
 
             setCompanyName() {
-                if(this.companies.find(company => company.name === event.target.value)){
-                    event.target.className = 'form-control form-control-success'
-                }else{
-                    if(event.target.value !== '')
-                    event.target.className = 'form-control form-control-warning'
+                if (
+                    this.companies.find(
+                        (company) => company.name === event.target.value
+                    )
+                ) {
+                    event.target.className = "form-control form-control-success";
+                } else {
+                    if (event.target.value !== "")
+                        event.target.className =
+                            "form-control form-control-warning";
                 }
             },
         },

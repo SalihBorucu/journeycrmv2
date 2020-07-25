@@ -14,4 +14,8 @@ class IncompleteLeadController extends Controller
 
         return view('new-leads.incomplete-leads', compact('incompleteLeads', 'companies'));
     }
+
+    public function destroy(IncompleteLead $incompleteLead){
+        $incompleteLead->delete();
+    }
 }

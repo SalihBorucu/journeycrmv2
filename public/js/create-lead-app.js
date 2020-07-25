@@ -737,13 +737,13 @@ var __vue_staticRenderFns__ = [];
   /* functional template */
   const __vue_is_functional_template__ = false;
   /* style inject */
-  
-  /* style inject SSR */
-  
-  /* style inject shadow dom */
-  
 
-  
+  /* style inject SSR */
+
+  /* style inject shadow dom */
+
+
+
   const __vue_component__ = normalizeComponent(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
@@ -2980,6 +2980,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2995,11 +3024,7 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         label: "Last Name",
         field: "last_name"
-      }, // {
-      //     label: "Company",
-      //     field: "company_name",
-      // },
-      {
+      }, {
         label: "Company Search",
         field: "company_search"
       }, {
@@ -3015,7 +3040,7 @@ __webpack_require__.r(__webpack_exports__);
         label: "Phone",
         field: "phone_1"
       }, {
-        label: "Phone",
+        label: "Phone 2",
         field: "phone_2"
       }, {
         label: "Linkedin",
@@ -3030,9 +3055,6 @@ __webpack_require__.r(__webpack_exports__);
       })
     };
   },
-  mounted: function mounted() {
-    $(".autocomplete-input").attr("class", "form-control");
-  },
   methods: {
     searchCompany: function searchCompany(input) {
       if (input.length < 1) {
@@ -3046,15 +3068,55 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     completeLead: function completeLead(row) {
-      console.log(row);
+      var _this2 = this;
+
+      var obj = {
+        first_name: row.first_name,
+        last_name: row.last_name,
+        company: this.companies.find(function (company) {
+          return company.name === row.company_name;
+        }) ? this.companies.find(function (company) {
+          return company.name === row.company_name;
+        }).id : row.company_name,
+        //try and refactor
+        email: row.email,
+        title: row.title,
+        linkedin: row.linkedin,
+        phone_1: row.phone_1,
+        country: row.country
+      };
+
+      if (Object.keys(obj).some(function (key) {
+        return !obj[key];
+      })) {
+        Object.keys(obj).map(function (key) {
+          if (!obj[key]) {
+            _this2[key] = "";
+          }
+        });
+        console.error("empty field");
+        return;
+      }
+
+      obj["phone_2"] = row.phone_2;
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/lead", obj).then(function (res) {
+        _this2.deleteLead(row);
+      });
+    },
+    deleteLead: function deleteLead(row) {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"]("/incomplete-leads/".concat(row.id)).then(function (res) {
+        _this3.rows.splice(row.originalIndex, 1);
+      });
     },
     setCompanyName: function setCompanyName() {
       if (this.companies.find(function (company) {
         return company.name === event.target.value;
       })) {
-        event.target.className = 'form-control form-control-success';
+        event.target.className = "form-control form-control-success";
       } else {
-        if (event.target.value !== '') event.target.className = 'form-control form-control-warning';
+        if (event.target.value !== "") event.target.className = "form-control form-control-warning";
       }
     }
   }
@@ -20009,19 +20071,318 @@ var render = function() {
                       "span",
                       [
                         _c("autocomplete", {
-                          class: [
-                            _vm.companies.find(function(company) {
-                              return company.name === props.row.company_name
-                            })
-                              ? "form-control-success"
-                              : "form-control-danger"
-                          ],
-                          attrs: {
-                            search: _vm.searchCompany,
-                            "default-value": props.row.company_name
-                          },
-                          on: { blur: _vm.setCompanyName }
-                        })
+                          attrs: { search: _vm.searchCompany, autoSelect: "" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "default",
+                                fn: function(ref) {
+                                  var rootProps = ref.rootProps
+                                  var inputProps = ref.inputProps
+                                  var inputListeners = ref.inputListeners
+                                  var resultListProps = ref.resultListProps
+                                  var resultListListeners =
+                                    ref.resultListListeners
+                                  var results = ref.results
+                                  var resultProps = ref.resultProps
+                                  return [
+                                    _c(
+                                      "div",
+                                      _vm._b({}, "div", rootProps, false),
+                                      [
+                                        inputProps.type === "checkbox"
+                                          ? _c(
+                                              "input",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          props.row
+                                                            .company_name,
+                                                        expression:
+                                                          "props.row.company_name"
+                                                      }
+                                                    ],
+                                                    class: [
+                                                      _vm.companies.find(
+                                                        function(company) {
+                                                          return (
+                                                            company.name ===
+                                                            props.row
+                                                              .company_name
+                                                          )
+                                                        }
+                                                      )
+                                                        ? "form-control-success"
+                                                        : "form-control-warning",
+                                                      "form-control",
+                                                      {
+                                                        "autocomplete-input-no-results": false
+                                                      },
+                                                      {
+                                                        "autocomplete-input-focused": false
+                                                      }
+                                                    ],
+                                                    attrs: { type: "checkbox" },
+                                                    domProps: {
+                                                      checked: Array.isArray(
+                                                        props.row.company_name
+                                                      )
+                                                        ? _vm._i(
+                                                            props.row
+                                                              .company_name,
+                                                            null
+                                                          ) > -1
+                                                        : props.row.company_name
+                                                    },
+                                                    on: {
+                                                      change: function($event) {
+                                                        var $$a =
+                                                            props.row
+                                                              .company_name,
+                                                          $$el = $event.target,
+                                                          $$c = $$el.checked
+                                                            ? true
+                                                            : false
+                                                        if (
+                                                          Array.isArray($$a)
+                                                        ) {
+                                                          var $$v = null,
+                                                            $$i = _vm._i(
+                                                              $$a,
+                                                              $$v
+                                                            )
+                                                          if ($$el.checked) {
+                                                            $$i < 0 &&
+                                                              _vm.$set(
+                                                                props.row,
+                                                                "company_name",
+                                                                $$a.concat([
+                                                                  $$v
+                                                                ])
+                                                              )
+                                                          } else {
+                                                            $$i > -1 &&
+                                                              _vm.$set(
+                                                                props.row,
+                                                                "company_name",
+                                                                $$a
+                                                                  .slice(0, $$i)
+                                                                  .concat(
+                                                                    $$a.slice(
+                                                                      $$i + 1
+                                                                    )
+                                                                  )
+                                                              )
+                                                          }
+                                                        } else {
+                                                          _vm.$set(
+                                                            props.row,
+                                                            "company_name",
+                                                            $$c
+                                                          )
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  "input",
+                                                  inputProps,
+                                                  false
+                                                ),
+                                                inputListeners
+                                              )
+                                            )
+                                          : inputProps.type === "radio"
+                                          ? _c(
+                                              "input",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          props.row
+                                                            .company_name,
+                                                        expression:
+                                                          "props.row.company_name"
+                                                      }
+                                                    ],
+                                                    class: [
+                                                      _vm.companies.find(
+                                                        function(company) {
+                                                          return (
+                                                            company.name ===
+                                                            props.row
+                                                              .company_name
+                                                          )
+                                                        }
+                                                      )
+                                                        ? "form-control-success"
+                                                        : "form-control-warning",
+                                                      "form-control",
+                                                      {
+                                                        "autocomplete-input-no-results": false
+                                                      },
+                                                      {
+                                                        "autocomplete-input-focused": false
+                                                      }
+                                                    ],
+                                                    attrs: { type: "radio" },
+                                                    domProps: {
+                                                      checked: _vm._q(
+                                                        props.row.company_name,
+                                                        null
+                                                      )
+                                                    },
+                                                    on: {
+                                                      change: function($event) {
+                                                        return _vm.$set(
+                                                          props.row,
+                                                          "company_name",
+                                                          null
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  "input",
+                                                  inputProps,
+                                                  false
+                                                ),
+                                                inputListeners
+                                              )
+                                            )
+                                          : _c(
+                                              "input",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          props.row
+                                                            .company_name,
+                                                        expression:
+                                                          "props.row.company_name"
+                                                      }
+                                                    ],
+                                                    class: [
+                                                      _vm.companies.find(
+                                                        function(company) {
+                                                          return (
+                                                            company.name ===
+                                                            props.row
+                                                              .company_name
+                                                          )
+                                                        }
+                                                      )
+                                                        ? "form-control-success"
+                                                        : "form-control-warning",
+                                                      "form-control",
+                                                      {
+                                                        "autocomplete-input-no-results": false
+                                                      },
+                                                      {
+                                                        "autocomplete-input-focused": false
+                                                      }
+                                                    ],
+                                                    attrs: {
+                                                      type: inputProps.type
+                                                    },
+                                                    domProps: {
+                                                      value:
+                                                        props.row.company_name
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          props.row,
+                                                          "company_name",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  "input",
+                                                  inputProps,
+                                                  false
+                                                ),
+                                                inputListeners
+                                              )
+                                            ),
+                                        _vm._v(" "),
+                                        false
+                                          ? undefined
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        _c(
+                                          "ul",
+                                          _vm._g(
+                                            _vm._b(
+                                              {},
+                                              "ul",
+                                              resultListProps,
+                                              false
+                                            ),
+                                            resultListListeners
+                                          ),
+                                          _vm._l(results, function(
+                                            result,
+                                            index
+                                          ) {
+                                            return _c(
+                                              "li",
+                                              _vm._b(
+                                                {
+                                                  key: resultProps[index].id,
+                                                  on: {
+                                                    click: function($event) {
+                                                      props.row.company_name = result
+                                                    }
+                                                  }
+                                                },
+                                                "li",
+                                                resultProps[index],
+                                                false
+                                              ),
+                                              [_vm._v(_vm._s(result))]
+                                            )
+                                          }),
+                                          0
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            true
+                          )
+                        }),
+                        _vm._v(" "),
+                        !_vm.companies.find(function(company) {
+                          return company.name === props.row.company_name
+                        }) && props.row.company_name
+                          ? _c("small", { staticClass: "text-warning small" }, [
+                              _vm._v(
+                                "Couldn't find this company, creating new."
+                              )
+                            ])
+                          : _vm._e()
                       ],
                       1
                     )
@@ -20155,9 +20516,22 @@ var render = function() {
                         [_c("i", { staticClass: "mdi mdi-check text-white" })]
                       ),
                       _vm._v(" "),
-                      _c("button", { staticClass: "btn btn-danger" }, [
-                        _c("i", { staticClass: "mdi mdi-trash-can text-white" })
-                      ])
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteLead(props.row)
+                            }
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "mdi mdi-trash-can text-white"
+                          })
+                        ]
+                      )
                     ])
                   : _vm._e()
               ]
