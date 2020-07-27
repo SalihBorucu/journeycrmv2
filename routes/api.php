@@ -14,12 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
+
+Route::group([
+    'middleware' => 'auth:api'
+], function () {
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::post('/incomplete-leads', 'IncompleteLeadController@create');
 });
 
-Route::post('/incomplete-leads', 'IncompleteLeadController@create');
-Route::post('/login', function(){
+
+Route::post('/login', function () {
     $request = json_decode(request()->getContent(), true);
 
     if (Auth::attempt(['email' => $request['userEmail'], 'password' => $request['userPassword']])) {
@@ -27,6 +35,4 @@ Route::post('/login', function(){
     }
 
     return response()->json('No user with these credentials.');
-
-
 });

@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix.js('resources/js/activity-app.js', 'public/js')
     .js('resources/js/reporting-app.js', 'public/js')
     .js('resources/js/create-lead-app.js', 'public/js')
+    .js('resources/js/settings-app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .version()
     .scripts(

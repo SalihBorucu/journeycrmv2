@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,21 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('/login-iframe', function () {
+    $user = Auth::user();
+    dd(request()->currentToken);
+    if (!$user) {
+        return view('iframe')->with(['user' => null]);
+    } else {
+        $token = $user->createToken('extension'. $user->id)->accessToken;
+
+        return view('iframe')->with([
+            'user' => $user,
+            'access_token' => $token
+        ]);
+    }
+});
+
 Route::middleware('auth')->group(function () {
     // Route::get('/summary', function () {
     //     $campaigns = Account::find(Session::get('user_current_account'))->accountCampaigns;
@@ -30,6 +46,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {
         return view('dashboard');
+    });
+
+    Route::get('/settings', function () {
+        return view('settings');
     });
 
     Route::get('/activities', 'ActivitiesController@index');

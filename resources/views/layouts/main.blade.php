@@ -31,7 +31,7 @@
         </div>
         @include('layouts.nav-bar')
         <div class="wrapper">
-                @yield('content')
+            @yield('content')
         </div>
 
         <script src="/js/plugins.js"></script>
@@ -45,6 +45,9 @@
         @break
         @case (Request::is('lead*'))
         <script src="{{ mix('js/create-lead-app.js') }}"></script>
+        @break
+        @case (Request::is('settings'))
+        <script src="{{ mix('js/settings-app.js') }}"></script>
         @break
         @endswitch
     </body>
