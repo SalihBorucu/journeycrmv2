@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,20 +18,11 @@ Route::group([
     'middleware' => 'auth:api'
 ], function () {
 
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-
     Route::post('/incomplete-leads', 'IncompleteLeadController@create');
+
+    Route::get('/login-iframe', function(){
+        //for already existing tokens
+        return 'done';
+    });
 });
 
-
-Route::post('/login', function () {
-    $request = json_decode(request()->getContent(), true);
-
-    if (Auth::attempt(['email' => $request['userEmail'], 'password' => $request['userPassword']])) {
-        return response('done');
-    }
-
-    return response()->json('No user with these credentials.');
-});
