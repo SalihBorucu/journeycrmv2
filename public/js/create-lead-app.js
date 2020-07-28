@@ -3430,6 +3430,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3438,7 +3448,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     AssignLeadsTable: _AssignLeadsTable__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  props: ["companies", "countries", "user", "injLeads"],
+  props: ["companies", "countries", "user", "injLeads", "accounts"],
   data: function data() {
     return {
       no_selection_error: false,
@@ -3448,7 +3458,8 @@ __webpack_require__.r(__webpack_exports__);
       country: this.$route.query.country || null,
       first_name: this.$route.query.first_name || null,
       last_name: this.$route.query.last_name || null,
-      title: this.$route.query.title || null
+      title: this.$route.query.title || null,
+      excludedAccount: this.$route.query.excludedAccount || null
     };
   },
   mounted: function mounted() {
@@ -3502,7 +3513,8 @@ __webpack_require__.r(__webpack_exports__);
         country: this.country,
         first_name: this.first_name,
         last_name: this.last_name,
-        title: this.title
+        title: this.title,
+        excludedAccount: this.excludedAccount
       };
 
       if (Object.keys(obj).every(function (key) {
@@ -3520,7 +3532,8 @@ __webpack_require__.r(__webpack_exports__);
             country: obj.country,
             first_name: obj.first_name,
             last_name: obj.last_name,
-            title: obj.title
+            title: obj.title,
+            excludedAccount: obj.excludedAccount
           }
         })["catch"](function () {});
 
@@ -21107,7 +21120,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "d-flex justify-content-around mb-2" }, [
             _c("div", { staticClass: "w-100 mx-2" }, [
-              _c("label", { attrs: { for: "" } }, [_vm._v("First Name")]),
+              _c("label", [_vm._v("First Name")]),
               _vm._v(" "),
               _c("input", {
                 directives: [
@@ -21132,7 +21145,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "w-100 mx-2" }, [
-              _c("label", { attrs: { for: "" } }, [_vm._v("Last Name")]),
+              _c("label", [_vm._v("Last Name")]),
               _vm._v(" "),
               _c("input", {
                 directives: [
@@ -21154,6 +21167,46 @@ var render = function() {
                   }
                 }
               })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "w-100 mx-2" }, [
+              _c("label", [_vm._v("Exclude Account")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.excludedAccount,
+                      expression: "excludedAccount"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.excludedAccount = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                _vm._l(_vm.accounts, function(account) {
+                  return _c("option", { domProps: { value: account.id } }, [
+                    _vm._v(_vm._s(account.name))
+                  ])
+                }),
+                0
+              )
             ])
           ]),
           _vm._v(" "),

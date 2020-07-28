@@ -36,6 +36,4 @@ class Lead extends Model
     {
         return $filters->apply($query);
     }
-
-
 }

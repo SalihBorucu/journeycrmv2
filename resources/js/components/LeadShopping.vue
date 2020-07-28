@@ -6,12 +6,18 @@
                 <h4 class="page-title mb-2">New Lead</h4>
                 <div class="d-flex justify-content-around mb-2">
                     <div class="w-100 mx-2">
-                        <label for>First Name</label>
+                        <label>First Name</label>
                         <input class="form-control" v-model="first_name" />
                     </div>
                     <div class="w-100 mx-2">
-                        <label for>Last Name</label>
+                        <label>Last Name</label>
                         <input class="form-control" v-model="last_name" />
+                    </div>
+                    <div class="w-100 mx-2">
+                        <label>Exclude Account</label>
+                        <select class="form-control" v-model="excludedAccount">
+                            <option :value="account.id" v-for="account in accounts">{{account.name}}</option>
+                        </select>
                     </div>
                 </div>
                 <div class="d-flex justify-content-around mb-2">
@@ -32,7 +38,11 @@
                     </div>
                     <div class="w-100 mx-2">
                         <label for>Country</label>
-                        <autocomplete @blur="setCountryName" :search="searchCountry" :default-value="this.$route.query.country"></autocomplete>
+                        <autocomplete
+                            @blur="setCountryName"
+                            :search="searchCountry"
+                            :default-value="this.$route.query.country"
+                        ></autocomplete>
                     </div>
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="no_selection_error">
@@ -56,7 +66,7 @@
 
     export default {
         components: { AssignLeadsTable },
-        props: ["companies", "countries", "user", "injLeads"],
+        props: ["companies", "countries", "user", "injLeads", "accounts"],
 
         data() {
             return {
@@ -68,6 +78,7 @@
                 first_name: this.$route.query.first_name || null,
                 last_name: this.$route.query.last_name || null,
                 title: this.$route.query.title || null,
+                excludedAccount: this.$route.query.excludedAccount || null
             };
         },
 
@@ -125,6 +136,7 @@
                     first_name: this.first_name,
                     last_name: this.last_name,
                     title: this.title,
+                    excludedAccount: this.excludedAccount
                 };
 
                 if (Object.keys(obj).every((key) => !obj[key])) {
@@ -142,6 +154,7 @@
                                 first_name: obj.first_name,
                                 last_name: obj.last_name,
                                 title: obj.title,
+                                excludedAccount: obj.excludedAccount,
                             },
                         })
                         .catch(() => {});

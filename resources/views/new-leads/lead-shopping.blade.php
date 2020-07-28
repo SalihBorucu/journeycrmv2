@@ -8,6 +8,7 @@
     :countries="{{ json_encode($countries) }}"
     :user="{{ json_encode($user) }}"
     :inj-leads = "{{ json_encode($leads) }}"
+    :accounts= "{{ json_encode($accounts) }}"
     >
     </lead-shopping>
 </div>

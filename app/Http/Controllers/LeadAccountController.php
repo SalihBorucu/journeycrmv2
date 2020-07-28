@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Lead;
 use App\User;
 use App\Steps;
@@ -18,19 +19,47 @@ class LeadAccountController extends Controller
     public function index(AllFilters $filters)
     {
         $companies = Company::all();
+        $accounts = Account::all();
         $countries = DB::table('countries')->pluck('name');
         $user = User::with(['userAccounts.account.accountCampaigns.campaign'])->find(Auth::id());
         $leads = [];
         if (request()->all()) {
-            $leads = Lead::with(['leadAccounts.account'])->filter($filters)->limit(5000)->get()->toArray();
+            $leads = Lead::with(['leadAccounts.account'])->filter($filters)->get();;
+            if (request('excludedAccount')) {
+                $newLeads = [];
+                foreach ($leads as $item => $value) {
+                    if (
+                        $value->leadAccounts->every(function ($i, $v) {
+                            return $i['account_id'] !== request('excludedAccount');
+                        })
+                    ) {
+                        $newLeads[] = $value;
+                    };
+                };
+                $leads = $newLeads;
+            }
         }
 
-        return view('new-leads.lead-shopping', compact('companies', 'countries', 'user', 'leads'));
+        return view('new-leads.lead-shopping', compact('companies', 'countries', 'user', 'leads', 'accounts'));
     }
 
     public function show(AllFilters $filters)
     {
-        $leads = Lead::with(['leadAccounts.account'])->filter($filters)->limit(5000)->get()->toArray();
+        $leads = Lead::with(['leadAccounts.account'])->filter($filters)->get();
+
+        if (request('excludedAccount')) {
+            $newLeads = [];
+            foreach ($leads as $item => $value) {
+                if (
+                    $value->leadAccounts->every(function ($i, $v) {
+                        return $i['account_id'] !== request('excludedAccount');
+                    })
+                ) {
+                    $newLeads[] = $value;
+                };
+            };
+            $leads = $newLeads;
+        }
 
         return response()->json($leads);
     }
@@ -43,7 +72,7 @@ class LeadAccountController extends Controller
         $leadAccounts = [];
 
         if (request('lead_id') === "all") {
-            $leads = Lead::where([['unassigned', 1], ['user_id', Auth::id()]])->with(['company'])->get();
+            $leads = Lead::where([['unassigned', 1], ['user_id', Auth::id()]])->with(['company', 'leadAccounts'])->get();
 
             foreach ($leads as $key => $lead) {
                 $leadAccounts[] = [
