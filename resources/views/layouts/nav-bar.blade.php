@@ -25,10 +25,6 @@
                         <li class="has-submenu">
                             <a href="/activities"><i class="dripicons-checklist"></i> Campaigns</a>
                         </li>
-{{--
-                        <li class="has-submenu">
-                            <a href="/accounts"><i class="dripicons-checklist"></i> Account Based</a>
-                        </li> --}}
 
                         <li class="has-submenu">
                             <a href="/reporting"><i class="dripicons-graph-line"></i> Reporting</a>
@@ -41,7 +37,7 @@
                         {{-- Admin Choices --}}
                         @if(Auth::user()->user_role_id === 2)
                         <li class="has-submenu">
-                            <a href="#"><i class="dripicons-pamphlet"></i> Playbooks</a>
+                            <a href="/admin"><i class="dripicons-pamphlet"></i> Admin Activities</a>
                         </li>
                         @endif
                     </ul>

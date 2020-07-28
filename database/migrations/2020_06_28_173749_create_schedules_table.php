@@ -17,7 +17,6 @@ class CreateSchedulesTable extends Migration
             $table->id();
             $table->text('name');
             $table->text('type');
-            $table->bigInteger('steps_id');
             $table->timestamps();
         });
     }

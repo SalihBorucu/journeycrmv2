@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Schedule;
+use App\Steps;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
@@ -24,7 +25,25 @@ class ScheduleController extends Controller
      */
     public function create()
     {
-        //
+        $schedule = Schedule::create([
+            'name' => request('schedule_name'),
+            'type' => 'custom'
+        ]);
+
+        $stepsRaw = request('steps_array'); //array
+        $steps = [];
+
+        foreach ($stepsRaw as $key => $step) {
+            $steps[] = [
+                'schedule_id' => $schedule->id,
+                'name' => request('schedule_name'),
+                'step_number' => $step['step_number'],
+                'type' => $step['step_type'],
+                'day_gap' => $step['day_gap']
+            ];
+        }
+
+        Steps::insert($steps);
     }
 
     /**

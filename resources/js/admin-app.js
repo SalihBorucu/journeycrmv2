@@ -7,16 +7,16 @@
 // require('./bootstrap');
 
 window.Vue = require('vue');
-import VueRouter from 'vue-router';
-import Autocomplete from '@trevoreyre/autocomplete-vue';
-import '@trevoreyre/autocomplete-vue/dist/style.css';
+// import VueRouter from 'vue-router';
+// import Autocomplete from '@trevoreyre/autocomplete-vue';
+// import '@trevoreyre/autocomplete-vue/dist/style.css';
 
-Vue.use(Autocomplete);
-Vue.use(VueRouter);
+// Vue.use(Autocomplete);
+// Vue.use(VueRouter);
 
-const router = new VueRouter({
-    mode: 'history',
-});
+// const router = new VueRouter({
+//     mode: 'history',
+// });
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,10 +29,8 @@ const router = new VueRouter({
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('create-lead', require('./components/CreateLead.vue').default);
-Vue.component('unassigned-leads', require('./components/UnassignedLeads.vue').default);
-Vue.component('lead-shopping', require('./components/LeadShopping.vue').default);
-Vue.component('incomplete-leads', require('./components/IncompleteLeads.vue').default);
+Vue.component('create-schedule', require('./components/CreateSchedule.vue').default);
+
 
 
 /**
@@ -42,6 +40,5 @@ Vue.component('incomplete-leads', require('./components/IncompleteLeads.vue').de
  */
 
 const app = new Vue({
-    el: '#create-lead-app',
-    router,
+    el: '#admin-app',
 });

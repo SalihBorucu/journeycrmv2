@@ -1,5 +1,7 @@
 <?php
 
+use App\Campaign;
+use App\Schedule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +54,19 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/lead/lead-shopping', 'LeadAccountController@index');
     Route::post('/lead/lead-shopping', 'LeadAccountController@show');
+
+    Route::get('/admin', function(){
+        $campaigns = Campaign::all();
+        $schedules = Schedule::all();
+
+        return view('admin.create', compact('campaigns', 'schedules'));
+    });
+
+    Route::post('/account', 'AccountController@create');
+    Route::post('/campaign', 'CampaignController@create');
+    Route::post('/schedule', 'ScheduleController@create');
+
+
 
 
     Route::get('/lead/incomplete-leads', 'IncompleteLeadController@index');

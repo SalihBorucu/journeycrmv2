@@ -28,7 +28,6 @@ class ScheduleSeeder extends Seeder
             Schedule::create([
                 'name' => $name,
                 'type' => $values[0],
-                'steps_id' => $values[1]
             ]);
         };
     }
