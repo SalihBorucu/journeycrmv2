@@ -44,6 +44,10 @@ class ScheduleController extends Controller
         }
 
         Steps::insert($steps);
+
+        $this->flashSuccess("Schedule created successfully");
+
+        return redirect()->back();
     }
 
     /**

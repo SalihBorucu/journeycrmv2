@@ -14,5 +14,9 @@ class CampaignController extends Controller
             'type' => request('campaign_type'),
             'schedule_id' => request('schedule_id')
         ]);
+
+        $this->flashSuccess("Campaign created successfully");
+
+        return redirect()->back();
     }
 }

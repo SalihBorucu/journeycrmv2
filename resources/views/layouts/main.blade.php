@@ -30,6 +30,7 @@
             </div>
         </div>
         @include('layouts.nav-bar')
+
         <div class="wrapper">
             @yield('content')
         </div>
@@ -53,6 +54,8 @@
         <script src="{{ mix('js/admin-app.js') }}"></script>
         @break
         @endswitch
+
+        @include('layouts.flash-swal')
     </body>
 
 </html>

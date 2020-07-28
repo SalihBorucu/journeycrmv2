@@ -14,7 +14,7 @@
                     <option value="{{ $campaign->id }}">{{ $campaign->name }}</option>
                     @endforeach
                 </select>
-                <button type="submit" class="btn btn-primary waves-effect waves-light mt-2">Go somewhere</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-light mt-2">Create Account</button>
             </form>
         </div>
     </div>

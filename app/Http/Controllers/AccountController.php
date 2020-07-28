@@ -40,8 +40,8 @@ class AccountController extends Controller
             'campaign_id' => request('campaign_id')
         ]);
 
-        return view('admin')->with([
-            'success' => ''
-        ])
+        $this->flashSuccess("Account created successfully");
+
+        return redirect()->back();
     }
 }
