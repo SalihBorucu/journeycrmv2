@@ -3652,7 +3652,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -21128,7 +21127,9 @@ var render = function() {
       { staticClass: "w-100" },
       [
         _c("div", { staticClass: "card card-body" }, [
-          _c("h4", { staticClass: "page-title mb-2" }, [_vm._v("New Lead")]),
+          _c("h4", { staticClass: "page-title mb-2" }, [
+            _vm._v("Search for leads")
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "d-flex justify-content-around mb-2" }, [
             _c("div", { staticClass: "w-100 mx-2" }, [
@@ -21347,6 +21348,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 var render = function() {
+  var this$1 = this
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -21500,61 +21502,65 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "d-flex justify-content-around w-75" }, [
-              _c("label", { staticClass: "m-2" }, [_vm._v("Campaign:")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.global_campaign,
-                      expression: "global_campaign"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { name: "" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.global_campaign = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    }
-                  }
-                },
-                [
-                  !_vm.global_account
-                    ? _c("option", { attrs: { value: "" } })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm._l(
-                    this.user.user_accounts.find(function(account) {
-                      return account.account_id === 1
-                    }).account.account_campaigns,
-                    function(campaign) {
-                      return _vm.global_account
-                        ? _c(
-                            "option",
-                            { domProps: { value: campaign.campaign_id } },
-                            [_vm._v(_vm._s(campaign.campaign.name))]
-                          )
-                        : _vm._e()
-                    }
-                  )
-                ],
-                2
-              )
-            ]),
+            _vm.global_account
+              ? _c(
+                  "div",
+                  { staticClass: "d-flex justify-content-around w-75" },
+                  [
+                    _c("label", { staticClass: "m-2" }, [_vm._v("Campaign:")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.global_campaign,
+                            expression: "global_campaign"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.global_campaign = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        !_vm.global_account
+                          ? _c("option", { attrs: { value: "" } })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm._l(
+                          this.user.user_accounts.find(function(account) {
+                            return account.account_id === this$1.global_account
+                          }).account.account_campaigns,
+                          function(campaign) {
+                            return _c(
+                              "option",
+                              { domProps: { value: campaign.campaign_id } },
+                              [_vm._v(_vm._s(campaign.campaign.name))]
+                            )
+                          }
+                        )
+                      ],
+                      2
+                    )
+                  ]
+                )
+              : _vm._e(),
             _vm._v(" "),
             _c(
               "button",

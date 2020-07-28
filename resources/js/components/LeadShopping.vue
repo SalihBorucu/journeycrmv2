@@ -3,7 +3,7 @@
         <!-- <h1>Under construction</h1> -->
         <div class="w-100">
             <div class="card card-body">
-                <h4 class="page-title mb-2">New Lead</h4>
+                <h4 class="page-title mb-2">Search for leads</h4>
                 <div class="d-flex justify-content-around mb-2">
                     <div class="w-100 mx-2">
                         <label>First Name</label>

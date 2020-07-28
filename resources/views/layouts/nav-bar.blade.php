@@ -23,7 +23,7 @@
                         </li>
 
                         <li class="has-submenu">
-                            <a href="/activities"><i class="dripicons-checklist"></i> Campaigns</a>
+                            <a href="/activities"><i class="dripicons-checklist"></i> Activities</a>
                         </li>
 
                         <li class="has-submenu">
