@@ -6,16 +6,17 @@ use App\Account;
 // use App\Company;
 use App\Campaign;
 use App\ActivityHistory;
-use App\ReportingFilters;
+use App\AllFilters;
 
 class ReportingController extends Controller
 {
-    public function index(ReportingFilters $filters)
+    public function index(AllFilters $filters)
     {
+        $activityHistories = [];
         if (request()->all()) {
             $activityHistories = ActivityHistory::with('user', 'leadAccount', 'account', 'outcome')
-                ->whereBetween('created_at', [request('start_date'), request('end_date')])
-                ->filter($filters)->get();
+            ->whereBetween('created_at', [request('start_date'), request('end_date')])
+            ->filter($filters)->get();
         }
 
         $accounts = Account::with(['accountCampaigns.campaign'])->get();
@@ -30,7 +31,7 @@ class ReportingController extends Controller
         ]);
     }
 
-    public function show(ReportingFilters $filters)
+    public function show(AllFilters $filters)
     {
         $activityHistories = ActivityHistory::with('user', 'leadAccount', 'account', 'outcome')
             ->whereBetween('created_at', [request('start_date'), request('end_date')])

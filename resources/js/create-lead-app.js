@@ -7,14 +7,16 @@
 // require('./bootstrap');
 
 window.Vue = require('vue');
-// import VueRouter from 'vue-router';
+import VueRouter from 'vue-router';
 import Autocomplete from '@trevoreyre/autocomplete-vue';
 import '@trevoreyre/autocomplete-vue/dist/style.css';
 
 Vue.use(Autocomplete);
-// Vue.use(VueRouter);
+Vue.use(VueRouter);
 
-// const router = new VueRouter()
+const router = new VueRouter({
+    mode: 'history',
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -40,4 +42,5 @@ Vue.component('incomplete-leads', require('./components/IncompleteLeads.vue').de
 
 const app = new Vue({
     el: '#create-lead-app',
+    router,
 });

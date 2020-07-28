@@ -25,10 +25,10 @@
                         <li class="has-submenu">
                             <a href="/activities"><i class="dripicons-checklist"></i> Campaigns</a>
                         </li>
-
+{{--
                         <li class="has-submenu">
                             <a href="/accounts"><i class="dripicons-checklist"></i> Account Based</a>
-                        </li>
+                        </li> --}}
 
                         <li class="has-submenu">
                             <a href="/reporting"><i class="dripicons-graph-line"></i> Reporting</a>

@@ -2,7 +2,6 @@
 @section('content')
 <div class="container-fluid">
 
-    <!-- Page-Title -->
     <div class="row">
         <div class="col-sm-12">
             <div class="page-title-box">
@@ -19,7 +18,6 @@
             </div>
         </div>
     </div>
-    <!-- end page title end breadcrumb -->
 
     <div class="row">
         <div class="col-12">

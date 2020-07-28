@@ -52,6 +52,7 @@
 <script>
     import axios from 'axios';
     import ResultsComponent from './ResultsComponent';
+    
     export default {
         components: { ResultsComponent },
         props: ['accounts', 'campaignsInj', 'companiesInj', 'resultsInj'],

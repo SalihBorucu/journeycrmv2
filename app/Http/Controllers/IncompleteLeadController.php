@@ -33,7 +33,6 @@ class IncompleteLeadController extends Controller
             ]);
 
             return response('done');
-        // }
     }
 
     public function destroy(IncompleteLead $incompleteLead)
