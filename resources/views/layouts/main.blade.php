@@ -15,6 +15,7 @@
         <link href="{{ asset('assets/css/summernote-bs4.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/morris.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <script src="/js/plugins.js"></script>
     </head>
 
     <body>
@@ -35,7 +36,6 @@
             @yield('content')
         </div>
 
-        <script src="/js/plugins.js"></script>
 
         @switch (true)
         @case (Request::is('activities/campaign/*'))
@@ -54,7 +54,7 @@
         <script src="{{ mix('js/admin-app.js') }}"></script>
         @break
         @endswitch
-
+{{-- <script src="{{ mix('js/admin-app.js') }}"></script> --}}
         @include('layouts.flash-swal')
     </body>
 

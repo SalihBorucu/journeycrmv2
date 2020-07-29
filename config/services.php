@@ -30,4 +30,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'twilio' => [
+        'applicationSid' => 'APa8bb53532bf8250e577efdab963eee43',
+        'number' => getenv('TWILIO_NUMBER'),
+    ],
 ];

@@ -90,3 +90,11 @@ Route::middleware('auth')->group(function () {
                 dd('hello');
             }
         });
+
+        Route::get('/twilio', function(){
+            return view('twilio');
+        });
+
+Route::post('/token', 'CallController@newToken');
+Route::get('/answer', 'CallController@newCall');
+
