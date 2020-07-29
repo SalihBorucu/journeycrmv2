@@ -13,7 +13,7 @@ Route::get('/login-iframe', function () {
     if (!$user) {
         return view('iframe')->with(['user' => null]);
     } else {
-        $token = $user->createToken('extension'. $user->id)->accessToken;
+        $token = $user->createToken('extension' . $user->id)->accessToken;
 
         return view('iframe')->with([
             'user' => $user,
@@ -23,23 +23,19 @@ Route::get('/login-iframe', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    // Route::get('/summary', function () {
-    //     $campaigns = Account::find(Session::get('user_current_account'))->accountCampaigns;
-    //     $leads = Account::find(Session::get('user_current_account'))->accountLeads;
-    //     // $steps = Lead::find(1)->leadAccounts[0]->account->accountCampaigns[0]->campaign->schedule->steps;
-    //     return view('summary')->with([
-    //         'campaigns' => $campaigns,
-    //         'leads' => $leads,
-    //         // 'steps' => $steps
-    //     ]);
-    // });
-
     Route::get('/', function () {
         return view('dashboard');
     });
 
     Route::get('/settings', function () {
         return view('settings');
+    });
+
+    Route::get('/admin', function () {
+        $campaigns = Campaign::all();
+        $schedules = Schedule::all();
+
+        return view('admin.create', compact('campaigns', 'schedules'));
     });
 
     Route::get('/activities', 'ActivitiesController@index');
@@ -55,18 +51,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/lead/lead-shopping', 'LeadAccountController@index');
     Route::post('/lead/lead-shopping', 'LeadAccountController@show');
 
-    Route::get('/admin', function(){
-        $campaigns = Campaign::all();
-        $schedules = Schedule::all();
-
-        return view('admin.create', compact('campaigns', 'schedules'));
-    });
 
     Route::post('/account', 'AccountController@create');
     Route::post('/campaign', 'CampaignController@create');
     Route::post('/schedule', 'ScheduleController@create');
-
-
 
 
     Route::get('/lead/incomplete-leads', 'IncompleteLeadController@index');
@@ -77,24 +65,20 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/reporting', 'ReportingController@index');
     Route::post('/reporting', 'ReportingController@show');
-    // Route::get('/reporting/results', 'ReportingController@show');
 
 
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::post('/useraccount', 'UserAccountController@update');
-
 });
-        Route::get('/test', function () {
-            if (Auth::attempt(['email' => 'salih@hotmail1.com', 'password' => '12345678'])) {
-                dd('hello');
-            }
-        });
 
-        Route::get('/twilio', function(){
-            return view('twilio');
-        });
 
+//Twilio Routes
 Route::post('/token', 'CallController@newToken');
 Route::get('/answer', 'CallController@newCall');
 
+Route::get('/test', function () {
+    if (Auth::attempt(['email' => 'salih@hotmail1.com', 'password' => '12345678'])) {
+        dd('hello');
+    }
+});

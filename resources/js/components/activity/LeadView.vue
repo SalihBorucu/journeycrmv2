@@ -21,10 +21,10 @@
                         </div>
                         <div class="mx-2">
                             <h6>Phone 1:</h6>
-                            <p>{{ lead.lead.phone }}</p>
+                            <p>{{ lead.lead.phone_1 }}</p>
                             <hr />
                             <h6>Phone 2:</h6>
-                            <p>{{ lead.lead.phone }}</p>
+                            <p>{{ lead.lead.phone_2 }}</p>
                         </div>
                     </div>
                 </div>

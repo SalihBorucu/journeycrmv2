@@ -5,26 +5,49 @@
                 <div class="card-body">
                     <h4 class="mt-0 header-title">New {{ step.type }}</h4>
                     <div v-if="step.type === 'email'">
-                        <input type="text" class="form-control mb-1" placeholder="Email Subject" v-model="email_subject"/>
+                        <input
+                            type="text"
+                            class="form-control mb-1"
+                            placeholder="Email Subject"
+                            v-model="email_subject"
+                        />
                         <div class="summernote"></div>
-                        <button @click="submitOutcome" value="7" type="submit" class="btn btn-primary waves-effect waves-light w-100 mt-3">Send Mail</button>
+                        <button
+                            @click="submitOutcome"
+                            value="7"
+                            type="submit"
+                            class="btn btn-primary waves-effect waves-light w-100 mt-3"
+                        >Send Mail</button>
                     </div>
                     <div v-if="step.type === 'social'">
-                        <textarea v-model="notes" id="textarea" class="form-control" maxlength="2000" rows="3">
+                        <textarea
+                            v-model="notes"
+                            id="textarea"
+                            class="form-control"
+                            maxlength="2000"
+                            rows="3"
+                        >
                             This will be where the social media message template will be. Nice to meet you my name is Lalala and I am from Lalala
                         </textarea>
                         <div class="d-flex justify-content-center">
-                            <button @click="submitOutcome" type="submit" class="btn btn-primary waves-effect waves-light w-100 mt-3 mx-2" value="7">Message Sent</button>
-                            <button @click="submitOutcome" type="submit" class="btn btn-danger waves-effect waves-light w-100 mt-3 mx-2" value="8">Unable to Send Message</button>
+                            <button
+                                @click="submitOutcome"
+                                type="submit"
+                                class="btn btn-primary waves-effect waves-light w-100 mt-3 mx-2"
+                                value="7"
+                            >Message Sent</button>
+                            <button
+                                @click="submitOutcome"
+                                type="submit"
+                                class="btn btn-danger waves-effect waves-light w-100 mt-3 mx-2"
+                                value="8"
+                            >Unable to Send Message</button>
                         </div>
                     </div>
                     <div v-if="step.type === 'call'">
-                        <div class="">
-                            <button class="btn btn-success mb-3">
-                                <i class="mdi mdi-phone mr-1"></i>
-                                Call
-                            </button>
-                            <p>
+                        <div class="d-flex mb-2">
+                            <call-component :lead="this.lead" @call-started="call_started = true"></call-component>
+                            <p class="card-text">
                                 This is where the call pointers would be when are available for each client and campaign etc. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a porttitor
                                 mauris. Phasellus commodo orci vitae mi bibendum, sed sodales eros vulputate. Morbi et eleifend enim. Sed congue mauris non purus feugiat, non pharetra lectus dapibus.
                                 Quisque elementum auctor sem, eu consequat arcu molestie eget. Mauris ut lobortis eros. Nulla luctus arcu justo, et ultricies lectus congue laoreet. Pellentesque quis
@@ -36,31 +59,86 @@
                                 ullamcorper dolor commodo at. Quisque dictum leo non tellus commodo fermentum. Sed fermentum leo erat, in volutpat eros porttitor a.
                             </p>
                         </div>
-                        <textarea v-model="notes" id="textarea" class="form-control" maxlength="2000" rows="3" placeholder="Your notes.."></textarea>
-                        <div class="button-items d-flex justify-content-center mt-3" v-if="!callback_active">
+                        <textarea
+                            v-model="notes"
+                            id="textarea"
+                            class="form-control"
+                            maxlength="2000"
+                            rows="3"
+                            placeholder="Your notes.."
+                        ></textarea>
+                        <div
+                            class="button-items d-flex justify-content-center mt-3"
+                            v-if="!callback_active"
+                        >
                             <!-- <button type="button" class="btn btn-outline-primary waves-effect waves-light">Primary</button> -->
-                            <button @click="submitOutcome" type="button" value="2" class="btn btn-outline-secondary waves-effect">No Answer</button>
-                            <button @click="callback_active = true" type="button"  class="btn btn-outline-info waves-effect">Call Back</button>
-                            <button @click="submitOutcome" type="button" value="4" class="btn btn-outline-primary waves-effect">Interested</button>
-                            <button @click="submitOutcome" type="button" value="5" class="btn btn-outline-success waves-effect">Qualified</button>
-                            <button @click="submitOutcome" type="button" value="6" class="btn btn-outline-warning waves-effect">Email Only</button>
-                            <button @click="submitOutcome" type="button" value="1" class="btn btn-outline-danger waves-effect">DNC</button>
+                            <div v-if="call_started">
+                                <button
+                                    @click="submitOutcome"
+                                    type="button"
+                                    value="2"
+                                    class="btn btn-outline-secondary waves-effect"
+                                >No Answer</button>
+                                <button
+                                    @click="callback_active = true"
+                                    type="button"
+                                    class="btn btn-outline-info waves-effect"
+                                >Call Back</button>
+                                <button
+                                    @click="submitOutcome"
+                                    type="button"
+                                    value="4"
+                                    class="btn btn-outline-primary waves-effect"
+                                >Interested</button>
+                                <button
+                                    @click="submitOutcome"
+                                    type="button"
+                                    value="5"
+                                    class="btn btn-outline-success waves-effect"
+                                >Qualified</button>
+                                <button
+                                    @click="submitOutcome"
+                                    type="button"
+                                    value="6"
+                                    class="btn btn-outline-warning waves-effect"
+                                >Email Only</button>
+                                <button
+                                    @click="submitOutcome"
+                                    type="button"
+                                    value="1"
+                                    class="btn btn-outline-danger waves-effect"
+                                >DNC</button>
+                            </div>
                         </div>
                         <div v-else class="d-flex flex-column align-items-center">
                             <p>Create New Next Activity:</p>
                             <div class="d-flex justify-content-center m-2">
                                 <label class="m-1">Due Date</label>
                                 <div class="w-25">
-                                    <input class="form-control" type="date" name="due_date" v-model="custom_activity_date"/>
+                                    <input
+                                        class="form-control"
+                                        type="date"
+                                        name="due_date"
+                                        v-model="custom_activity_date"
+                                    />
                                 </div>
                                 <label class="m-1">Activity Type</label>
-                                <select class="form-control w-25" name="activity_type" v-model="custom_activity_type">
+                                <select
+                                    class="form-control w-25"
+                                    name="activity_type"
+                                    v-model="custom_activity_type"
+                                >
                                     <option value="0">Email</option>
                                     <option value="1">Social</option>
                                     <option value="2">Phone</option>
                                 </select>
                             </div>
-                            <button @click="submitOutcome" type="button" class="btn btn-outline-primary waves-effect waves-light" value="3">Set New Activity</button>
+                            <button
+                                @click="submitOutcome"
+                                type="button"
+                                class="btn btn-outline-primary waves-effect waves-light"
+                                value="3"
+                            >Set New Activity</button>
                         </div>
                     </div>
                 </div>
@@ -70,13 +148,15 @@
 </template>
 
 <script>
-    import axios from 'axios';
 
+    import CallComponent from "./CallComponent";
     export default {
-        props: ['step', 'lead'],
+        components: { CallComponent },
+        props: ["step", "lead"],
 
         data() {
             return {
+                call_started: false,
                 email_subject: null,
                 notes: null,
                 custom_activity_type: null,
@@ -86,13 +166,13 @@
         },
 
         computed: {
-            email(){
-                return $('.summernote').summernote('code');
-            }
+            email() {
+                return $(".summernote").summernote("code");
+            },
         },
 
         mounted() {
-            $('.summernote').summernote({
+            $(".summernote").summernote({
                 height: 300,
                 minHeight: null,
                 maxHeight: null,
@@ -104,10 +184,18 @@
             submitOutcome() {
                 this.callback_active = false;
 
-                if(this.step.type === 'email'){
-                    if(!this.email_subject) {alert("Doesnt have a subject"); return};
-                    if($('.summernote').summernote('code') === "<p><br></p>") {alert("Doesnt have a content"); return};
-                    this.notes = `Subject: ${this.email_subject} <br> ${$('.summernote').summernote('code')}`
+                if (this.step.type === "email") {
+                    if (!this.email_subject) {
+                        alert("Doesnt have a subject");
+                        return;
+                    }
+                    if ($(".summernote").summernote("code") === "<p><br></p>") {
+                        alert("Doesnt have a content");
+                        return;
+                    }
+                    this.notes = `Subject: ${this.email_subject} <br> ${$(
+                        ".summernote"
+                    ).summernote("code")}`;
                 }
 
                 let obj = {
@@ -121,7 +209,7 @@
                 axios.post(`/activity`, obj).then((res) => {
                     this.notes = null;
                     this.email_subject = null;
-                    this.$emit('activity-complete', this.lead.id);
+                    this.$emit("activity-complete", this.lead.id);
                 });
             },
         },

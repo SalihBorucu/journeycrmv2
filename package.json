@@ -26,6 +26,7 @@
         "@trevoreyre/autocomplete-vue": "^2.2.0",
         "raphael": "^2.3.0",
         "sweetalert": "^2.1.2",
+        "twilio-client": "^1.12.1",
         "vue-good-table": "^2.19.5",
         "vue-morris": "^1.1.0",
         "vue-router": "^3.3.4"

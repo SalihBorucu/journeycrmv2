@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Twilio\Jwt\ClientToken;
 use Twilio\TwiML\VoiceResponse;
 
@@ -29,11 +28,9 @@ class CallController extends Controller
     {
         $clientToken = new ClientToken(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
 
-        // $forPage = request('forPage');
-        $applicationSid = 'APb7656758ff5fed30048ac180c159a805';
+        $applicationSid = getenv('TWILIO_APPLICATION_ID');
 
         $clientToken->allowClientOutgoing($applicationSid);
-
 
         $token = $clientToken->generateToken();
 

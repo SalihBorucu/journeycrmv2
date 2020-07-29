@@ -95,7 +95,6 @@
 <script>
     import "vue-good-table/dist/vue-good-table.css";
     import { VueGoodTable } from "vue-good-table";
-    import axios from "axios";
 
     export default {
         props: ["leads", "user"],

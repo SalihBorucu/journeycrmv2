@@ -54,7 +54,6 @@
         <script src="{{ mix('js/admin-app.js') }}"></script>
         @break
         @endswitch
-{{-- <script src="{{ mix('js/admin-app.js') }}"></script> --}}
         @include('layouts.flash-swal')
     </body>
 

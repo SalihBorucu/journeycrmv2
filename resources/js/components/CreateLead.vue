@@ -94,7 +94,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+
     export default {
         props: ["companies", "countries", "leadEmails"],
         data() {
