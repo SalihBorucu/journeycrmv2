@@ -1,10 +1,10 @@
 @extends('layouts.main')
 @section('content')
-<div id="create-lead-app" class="container-fluid">
+<div class="container-fluid">
     @include('layouts.new-lead-bar')
-    <unassigned-leads
-    :unassigned-leads="{{ json_encode($unassignedLeads) }}"
-    :user="{{ json_encode($user) }}">
+</div>
+<div id="create-lead-app" class="mx-5">
+    <unassigned-leads :unassigned-leads="{{ json_encode($unassignedLeads) }}" :user="{{ json_encode($user) }}">
     </unassigned-leads>
 </div>
 @endsection
