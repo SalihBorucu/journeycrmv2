@@ -250,7 +250,12 @@
 
                 axios
                     .post("/activity/email", formData)
-                    .then(() => {})
+                    .then(() => {
+                        $(".summernote").summernote("code", "<p><br></p>")
+                        this.email_subject = null
+                        document.querySelector("#attachment").value = null
+                        this.attachments = []
+                    })
                     .catch(() => {});
             },
 

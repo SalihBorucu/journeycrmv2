@@ -54,8 +54,9 @@ class ActivitiesController extends Controller
 
     public function create()
     {
+        // dd(request('lead.account_id'));
         ActivityHistory::create([
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::id(),
             'lead_account_id' => request('lead.id'),
             'account_id' => request('lead.account_id'),
             'outcome_id' => request('outcome'),

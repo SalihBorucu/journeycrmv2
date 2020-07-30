@@ -29,7 +29,6 @@ class ActivityHistory extends Model
         $nextSchedule = $outcome->new_schedule_id ? $outcome->new_schedule_id :  request('lead.schedule_id');
         $previousScheduleId = request('lead.schedule_id');
         $previousStepNumber = request('lead.step.step_number');
-
         if ($outcome->new_schedule_id) {
             $nextStep = Steps::where('schedule_id', $outcome->new_schedule_id)
                 ->where('step_number', 1)
@@ -45,6 +44,7 @@ class ActivityHistory extends Model
                     ->first();
             }
         } else {
+
             $lastSchedule = request('lead.schedule_id');
             $lastStepNumber = request('lead.step.step_number');
 
@@ -74,7 +74,7 @@ class ActivityHistory extends Model
             'account_id' => request('lead')['account_id'],
             'campaign_id' => request('lead')['campaign_id'],
             'schedule_id' => $nextSchedule,
-            'step_id' => $nextStep->id,
+            'step_id' => $nextStep,
             'due_date' => $nextDueDate,
             'current_status' => $nextStatus,
             'previous_step_number' => $previousStepNumber,
