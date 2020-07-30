@@ -16,9 +16,8 @@ class CreateCampaignsTable extends Migration
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('type');
-            $table->string('definition');
-            $table->bigInteger('schedule_id');
+            $table->string('description');
+            $table->unsignedbigInteger('account_id');
             $table->timestamps();
         });
     }

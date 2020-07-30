@@ -67,15 +67,7 @@
                         <div class="d-flex mb-2">
                             <call-component :lead="this.lead" @call-started="call_started = true"></call-component>
                             <p class="card-text">
-                                This is where the call pointers would be when are available for each client and campaign etc. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a porttitor
-                                mauris. Phasellus commodo orci vitae mi bibendum, sed sodales eros vulputate. Morbi et eleifend enim. Sed congue mauris non purus feugiat, non pharetra lectus dapibus.
-                                Quisque elementum auctor sem, eu consequat arcu molestie eget. Mauris ut lobortis eros. Nulla luctus arcu justo, et ultricies lectus congue laoreet. Pellentesque quis
-                                eros sem. Cras lacinia iaculis odio in mattis. Sed at justo lectus. Donec mattis felis in leo finibus malesuada. Praesent at metus dapibus, blandit lacus mattis,
-                                ultricies erat. Aliquam tempor arcu risus, ac lobortis odio eleifend at. Phasellus sed enim vitae enim vulputate euismod. Sed facilisis a est non sagittis. Vestibulum
-                                sit amet felis tincidunt, finibus ex quis, egestas ex. Proin a quam viverra, vulputate dui ac, vulputate nibh. Mauris eleifend nec justo ac tincidunt. Pellentesque non
-                                viverra nunc. Aliquam congue tellus id suscipit sagittis. Etiam in est convallis, faucibus velit at, luctus eros. Aenean pulvinar mauris magna, ut venenatis elit
-                                iaculis vitae. Aenean non lacus maximus, commodo purus accumsan, condimentum neque. Ut efficitur ut libero quis bibendum. Quisque pharetra pulvinar velit, at
-                                ullamcorper dolor commodo at. Quisque dictum leo non tellus commodo fermentum. Sed fermentum leo erat, in volutpat eros porttitor a.
+                                {{ lead.step.templates[0].pointer }}
                             </p>
                         </div>
                         <textarea

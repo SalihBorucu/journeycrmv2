@@ -13,21 +13,18 @@ class ScheduleSeeder extends Seeder
     public function run()
     {
         $schedules = [
-            'Outbound' => ['standard', 1],
-            'Inbound' => ['standard', 2],
-            'Event' => ['standard', 3],
-            'Email Only' => ['standard', 4],
-            'Qualified' => ['standard', 5],
-            'Interested' => ['standard', 6],
-            'Dnc' => ['standard', 7],
-            'Custom Step' => ['standard', 8],
-            'Completed' => ['standard', 9]
+            'Prospecting',
+            'Email Only' ,
+            'Qualified',
+            'Interested',
+            'Dnc',
+            'Custom Step',
+            'Completed'
         ];
 
         foreach ($schedules as $name => $values) {
             Schedule::create([
-                'name' => $name,
-                'type' => $values[0],
+                'name' => $values,
             ]);
         };
     }

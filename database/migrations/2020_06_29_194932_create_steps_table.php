@@ -15,18 +15,13 @@ class CreateStepsTable extends Migration
     {
         Schema::create('steps', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('schedule_id');
-            $table->text('name');
+            $table->unsignedBigInteger('campaign_schedule_id')->nullable();
+            $table->unsignedBigInteger('schedule_id')->nullable();
             $table->integer('step_number');
             $table->text('type')->nullable();
             $table->integer('day_gap')->nullable();
 
             $table->timestamps();
-
-            $table->foreign('schedule_id')
-                ->references('id')
-                ->on('schedules')
-                ->onDelete('cascade');
         });
     }
 

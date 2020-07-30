@@ -1,5 +1,6 @@
 <?php
 
+use App\Account;
 use App\Step;
 use App\Campaign;
 use App\Schedule;
@@ -81,5 +82,5 @@ Route::post('/token', 'CallController@newToken');
 Route::get('/answer', 'CallController@newCall');
 
 Route::get('/test', function () {
-    dd(Step::with(['templates'])->find(20));
+    dd(Account::with('campaigns.campaignSchedules.schedule')->find(1));
 });

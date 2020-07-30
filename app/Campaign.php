@@ -8,8 +8,8 @@ class Campaign extends Model
 {
     protected $guarded = [];
 
-    public function schedule()
+    public function campaignSchedules()
     {
-        return $this->belongsTo(Schedule::class);
+        return $this->hasMany(CampaignSchedule::class);
     }
 }

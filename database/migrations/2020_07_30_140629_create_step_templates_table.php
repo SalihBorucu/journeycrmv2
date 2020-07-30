@@ -19,8 +19,6 @@ class CreateStepTemplatesTable extends Migration
             $table->text('name');
             $table->text('email_subject')->nullable();
             $table->text('email_content')->nullable();
-            $table->unsignedBigInteger('account_id');
-            $table->unsignedBigInteger('campaign_id');
             $table->unsignedBigInteger('step_id');
             $table->timestamps();
         });

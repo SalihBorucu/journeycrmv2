@@ -16,7 +16,7 @@ class ActivitiesController extends Controller
     public function index()
     {
         $account = Account::find(session()->get('user_current_account'));
-        $campaigns = $account->accountCampaigns;
+        $campaigns = $account->campaigns;
 
         return view('campaigns')->with([
             'campaigns' => $campaigns,

@@ -1,6 +1,5 @@
 <?php
 
-use App\GlobalLeadNotes;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,10 +15,11 @@ class DatabaseSeeder extends Seeder
         $this->call(IncompleteLeadSeeder::class);
         $this->call(ScheduleSeeder::class);
         $this->call(OutcomeSeeder::class);
-        $this->call(StepSeeder::class);
         $this->call(UserRoleSeeder::class);
-        $this->call(CampaignSeeder::class);
         $this->call(AccountSeeder::class);
+        $this->call(CampaignSeeder::class);
+        $this->call(StepSeeder::class);
+        $this->call(StepTemplateSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(CompanySeeder::class);
         $this->call(LeadSeeder::class);

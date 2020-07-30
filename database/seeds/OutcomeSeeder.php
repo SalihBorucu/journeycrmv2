@@ -13,12 +13,12 @@ class OutcomeSeeder extends Seeder
     public function run()
     {
         $outcomes = [
-            'dnc' => [true, 7],
+            'dnc' => [true, 5],
             'no_answer' => [false, null],
-            'call_back' => [true, 8],
-            'interested' => [true, 6],
-            'qualified' => [true, 5],
-            'no_phone' => [true, 4],
+            'call_back' => [true, 6],
+            'interested' => [true, 4],
+            'qualified' => [true, 3],
+            'no_phone' => [true, 2],
             'message_sent' => [false, null],
             'message_not_sent' => [false, null]
         ];

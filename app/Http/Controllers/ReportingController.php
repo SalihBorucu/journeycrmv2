@@ -19,7 +19,7 @@ class ReportingController extends Controller
             ->filter($filters)->get();
         }
 
-        $accounts = Account::with(['accountCampaigns.campaign'])->get();
+        $accounts = Account::with(['campaigns'])->get();
         $campaigns = Campaign::get();
         // $companies = Company::take(200)->get(); //might need later
 

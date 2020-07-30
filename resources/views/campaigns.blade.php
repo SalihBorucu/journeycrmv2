@@ -7,9 +7,9 @@
         <div class="row">
             <div class="w-100">
                 <div class="card m-b-30 card-body">
-                    <form action="/activities/campaign/{{ $campaign->campaign_id }}" method="GET">
-                        <h4 class="card-title font-16 mt-0">{{ $campaign->campaign->name }}</h4>
-                        <p class="card-text"> {{ $campaign->campaign->definition }}</p>
+                    <form action="/activities/campaign/{{ $campaign->id }}" method="GET">
+                        <h4 class="card-title font-16 mt-0">{{ $campaign->name }}</h4>
+                        <p class="card-text"> {{ $campaign->description }}</p>
                         <div class="d-flex justify-content-around mb-2">
                             <div class="w-100 mx-2">
                                 <label for="">Activity Type</label>

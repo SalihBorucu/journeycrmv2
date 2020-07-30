@@ -3,6 +3,7 @@
 use App\Lead;
 use App\Account;
 use App\Campaign;
+use App\CampaignSchedule;
 use App\Schedule;
 use App\LeadAccount;
 use Illuminate\Database\Seeder;
@@ -45,23 +46,23 @@ class LeadSeeder extends Seeder
         }
 
         $leadIds = Lead::pluck('id');
-        $allAccounts = Account::get();
-        $allCampaigns = Campaign::get();
-        $allSchedules = Schedule::get();
+        $allAccounts = Account::with(['campaigns'])->get();
         $accountIdsX = [];
+        $leadAccountsArr = [];
 
-        foreach ($leadIds as $item) {
+        foreach ($leadIds as $key => $leadId) {
             $accountIds = Account::pluck('id')->toArray();
-            for ($i = 0; $i < rand(1, 3); $i++) {
-                $randomAccountId = $accountIds[array_rand($accountIds, 1)];
-                unset($accountIds[$randomAccountId]);
+            for ($i = 1; $i < rand(1, 4); $i++) {
+                $randomAccountIndex = array_rand($accountIds, 1);
+                $randomAccountId = $accountIds[$randomAccountIndex];
+                unset($accountIds[$randomAccountIndex]);
                 $accountIdsX[] = $randomAccountId;
-                $randomCampaign = $allAccounts->find($randomAccountId)->accountCampaigns->toArray();
-                $randomCampaignId = $randomCampaign[array_rand($randomCampaign, 1)]['campaign_id'];
-                $schedule = $allCampaigns->find($randomCampaignId)->schedule;
 
-                $steps = $allSchedules->find($schedule->id)->steps->toArray();
-                $randomStepId = $steps[array_rand($steps, 1)]['id'];
+                $campaignIds = $allAccounts->find($randomAccountId)->campaigns->pluck('id')->toArray();
+                $randomCampaignId = $campaignIds[array_rand($campaignIds, 1)];
+                $randomScheduleId = mt_rand(1, 4);
+                $campaignSchedule = CampaignSchedule::where([['campaign_id', $randomCampaignId], ['schedule_id', $randomScheduleId]])->with(['steps'])->get()->toArray();
+                $randomStepId = $campaignSchedule[0]['steps'][array_rand($campaignSchedule[0]['steps'])]['id'];
 
                 $dueDates = [
                     '2020-07-04',
@@ -70,16 +71,27 @@ class LeadSeeder extends Seeder
                     date("y-m-d")
                 ];
 
-                $randomStatus = ['prospecting', 'interested', 'qualified'];
+                switch ($randomScheduleId) {
+                    case 3:
+                        $currentStatus = 'interested';
+                        break;
+                    case 1:
+                        $currentStatus = 'qualified';
+                        break;
+
+                    default:
+                        $currentStatus = 'prospecting';
+                        break;
+                }
 
                 $leadAccountsArr[] = [
-                    'lead_id' => $item,
+                    'lead_id' => $leadId,
                     'account_id' => $randomAccountId,
                     'campaign_id' => $randomCampaignId,
-                    'schedule_id' => $schedule->id,
+                    'schedule_id' => $randomScheduleId,
                     'step_id' => $randomStepId,
                     'due_date' => $dueDates[array_rand($dueDates, 1)],
-                    'current_status' => $randomStatus[array_rand($randomStatus, 1)]
+                    'current_status' => $currentStatus
                 ];
             }
         }

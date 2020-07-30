@@ -14,9 +14,9 @@ class Account extends Model
         return $this->hasMany(UserAccount::class);
     }
 
-    public function accountCampaigns()
+    public function campaigns()
     {
-        return $this->hasMany(AccountCampaign::class);
+        return $this->hasMany(Campaign::class);
     }
 
     public function accountLeads()
