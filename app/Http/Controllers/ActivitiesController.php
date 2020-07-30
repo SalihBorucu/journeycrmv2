@@ -7,7 +7,9 @@ use App\Campaign;
 use Carbon\Carbon;
 use App\LeadAccount;
 use App\ActivityHistory;
+use App\Mail\ProspectEmail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ActivitiesController extends Controller
 {
@@ -61,5 +63,10 @@ class ActivitiesController extends Controller
             'notes' => request('notes'),
             'created_at' => Carbon::now()->format('Y-m-d')
         ]);
+    }
+
+    public function email(){
+        Mail::to(request('email_address'))
+            ->send(new ProspectEmail(request('email_content'), request('email_subject'), request()->file()));
     }
 }

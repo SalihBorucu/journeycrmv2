@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/activities', 'ActivitiesController@index');
     Route::get('/activities/campaign/{campaign}', 'ActivitiesController@show');
     Route::post('/activity', 'ActivitiesController@create');
+    Route::post('/activity/email', 'ActivitiesController@email');
 
     Route::get('/accounts', 'AccountController@index');
 

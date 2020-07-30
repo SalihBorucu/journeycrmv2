@@ -12,6 +12,25 @@
                             v-model="email_subject"
                         />
                         <div class="summernote"></div>
+                        <div class="d-flex">
+                            <label for="attachment" class="btn btn-primary">Attachment</label>
+                            <span
+                                :value="index"
+                                :key="index"
+                                class="badge badge-default m-2 h-25 p-2"
+                                v-for="(attachment, index) in this.attachments"
+                            >
+                                {{ attachment }}
+                                <!-- <a class="btn p-0" @click="removeAttachment">x</a> -->
+                            </span>
+                            <input
+                                type="file"
+                                id="attachment"
+                                style="display: none;"
+                                @change="attachmentChanged"
+                                multiple
+                            />
+                        </div>
                         <button
                             @click="submitOutcome"
                             value="7"
@@ -71,7 +90,6 @@
                             class="button-items d-flex justify-content-center mt-3"
                             v-if="!callback_active"
                         >
-                            <!-- <button type="button" class="btn btn-outline-primary waves-effect waves-light">Primary</button> -->
                             <div v-if="call_started">
                                 <button
                                     @click="submitOutcome"
@@ -148,7 +166,6 @@
 </template>
 
 <script>
-
     import CallComponent from "./CallComponent";
     export default {
         components: { CallComponent },
@@ -156,6 +173,7 @@
 
         data() {
             return {
+                attachments: [],
                 call_started: false,
                 email_subject: null,
                 notes: null,
@@ -166,7 +184,7 @@
         },
 
         computed: {
-            email() {
+            email_content() {
                 return $(".summernote").summernote("code");
             },
         },
@@ -183,6 +201,10 @@
         methods: {
             submitOutcome() {
                 this.callback_active = false;
+                if (this.step.type === "email") {
+                    console.log("here");
+
+                }
 
                 if (this.step.type === "email") {
                     if (!this.email_subject) {
@@ -196,6 +218,7 @@
                     this.notes = `Subject: ${this.email_subject} <br> ${$(
                         ".summernote"
                     ).summernote("code")}`;
+                    this.sendEmail();
                 }
 
                 let obj = {
@@ -210,6 +233,30 @@
                     this.notes = null;
                     this.email_subject = null;
                     this.$emit("activity-complete", this.lead.id);
+                });
+            },
+
+            sendEmail() {
+                let formData = new FormData();
+                formData.set("email_address", this.lead.lead.email);
+                formData.set("email_subject", this.email_subject);
+                formData.set("email_content", $(".summernote").summernote("code"));
+                if (document.querySelector("#attachment").files[0]) {
+                    let attachment = document.querySelector("#attachment");
+                    Array.from(attachment.files).forEach((file, index) => {
+                        formData.append(file.name, file);
+                    });
+                }
+
+                axios
+                    .post("/activity/email", formData)
+                    .then(() => {})
+                    .catch(() => {});
+            },
+
+            attachmentChanged() {
+                Array.from(event.target.files).map((file) => {
+                    this.attachments.push(file.name);
                 });
             },
         },
