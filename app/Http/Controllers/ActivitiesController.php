@@ -28,9 +28,12 @@ class ActivitiesController extends Controller
     {
         $leads = LeadAccount::where('account_id', session()->get('user_current_account'))
             ->where('campaign_id', $campaign->id)
-            ->with(['step', 'lead.globalNotes.user', 'activityHistory.outcome', 'lead.company.leads'])
-            ->whereHas('step', function ($query) {
-                $query->where('type', request()->activity_type);
+            ->with(['step.templates', 'lead.globalNotes.user', 'activityHistory.outcome', 'lead.company.leads'])
+            ->whereHas('step', function ($query) use ($campaign) {
+                $query->where('type', request()->activity_type)
+                ->whereHas('templates', function ($q) use ($campaign){
+                    $q->where([['campaign_id', $campaign->id], ['account_id', session()->get('user_current_account')]]);
+                });
             })
             ->where('current_status', request('lead_stage'))
             ->whereBetween('due_date', [request()->start_date, request()->end_date])

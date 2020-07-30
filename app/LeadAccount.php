@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Lead;
-use App\Steps;
+use App\Step;
 use App\Account;
 use App\Campaign;
 use App\Schedule;
@@ -31,7 +31,7 @@ class LeadAccount extends Model
     }
 
     public function step(){
-        return $this->belongsTo(Steps::class, 'step_id');
+        return $this->belongsTo(Step::class, 'step_id');
     }
 
     public function activityHistory(){

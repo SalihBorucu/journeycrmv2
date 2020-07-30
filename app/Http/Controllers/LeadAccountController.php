@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Account;
 use App\Lead;
 use App\User;
-use App\Steps;
+use App\Step;
 use App\Company;
 use App\Campaign;
 use Carbon\Carbon;
@@ -68,7 +68,7 @@ class LeadAccountController extends Controller
     public function create()
     {
         $schedule_id = Campaign::find(request('campaign_id'))->schedule_id;
-        $step_id = Steps::where([['schedule_id', $schedule_id], ['step_number', 1]])->first()->id;
+        $step_id = Step::where([['schedule_id', $schedule_id], ['step_number', 1]])->first()->id;
         $leadAccounts = [];
 
         if (request('lead_id') === "all") {

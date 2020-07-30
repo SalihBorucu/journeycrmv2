@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Schedule;
-use App\Steps;
+use App\Step;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
@@ -43,7 +43,7 @@ class ScheduleController extends Controller
             ];
         }
 
-        Steps::insert($steps);
+        Step::insert($steps);
 
         $this->flashSuccess("Schedule created successfully");
 

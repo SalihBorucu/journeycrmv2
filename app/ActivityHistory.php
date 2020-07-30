@@ -3,7 +3,7 @@
 namespace App;
 
 use App\User;
-use App\Steps;
+use App\Step;
 use App\Account;
 use App\Outcome;
 use App\LeadAccount;
@@ -30,7 +30,7 @@ class ActivityHistory extends Model
         $previousScheduleId = request('lead.schedule_id');
         $previousStepNumber = request('lead.step.step_number');
         if ($outcome->new_schedule_id) {
-            $nextStep = Steps::where('schedule_id', $outcome->new_schedule_id)
+            $nextStep = Step::where('schedule_id', $outcome->new_schedule_id)
                 ->where('step_number', 1)
                 ->first();
             $nextDueDate = request('lead.due_date');
@@ -39,7 +39,7 @@ class ActivityHistory extends Model
             //if new schedule is custom
             if (request('outcome') === "3") {
                 $nextDueDate = request('custom_activity_date');
-                $nextStep = Steps::where('schedule_id', $outcome->new_schedule_id)
+                $nextStep = Step::where('schedule_id', $outcome->new_schedule_id)
                     ->where('step_number', request('custom_activity_type'))
                     ->first();
             }
@@ -54,7 +54,7 @@ class ActivityHistory extends Model
                 $lastStepNumber = request('lead.previous_step_number');
             }
 
-            $nextStep = Steps::where('schedule_id', $lastSchedule)
+            $nextStep = Step::where('schedule_id', $lastSchedule)
                 ->where('step_number', $lastStepNumber + 1)
                 ->first();
 
@@ -104,7 +104,6 @@ class ActivityHistory extends Model
 
     public function scopeFilter($query, QueryFilter $filters)
     {
-        // dd($query);
         return $filters->apply($query);
     }
 }

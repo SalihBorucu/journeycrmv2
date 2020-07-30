@@ -1,7 +1,9 @@
 <?php
 
+use App\Step;
 use App\Campaign;
 use App\Schedule;
+use App\StepTemplate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -79,7 +81,5 @@ Route::post('/token', 'CallController@newToken');
 Route::get('/answer', 'CallController@newCall');
 
 Route::get('/test', function () {
-    if (Auth::attempt(['email' => 'salih@hotmail1.com', 'password' => '12345678'])) {
-        dd('hello');
-    }
+    dd(Step::with(['templates'])->find(20));
 });

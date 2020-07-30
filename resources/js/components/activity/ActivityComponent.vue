@@ -180,6 +180,7 @@
                 custom_activity_type: null,
                 custom_activity_date: null,
                 callback_active: false,
+                email_content: this.lead.step.templates[0].email_content,
             };
         },
 
@@ -196,6 +197,24 @@
                 maxHeight: null,
                 focus: true,
             });
+            $(".summernote").summernote("code", this.processedEmailContent)
+
+            this.email_subject = this.lead.step.templates[0].email_subject
+        },
+
+        computed: {
+            processedEmailContent(){
+                let content = this.email_content;
+                content = content.replace('$lead_first_name', this.lead.lead.first_name)
+                content = content.replace('$lead_last_name', this.lead.lead.last_name)
+                content = content.replace('$lead_full_name', this.lead.lead.full_name)
+                content = content.replace('$lead_country', this.lead.lead.country)
+                content = content.replace('$lead_title', this.lead.lead.title)
+                content = content.replace('$lead_company', this.lead.lead.company.name)
+                content = content.replace('$lead_company_tools', this.lead.lead.company.tools_note)
+
+                return content;
+            }
         },
 
         methods: {

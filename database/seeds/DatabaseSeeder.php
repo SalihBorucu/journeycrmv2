@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(IncompleteLeadSeeder::class);
         $this->call(ScheduleSeeder::class);
         $this->call(OutcomeSeeder::class);
-        $this->call(StepsSeeder::class);
+        $this->call(StepSeeder::class);
         $this->call(UserRoleSeeder::class);
         $this->call(CampaignSeeder::class);
         $this->call(AccountSeeder::class);

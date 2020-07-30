@@ -1,10 +1,10 @@
 <?php
 
-use App\Steps;
+use App\Step;
 use App\Schedule;
 use Illuminate\Database\Seeder;
 
-class StepsSeeder extends Seeder
+class StepSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -72,6 +72,6 @@ class StepsSeeder extends Seeder
                 ];
             };
         }
-        Steps::insert($steps);
+        Step::insert($steps);
     }
 }
