@@ -85,5 +85,5 @@ Route::post('/token', 'CallController@newToken');
 Route::get('/answer', 'CallController@newCall');
 
 Route::get('/test', function () {
-    dd(Account::with('campaigns.campaignSchedules.schedule')->find(1));
+    dd(Account::with('userAccounts.user')->find(1));
 });

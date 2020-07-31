@@ -41,6 +41,7 @@
                     @changed-campaign-details="setCampaign"
                 ></create-campaign>
                 <button
+                    @click="createAccountandCampaign"
                     class="btn btn-primary waves-effect waves-light mt-2"
                 >Create Account and Campaign</button>
             </div>
@@ -87,13 +88,34 @@
             adjustCampaignKeys() {
                 let numberOfCampaigns = Object.keys(this.campaigns).length;
                 let eventValue = parseInt(event.target.value, 10);
-                console.log(numberOfCampaigns, eventValue);
+
                 if (numberOfCampaigns > eventValue) {
                     let diff = numberOfCampaigns - eventValue;
                     for (let i = 0; i < diff; i++) {
                         delete this.campaigns[Object.keys(this.campaigns).length];
                     }
                 }
+            },
+
+            createAccountandCampaign() {
+                let obj = {
+                    selectedUsers: this.selectedUsers.map((user) => user.id),
+                    accountName: this.accountName,
+                    campaigns: this.campaigns,
+                };
+                //stop if any is null
+                axios
+                    .post("/account", obj)
+                    .then(() => {
+                        swal(
+                            "Well done!",
+                            `Account and campaign created succesfully. Head over to <a href=/test>schedules</a> to publish it.`,
+                            "success"
+                        ).then(() => {
+                            window.location.href = window.location.href + '/schedules';
+                        });
+                    })
+                    .catch(() => {});
             },
         },
     };

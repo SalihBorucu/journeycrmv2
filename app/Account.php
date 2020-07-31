@@ -9,7 +9,7 @@ class Account extends Model
 {
     protected $guarded = [];
 
-    public function users()
+    public function userAccounts()
     {
         return $this->hasMany(UserAccount::class);
     }

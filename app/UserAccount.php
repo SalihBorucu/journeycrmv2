@@ -10,14 +10,12 @@ class UserAccount extends Model
 {
     protected $guarded = [];
 
-    // public $timestamps = false;
-
     public function account(){
-        return $this->belongsTo(Account::class, 'account_id');
+        return $this->belongsTo(Account::class);
     }
 
-    public function accountUsers()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

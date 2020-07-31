@@ -2586,6 +2586,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2620,7 +2621,6 @@ __webpack_require__.r(__webpack_exports__);
     adjustCampaignKeys: function adjustCampaignKeys() {
       var numberOfCampaigns = Object.keys(this.campaigns).length;
       var eventValue = parseInt(event.target.value, 10);
-      console.log(numberOfCampaigns, eventValue);
 
       if (numberOfCampaigns > eventValue) {
         var diff = numberOfCampaigns - eventValue;
@@ -2629,6 +2629,21 @@ __webpack_require__.r(__webpack_exports__);
           delete this.campaigns[Object.keys(this.campaigns).length];
         }
       }
+    },
+    createAccountandCampaign: function createAccountandCampaign() {
+      var obj = {
+        selectedUsers: this.selectedUsers.map(function (user) {
+          return user.id;
+        }),
+        accountName: this.accountName,
+        campaigns: this.campaigns
+      }; //stop if any is null
+
+      axios.post("/account", obj).then(function () {
+        swal("Well done!", "Account and campaign created succesfully. Head over to <a href=/test>schedules</a> to publish it.", "success").then(function () {
+          window.location.href = window.location.href + '/schedules';
+        });
+      })["catch"](function () {});
     }
   }
 });
@@ -18249,7 +18264,10 @@ var render = function() {
           _vm._v(" "),
           _c(
             "button",
-            { staticClass: "btn btn-primary waves-effect waves-light mt-2" },
+            {
+              staticClass: "btn btn-primary waves-effect waves-light mt-2",
+              on: { click: _vm.createAccountandCampaign }
+            },
             [_vm._v("Create Account and Campaign")]
           )
         ],

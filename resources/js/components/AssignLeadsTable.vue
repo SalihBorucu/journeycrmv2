@@ -75,14 +75,12 @@
                             >{{account.account.name}}</option>
                         </select>
                     </div>
-                    <div class="d-flex justify-content-around w-75">
+                    <div class="d-flex justify-content-around w-75" v-if="global_account">
                         <label class="m-2">Campaign:</label>
                         <select name class="form-control" v-model="global_campaign">
-                            <option value v-if="!global_account"></option>
                             <option
-                                v-if="global_account"
                                 :value="campaign.id"
-                                v-for="campaign in this.user.user_accounts.find(account => account.account_id === 1).account.campaigns"
+                                v-for="campaign in this.user.user_accounts.find(account => account.account_id === this.global_account).account.campaigns"
                             >{{campaign.name}}</option>
                         </select>
                     </div>
