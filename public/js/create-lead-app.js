@@ -3460,12 +3460,12 @@ __webpack_require__.r(__webpack_exports__);
     selectedIndividualAccount: function selectedIndividualAccount() {
       var campaignsArray = this.user.user_accounts.find(function (account) {
         return account.account_id == event.target.value;
-      }).account.account_campaigns;
+      }).account.campaigns;
       $("#campaign".concat(event.target.id)).html("");
       campaignsArray.forEach(function (campaign) {
         $("#campaign".concat(event.target.id)).append($("<option/>", {
-          text: campaign.campaign.name,
-          value: campaign.campaign.id
+          text: campaign.name,
+          value: campaign.id
         }));
       });
     },
@@ -3710,6 +3710,7 @@ __webpack_require__.r(__webpack_exports__);
 
       obj["phone_2"] = this.phone_2;
       axios.post("/lead", obj).then(function (res) {
+        swal('Well done!', "Lead ".concat(res.data.first_name, " ").concat(res.data.last_name, " created succesfully."), 'success');
         _this2.creating_new_company = false;
         _this2.email_error = false;
         _this2.empty_fields_error = false;
@@ -4338,12 +4339,12 @@ __webpack_require__.r(__webpack_exports__);
     selectedIndividualAccount: function selectedIndividualAccount() {
       var campaignsArray = this.user.user_accounts.find(function (account) {
         return account.account_id == event.target.value;
-      }).account.account_campaigns;
+      }).account.campaigns;
       $("#campaign".concat(event.target.id)).html("");
       campaignsArray.forEach(function (campaign) {
         $("#campaign".concat(event.target.id)).append($("<option/>", {
-          text: campaign.campaign.name,
-          value: campaign.campaign.id
+          text: campaign.name,
+          value: campaign.id
         }));
       });
     },
@@ -34751,12 +34752,12 @@ var render = function() {
                         attrs: { id: "campaign" + props.row.id }
                       },
                       _vm._l(
-                        _vm.user.user_accounts[0].account.account_campaigns,
+                        _vm.user.user_accounts[0].account.campaigns,
                         function(campaign) {
                           return _c(
                             "option",
-                            { domProps: { value: campaign.campaign_id } },
-                            [_vm._v(_vm._s(campaign.campaign.name))]
+                            { domProps: { value: campaign.id } },
+                            [_vm._v(_vm._s(campaign.name))]
                           )
                         }
                       ),
@@ -34869,14 +34870,12 @@ var render = function() {
                   _vm._l(
                     this.user.user_accounts.find(function(account) {
                       return account.account_id === 1
-                    }).account.account_campaigns,
+                    }).account.campaigns,
                     function(campaign) {
                       return _vm.global_account
-                        ? _c(
-                            "option",
-                            { domProps: { value: campaign.campaign_id } },
-                            [_vm._v(_vm._s(campaign.campaign.name))]
-                          )
+                        ? _c("option", { domProps: { value: campaign.id } }, [
+                            _vm._v(_vm._s(campaign.name))
+                          ])
                         : _vm._e()
                     }
                   )
@@ -36123,12 +36122,12 @@ var render = function() {
                         attrs: { id: "campaign" + props.row.id }
                       },
                       _vm._l(
-                        _vm.user.user_accounts[0].account.account_campaigns,
+                        _vm.user.user_accounts[0].account.campaigns,
                         function(campaign) {
                           return _c(
                             "option",
-                            { domProps: { value: campaign.campaign_id } },
-                            [_vm._v(_vm._s(campaign.campaign.name))]
+                            { domProps: { value: campaign.id } },
+                            [_vm._v(_vm._s(campaign.name))]
                           )
                         }
                       ),
@@ -36245,12 +36244,12 @@ var render = function() {
                         _vm._l(
                           this.user.user_accounts.find(function(account) {
                             return account.account_id === this$1.global_account
-                          }).account.account_campaigns,
+                          }).account.campaigns,
                           function(campaign) {
                             return _c(
                               "option",
-                              { domProps: { value: campaign.campaign_id } },
-                              [_vm._v(_vm._s(campaign.campaign.name))]
+                              { domProps: { value: campaign.id } },
+                              [_vm._v(_vm._s(campaign.name))]
                             )
                           }
                         )

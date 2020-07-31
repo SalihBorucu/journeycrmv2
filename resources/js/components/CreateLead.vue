@@ -220,6 +220,7 @@
                 obj["phone_2"] = this.phone_2;
 
                 axios.post(`/lead`, obj).then((res) => {
+                    swal('Well done!', `Lead ${res.data.first_name} ${res.data.last_name} created succesfully.`, 'success');
                     this.creating_new_company = false;
                     this.email_error = false;
                     this.empty_fields_error = false;

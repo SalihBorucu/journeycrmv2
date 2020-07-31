@@ -50,9 +50,9 @@
                     v-else-if="props.column.field == 'campaign'"
                 >
                     <option
-                        :value="campaign.campaign_id"
-                        v-for="campaign in user.user_accounts[0].account.account_campaigns"
-                    >{{campaign.campaign.name}}</option>
+                        :value="campaign.id"
+                        v-for="campaign in user.user_accounts[0].account.campaigns"
+                    >{{campaign.name}}</option>
                 </select>
                 <button
                     :id="'btn' + props.row.id"
@@ -80,9 +80,9 @@
                         <select name class="form-control" v-model="global_campaign" >
                             <option value v-if="!global_account"></option>
                             <option
-                                :value="campaign.campaign_id"
-                                v-for="campaign in this.user.user_accounts.find(account => account.account_id === this.global_account).account.account_campaigns"
-                            >{{campaign.campaign.name}}</option>
+                                :value="campaign.id"
+                                v-for="campaign in this.user.user_accounts.find(account => account.account_id === this.global_account).account.campaigns"
+                            >{{campaign.name}}</option>
                         </select>
                     </div>
                     <button class="btn btn-primary w-50 ml-2" @click="assignAll">Assign All</button>
@@ -181,15 +181,15 @@
             selectedIndividualAccount() {
                 let campaignsArray = this.user.user_accounts.find(
                     (account) => account.account_id == event.target.value
-                ).account.account_campaigns;
+                ).account.campaigns;
 
                 $(`#campaign${event.target.id}`).html("");
 
                 campaignsArray.forEach((campaign) => {
                     $(`#campaign${event.target.id}`).append(
                         $("<option/>", {
-                            text: campaign.campaign.name,
-                            value: campaign.campaign.id,
+                            text: campaign.name,
+                            value: campaign.id,
                         })
                     );
                 });

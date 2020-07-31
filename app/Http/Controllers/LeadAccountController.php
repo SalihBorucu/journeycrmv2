@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Account;
 use App\Lead;
-use App\User;
 use App\Step;
+use App\User;
+use App\Account;
 use App\Company;
 use App\Campaign;
 use Carbon\Carbon;
-use App\LeadAccount;
 use App\AllFilters;
+use App\LeadAccount;
+use App\CampaignSchedule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,7 @@ class LeadAccountController extends Controller
         $companies = Company::all();
         $accounts = Account::all();
         $countries = DB::table('countries')->pluck('name');
-        $user = User::with(['userAccounts.account.accountCampaigns.campaign'])->find(Auth::id());
+        $user = User::with(['userAccounts.account.campaigns'])->find(Auth::id());
         $leads = [];
         if (request()->all()) {
             $leads = Lead::with(['leadAccounts.account'])->filter($filters)->get();;
@@ -30,13 +31,13 @@ class LeadAccountController extends Controller
                 foreach ($leads as $item => $value) {
                     if (
                         $value->leadAccounts->every(function ($i, $v) {
-                            return $i['account_id'] !== request('excludedAccount');
+                            return $i['account_id'] != request('excludedAccount');
                         })
-                    ) {
-                        $newLeads[] = $value;
+                        ) {
+                            $newLeads[] = $value;
+                        };
                     };
-                };
-                $leads = $newLeads;
+                    $leads = $newLeads;
             }
         }
 
@@ -67,8 +68,11 @@ class LeadAccountController extends Controller
 
     public function create()
     {
-        $schedule_id = Campaign::find(request('campaign_id'))->schedule_id;
-        $step_id = Step::where([['schedule_id', $schedule_id], ['step_number', 1]])->first()->id;
+        $scheduleId = 1; //everybody starts from prospecting
+
+        $campaignScheduleId = CampaignSchedule::where([['campaign_id', request('campaign_id')], ['schedule_id', $scheduleId]])->first()->id;
+
+        $stepId = Step::where('campaign_schedule_id', $campaignScheduleId)->first()->id;
         $leadAccounts = [];
 
         if (request('lead_id') === "all") {
@@ -79,8 +83,8 @@ class LeadAccountController extends Controller
                     'lead_id' => $lead->id,
                     'account_id' => request('account_id'),
                     'campaign_id' => request('campaign_id'),
-                    'schedule_id' => $schedule_id,
-                    'step_id' => $step_id,
+                    'schedule_id' => $scheduleId,
+                    'step_id' => $stepId,
                     'current_status' => 'prospecting',
                     'due_date' => Carbon::now()->format('Y-m-d'),
                 ];
@@ -95,8 +99,8 @@ class LeadAccountController extends Controller
                     'lead_id' => $id,
                     'account_id' => request('account_id'),
                     'campaign_id' => request('campaign_id'),
-                    'schedule_id' => $schedule_id,
-                    'step_id' => $step_id,
+                    'schedule_id' => $scheduleId,
+                    'step_id' => $stepId,
                     'current_status' => 'prospecting',
                     'due_date' => Carbon::now()->format('Y-m-d'),
                 ];
@@ -106,8 +110,8 @@ class LeadAccountController extends Controller
                 'lead_id' => request('lead_id'),
                 'account_id' => request('account_id'),
                 'campaign_id' => request('campaign_id'),
-                'schedule_id' => $schedule_id,
-                'step_id' => $step_id,
+                'schedule_id' => $scheduleId,
+                'step_id' => $stepId,
                 'current_status' => 'prospecting',
                 'due_date' => Carbon::now()->format('Y-m-d'),
             ];
@@ -116,7 +120,6 @@ class LeadAccountController extends Controller
                 'unassigned' => false
             ]);
         }
-
         LeadAccount::insert($leadAccounts);
 
         return response()->json();
