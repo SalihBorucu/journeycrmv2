@@ -20,7 +20,7 @@ try {
  */
 window.swal = require('sweetalert');
 window.axios = require('axios');
-// import { Device, Twilio } from 'twilio-client';
+
 window.Device = require('twilio-client').Device;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

@@ -5,6 +5,7 @@ use App\Step;
 use App\Campaign;
 use App\Schedule;
 use App\StepTemplate;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -36,9 +37,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin', function () {
         $campaigns = Campaign::all();
-        $schedules = Schedule::all();
+        $schedules = Schedule::where('type', 'standard')->get();
+        $users = User::all();
+        $currentUser = Auth::user();
 
-        return view('admin.create', compact('campaigns', 'schedules'));
+        return view('admin.admin-create', compact('campaigns', 'schedules', 'users', 'currentUser'));
     });
 
     Route::get('/activities', 'ActivitiesController@index');

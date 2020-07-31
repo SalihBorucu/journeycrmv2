@@ -8,7 +8,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-Vue.component('create-schedule', require('./components/CreateSchedule.vue').default);
+Vue.component('create-account', require('./components/admin/CreateAccount.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

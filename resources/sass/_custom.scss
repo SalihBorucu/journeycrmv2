@@ -50,20 +50,20 @@
 
 // Vue good table
 .vgt-wrap {
-    box-shadow: 0 0 2pt 1pt #2bcca4;
+    box-shadow: 0 0 2pt 1pt $primary;
     border: solid 2px white;
     border-radius: 5px;
 }
 .vgt-input:focus {
-    border: solid 2px #2bcca4;
+    border: solid 2px $primary;
 }
 
 .vgt-table thead th.sorting-asc:after {
-    border-bottom: 5px solid #2bcca4;
+    border-bottom: 5px solid $primary;
 }
 
 .vgt-table thead th.sorting-desc:before {
-    border-top: 5px solid #2bcca4;
+    border-top: 5px solid $primary;
 }
 
 table.vgt-table tr.clickable:hover {

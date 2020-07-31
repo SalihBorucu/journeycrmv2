@@ -29,6 +29,7 @@
         "twilio-client": "^1.12.1",
         "vue-good-table": "^2.19.5",
         "vue-morris": "^1.1.0",
+        "vue-multiselect": "^2.1.6",
         "vue-router": "^3.3.4"
     }
 }

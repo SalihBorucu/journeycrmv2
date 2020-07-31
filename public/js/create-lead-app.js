@@ -51466,8 +51466,7 @@ try {// window.Popper = require('popper.js').default;
 
 
 window.swal = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"); // import { Device, Twilio } from 'twilio-client';
-
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.Device = __webpack_require__(/*! twilio-client */ "./node_modules/twilio-client/es5/twilio.js").Device;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /**
