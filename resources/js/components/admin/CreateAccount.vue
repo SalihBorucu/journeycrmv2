@@ -105,14 +105,15 @@
                 };
                 //stop if any is null
                 axios
-                    .post("/account", obj)
-                    .then(() => {
+                    .post("/admin/account", obj)
+                    .then((res) => {
+                        let account = res.data
                         swal(
                             "Well done!",
                             `Account and campaign created succesfully. Head over to <a href=/test>schedules</a> to publish it.`,
                             "success"
                         ).then(() => {
-                            window.location.href = window.location.href + '/schedules';
+                            window.location.href = window.location.href + `/account/${account.id}`;
                         });
                     })
                     .catch(() => {});

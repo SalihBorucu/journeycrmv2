@@ -33,13 +33,13 @@
     import Multiselect from "vue-multiselect";
     export default {
         components: { Multiselect },
-        props: ["schedules", 'id'],
+        props: ["schedules", 'id', 'campaign', 'injSelectedSchedules'],
 
         data() {
             return {
-                campaignName: null,
-                campaignDescription: null,
-                selectedSchedules: this.schedules.map((x) => x),
+                campaignName: this.campaign.name || null,
+                campaignDescription: this.campaign.description || null,
+                selectedSchedules: this.injSelectedSchedules ? this.injSelectedSchedules.map(account_schedule => account_schedule.schedule) : this.schedules.map((x) => x),
                 scheduleOptions: this.schedules,
             };
         },

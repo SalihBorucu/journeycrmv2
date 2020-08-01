@@ -4,15 +4,6 @@
             <h3 class="card-title font-16 mt-0">Create Schedule</h3>
             <div class="d-flex">
                 <div class="w-100">
-                    <label for>Schedule Name</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        name="schedule_name"
-                        v-model="schedule_name"
-                    />
-                </div>
-                <div class="w-100">
                     <label>Number of Steps</label>
                     <select class="form-control" v-model="step_amount">
                         <option :value="index" v-for="index in 20">{{index}}</option>
@@ -27,28 +18,11 @@
                             <th>#</th>
                             <th>Type</th>
                             <th>Day Gap</th>
+                            <th style="width: 20px;"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="index in step_amount" :key="index">
-                            <th scope="row">{{index}}</th>
-                            <td>
-                                <select class="form-control" @change="changeType" :data-key="index">
-                                    <option value="email">Email</option>
-                                    <option value="call">Call</option>
-                                    <option value="social">Social</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select
-                                    class="form-control"
-                                    @change="changeDayGap"
-                                    :data-key="index"
-                                >
-                                    <option :value="index" v-for="index in 20">{{index}}</option>
-                                </select>
-                            </td>
-                        </tr>
+                        <step v-for="step in schedule.steps" :key="step.id" :step="step"></step>
                     </tbody>
                 </table>
             </div>
@@ -61,11 +35,13 @@
     </div>
 </template>
 <script>
+    import Step from "./Step";
     export default {
+        components: { Step },
+        props: ["schedule"],
         data() {
             return {
-                step_amount: 1,
-                schedule_name: null,
+                step_amount: this.schedule.steps.length,
             };
         },
 

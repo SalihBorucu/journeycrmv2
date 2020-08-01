@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Account;
-use App\AccountCampaign;
-use App\Campaign;
-use App\CampaignSchedule;
 use App\Lead;
+use App\User;
+use App\Account;
+use App\Campaign;
+use App\Schedule;
 use App\LeadAccount;
 use App\UserAccount;
+use App\AccountCampaign;
+use App\CampaignSchedule;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -50,6 +52,14 @@ class AccountController extends Controller
 
         // $this->flashSuccess("Account created successfully");
 
-        return response()->json();
+        return response()->json($account);
+    }
+
+    public function show($id){
+        $account = Account::with(['campaigns.campaignSchedules.steps.template', 'userAccounts.user', 'campaigns.campaignSchedules.schedule'])->findOrFail($id);
+        $users = User::all();
+        $schedules = Schedule::where('type', 'standard')->get();
+
+        return view('admin.admin-edit', compact('account', 'users', 'schedules'));
     }
 }

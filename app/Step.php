@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Step extends Model
 {
-    public function templates(){
-        return $this->hasMany(StepTemplate::class);
+    public function template(){
+        return $this->hasOne(StepTemplate::class);
     }
 }

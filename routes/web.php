@@ -49,8 +49,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/activity', 'ActivitiesController@create');
     Route::post('/activity/email', 'ActivitiesController@email');
 
-    Route::get('/accounts', 'AccountController@index');
-
     Route::get('/lead', 'LeadController@index');
     Route::post('/lead', 'LeadController@create');
     Route::get('/lead/unassigned-leads', 'LeadController@show');
@@ -59,10 +57,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/lead/lead-shopping', 'LeadAccountController@show');
 
 
-    Route::post('/account', 'AccountController@create');
-    Route::post('/campaign', 'CampaignController@create');
-    Route::post('/schedule', 'ScheduleController@create');
-
+    Route::post('admin/account', 'AccountController@create');
+    Route::get('admin/account/{id}', 'AccountController@show');
 
     Route::get('/lead/incomplete-leads', 'IncompleteLeadController@index');
     Route::delete('/incomplete-leads/{incompleteLead}', 'IncompleteLeadController@destroy');
