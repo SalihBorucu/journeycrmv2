@@ -10,13 +10,13 @@
         </a>
     </li>
     <li class="nav-item waves-effect waves-light">
-        <a class="nav-link {{ Request::is('admin/user*') ? 'active' : '' }}" href="{{ Request::is('admin/user') ? 'javascript: void(0)' : '/admin/user' }}">
-            <span class="d-none d-md-block {{ Request::is('admin/user*') ? 'text-white' : 'text-primary' }}">New User</span><span class="d-block d-md-none">
+        <a class="nav-link {{ Request::is('admin/user/create') ? 'active' : '' }}" href="{{ Request::is('admin/user/create') ? 'javascript: void(0)' : '/admin/user/create' }}">
+            <span class="d-none d-md-block {{ Request::is('admin/user/create') ? 'text-white' : 'text-primary' }}">New User</span><span class="d-block d-md-none">
         </a>
     </li>
     <li class="nav-item waves-effect waves-light">
-        <a class="nav-link {{ Request::is('admin/user*') ? 'active' : '' }}" href="{{ Request::is('admin/user') ? 'javascript: void(0)' : '/admin/user' }}">
-            <span class="d-none d-md-block {{ Request::is('admin/user*') ? 'text-white' : 'text-primary' }}">Edit Users</span><span class="d-block d-md-none">
+        <a class="nav-link {{ Request::is('admin/user') ? 'active' : '' }}" href="{{ Request::is('admin/user') ? 'javascript: void(0)' : '/admin/user' }}">
+            <span class="d-none d-md-block {{ Request::is('admin/user') ? 'text-white' : 'text-primary' }}">Edit User</span><span class="d-block d-md-none">
         </a>
     </li>
 </ul>

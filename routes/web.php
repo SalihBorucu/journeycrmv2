@@ -61,6 +61,11 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/account', 'AccountController@index');
     Route::get('admin/account/{id}', 'AccountController@show');
 
+    Route::get('admin/user/create', 'UserController@index');
+    Route::post('admin/user', 'UserController@create');
+    Route::get('admin/user', 'UserController@show');
+
+
     Route::get('/lead/incomplete-leads', 'IncompleteLeadController@index');
     Route::delete('/incomplete-leads/{incompleteLead}', 'IncompleteLeadController@destroy');
 
