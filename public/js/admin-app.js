@@ -2688,10 +2688,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2710,11 +2706,6 @@ __webpack_require__.r(__webpack_exports__);
       scheduleOptions: this.schedules
     };
   },
-  watch: {
-    selectedSchedules: function selectedSchedules() {
-      this.changedCampaignDetails();
-    }
-  },
   methods: {
     addTag: function addTag(newTag) {
       var tag = {
@@ -2724,22 +2715,19 @@ __webpack_require__.r(__webpack_exports__);
       this.options.push(tag);
       this.value.push(tag);
     },
-    // changedCampaignDetails() {
-    //     let obj = {
-    //         campaignName: this.campaignName,
-    //         campaignDescription: this.campaignDescription,
-    //         selectedSchedules: this.selectedSchedules,
-    //     };
-    //     let id = this.id;
-    //     this.$emit("changed-campaign-details", obj, id);
-    // },
     updateCampaign: function updateCampaign() {
+      var _this = this;
+
       var obj = {
         campaign_name: this.campaignName,
         campaign_description: this.campaignDescription,
         campaign_schedules: this.selectedSchedules
       };
-      axios.post("/admin/campaign/".concat(this.campaign.id), obj).then()["catch"]();
+      axios.patch("/admin/campaign/".concat(this.campaign.id), obj).then(function (res) {
+        _this.$emit("campaign-updated", res.data);
+
+        swal("Well done!", "Campaign details updated succesfully.", "success");
+      })["catch"]();
     }
   }
 });
@@ -2821,14 +2809,10 @@ __webpack_require__.r(__webpack_exports__);
     saveSchedule: function saveSchedule() {
       var obj = {
         steps_array: this.schedule_steps
-      }; // axios.post(`/schedule`, obj).then((res) => {
-      //     this.steps_array = null;
-      //     this.schedule_nam = null;
-      //     this.step_amount = 1;
-      // });
+      };
+      axios.post("admin/schedule/".concat(this.schedule.id), obj).then(function (res) {})["catch"]();
     },
     deleteStep: function deleteStep() {
-      console.log("how you delete the step");
       this.schedule_steps.splice(this.schedule_steps.length - 1, 1);
     },
     addStep: function addStep() {
@@ -3050,6 +3034,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -3059,15 +3047,16 @@ __webpack_require__.r(__webpack_exports__);
     CreateCampaign: _CreateCampaign__WEBPACK_IMPORTED_MODULE_1__["default"],
     CreateSchedule: _CreateSchedule__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  props: ["account", "users", "schedules"],
+  props: ["injAccount", "users", "schedules"],
   data: function data() {
     return {
+      account: this.injAccount,
       selectedSchedule: 0,
-      selectedCampaign: this.account.campaigns[0].id,
-      selectedUsers: this.account.user_accounts.map(function (userAccount) {
+      selectedCampaign: this.injAccount.campaigns[0].id,
+      selectedUsers: this.injAccount.user_accounts.map(function (userAccount) {
         return userAccount.user;
       }),
-      accountName: this.account.name,
+      accountName: this.injAccount.name,
       userOptions: this.users
     };
   },
@@ -3083,10 +3072,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateAccount: function updateAccount() {
       var obj = {
-        account_name: accountName,
-        selected_users: selectedUsers
+        account_name: this.accountName,
+        selected_users: this.selectedUsers
       };
-      axios.post("/admin/account/".concat(this.account.id), obj).then(function () {})["catch"](function () {});
+      axios.patch("/admin/account/".concat(this.account.id), obj).then(function () {
+        swal("Well done!", "Account details updated succesfully.", "success");
+      })["catch"](function () {});
+    },
+    updateCampaignDetails: function updateCampaignDetails(account) {
+      this.account = account;
     }
   }
 });
@@ -19040,7 +19034,8 @@ var render = function() {
                             schedules: _vm.schedules,
                             "inj-selected-schedules":
                               campaign.campaign_schedules
-                          }
+                          },
+                          on: { "campaign-updated": _vm.updateCampaignDetails }
                         })
                       ],
                       1

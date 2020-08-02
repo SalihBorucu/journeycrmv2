@@ -1,17 +1,9 @@
 <template>
     <div class="card bordered-card">
         <label for>Campaign Name</label>
-        <input
-            type="text"
-            class="form-control"
-            v-model="campaignName"
-        />
+        <input type="text" class="form-control" v-model="campaignName" />
         <label for>Description</label>
-        <input
-            type="text"
-            class="form-control"
-            v-model="campaignDescription"
-        />
+        <input type="text" class="form-control" v-model="campaignDescription" />
         <label class="typo__label">Attach Schedules</label>
         <multiselect
             v-model="selectedSchedules"
@@ -24,7 +16,11 @@
             :taggable="true"
             @tag="addTag"
         ></multiselect>
-        <button class="btn btn-outline-primary mt-2" @click="updateCampaign" v-if="this.campaign">Save Changes</button>
+        <button
+            class="btn btn-outline-primary mt-2"
+            @click="updateCampaign"
+            v-if="this.campaign"
+        >Save Changes</button>
     </div>
 </template>
 
@@ -37,21 +33,18 @@
         data() {
             return {
                 campaignName: this.campaign ? this.campaign.name : null,
-                campaignDescription: this.campaign ? this.campaign.description : null,
+                campaignDescription: this.campaign
+                    ? this.campaign.description
+                    : null,
                 selectedSchedules: this.injSelectedSchedules
                     ? this.injSelectedSchedules.map(
-                        (account_schedule) => account_schedule.schedule
-                    )
+                          (account_schedule) => account_schedule.schedule
+                      )
                     : this.schedules.map((x) => x),
                 scheduleOptions: this.schedules,
             };
         },
 
-        watch: {
-            selectedSchedules() {
-                this.changedCampaignDetails();
-            },
-        },
         methods: {
             addTag(newTag) {
                 const tag = {
@@ -64,18 +57,6 @@
                 this.value.push(tag);
             },
 
-            // changedCampaignDetails() {
-            //     let obj = {
-            //         campaignName: this.campaignName,
-            //         campaignDescription: this.campaignDescription,
-            //         selectedSchedules: this.selectedSchedules,
-            //     };
-
-            //     let id = this.id;
-
-            //     this.$emit("changed-campaign-details", obj, id);
-            // },
-
             updateCampaign() {
                 let obj = {
                     campaign_name: this.campaignName,
@@ -84,8 +65,15 @@
                 };
 
                 axios
-                    .post(`/admin/campaign/${this.campaign.id}`, obj)
-                    .then()
+                    .patch(`/admin/campaign/${this.campaign.id}`, obj)
+                    .then((res) => {
+                        this.$emit("campaign-updated", res.data);
+                        swal(
+                            "Well done!",
+                            `Campaign details updated succesfully.`,
+                            "success"
+                        );
+                    })
                     .catch();
             },
         },

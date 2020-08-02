@@ -64,15 +64,10 @@
                     steps_array: this.schedule_steps,
                 };
 
-                // axios.post(`/schedule`, obj).then((res) => {
-                //     this.steps_array = null;
-                //     this.schedule_nam = null;
-                //     this.step_amount = 1;
-                // });
+                axios.post(`admin/schedule/${this.schedule.id}`, obj).then((res) => {}).catch();
             },
 
             deleteStep() {
-                console.log("how you delete the step");
                 this.schedule_steps.splice(this.schedule_steps.length - 1, 1);
             },
 

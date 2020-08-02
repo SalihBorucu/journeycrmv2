@@ -67,4 +67,20 @@ class AccountController extends Controller
 
         return view('admin.admin-edit', compact('account', 'users', 'schedules'));
     }
+
+    public function update($accountId){
+
+        Account::findOrFail($accountId)->update([
+            'name' => request('account_name')
+        ]);
+
+        foreach (request('selected_users') as $key => $value) {
+            UserAccount::firstOrCreate([
+                'user_id' => $value['id'],
+                'account_id' => $accountId
+            ]);
+        }
+
+        return response()->json();
+    }
 }

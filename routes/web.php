@@ -60,6 +60,9 @@ Route::middleware('auth')->group(function () {
     Route::post('admin/account', 'AccountController@create');
     Route::get('admin/account', 'AccountController@index');
     Route::get('admin/account/{id}', 'AccountController@show');
+    Route::patch('admin/account/{id}', 'AccountController@update');
+    Route::patch('admin/campaign/{id}', 'CampaignController@update');
+    Route::patch('admin/schedule/{id}', 'StepController@update');
 
     Route::get('admin/user/create', 'UserController@index');
     Route::post('admin/user', 'UserController@create');

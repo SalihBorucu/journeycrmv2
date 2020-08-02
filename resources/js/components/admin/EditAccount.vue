@@ -43,7 +43,10 @@
                                     @tag="addTag"
                                 ></multiselect>
                             </div>
-                            <button class="btn btn-outline-primary my-2 w-100" @click="updateAccount">Save Changes</button>
+                            <button
+                                class="btn btn-outline-primary my-2 w-100"
+                                @click="updateAccount"
+                            >Save Changes</button>
                         </div>
                     </div>
                 </div>
@@ -99,6 +102,7 @@
                                     v-for="(campaign, index) in account.campaigns"
                                 >
                                     <create-campaign
+                                        @campaign-updated="updateCampaignDetails"
                                         :campaign="campaign"
                                         :schedules="schedules"
                                         :inj-selected-schedules="campaign.campaign_schedules"
@@ -193,16 +197,17 @@
     import CreateSchedule from "./CreateSchedule";
     export default {
         components: { Multiselect, CreateCampaign, CreateSchedule },
-        props: ["account", "users", "schedules"],
+        props: ["injAccount", "users", "schedules"],
 
         data() {
             return {
+                account: this.injAccount,
                 selectedSchedule: 0,
-                selectedCampaign: this.account.campaigns[0].id,
-                selectedUsers: this.account.user_accounts.map(
+                selectedCampaign: this.injAccount.campaigns[0].id,
+                selectedUsers: this.injAccount.user_accounts.map(
                     (userAccount) => userAccount.user
                 ),
-                accountName: this.account.name,
+                accountName: this.injAccount.name,
                 userOptions: this.users,
             };
         },
@@ -221,13 +226,26 @@
                 this.value.push(tag);
             },
 
-            updateAccount(){
+            updateAccount() {
                 let obj = {
-                    account_name: accountName,
-                    selected_users: selectedUsers,
-                }
+                    account_name: this.accountName,
+                    selected_users: this.selectedUsers,
+                };
 
-                axios.post(`/admin/account/${this.account.id}`, obj).then(()=>{}).catch(()=>{})
+                axios
+                    .patch(`/admin/account/${this.account.id}`, obj)
+                    .then(() => {
+                        swal(
+                            "Well done!",
+                            `Account details updated succesfully.`,
+                            "success"
+                        );
+                    })
+                    .catch(() => {});
+            },
+
+            updateCampaignDetails(account){
+                this.account = account
             }
         },
     };
