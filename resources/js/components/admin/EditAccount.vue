@@ -3,7 +3,10 @@
         <div class="card-body">
             <div id="accordion">
                 <div class="card mb-0">
-                    <div class="card-header" id="headingOne">
+                    <div
+                        class="card-header bg-primary d-flex justify-content-between"
+                        id="headingOne"
+                    >
                         <h5 class="mb-0 mt-0 font-14">
                             <a
                                 data-toggle="collapse"
@@ -11,13 +14,14 @@
                                 href="#collapseOne"
                                 aria-expanded="true"
                                 aria-controls="collapseOne"
-                                class="text-dark"
+                                class="text-white"
                             >Account Name and Users</a>
                         </h5>
+                        <span class="badge badge-default">Complete</span>
                     </div>
                     <div
                         id="collapseOne"
-                        class="collapse show"
+                        :class="['collapse', this.account.campaigns[0].campaign_schedules[0].steps.length ? 'show' : 'null']"
                         aria-labelledby="headingOne"
                         data-parent="#accordion"
                         style
@@ -39,14 +43,18 @@
                                     @tag="addTag"
                                 ></multiselect>
                             </div>
+                            <button class="btn btn-outline-primary my-2 w-100" @click="updateAccount">Save Changes</button>
                         </div>
                     </div>
                 </div>
                 <div class="card mb-0">
-                    <div class="card-header" id="headingTwo">
+                    <div
+                        class="card-header bg-primary d-flex justify-content-between"
+                        id="headingTwo"
+                    >
                         <h5 class="mb-0 mt-0 font-14">
                             <a
-                                class="text-dark collapsed"
+                                class="text-white collapsed"
                                 data-toggle="collapse"
                                 data-parent="#accordion"
                                 href="#collapseTwo"
@@ -54,6 +62,7 @@
                                 aria-controls="collapseTwo"
                             >Campaigns</a>
                         </h5>
+                        <span class="badge badge-default">Complete</span>
                     </div>
                     <div
                         id="collapseTwo"
@@ -66,10 +75,10 @@
                             <ul class="nav nav-pills nav-justified" role="tablist">
                                 <li
                                     class="nav-item waves-effect waves-light"
-                                    v-for="campaign in account.campaigns"
+                                    v-for="(campaign, index) in account.campaigns"
                                 >
                                     <a
-                                        class="nav-link"
+                                        :class="['nav-link', !index ? 'active' : null]"
                                         data-toggle="tab"
                                         :href="'#campaign' + campaign.id"
                                         role="tab"
@@ -84,10 +93,10 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div
-                                    class="tab-pane p-3"
+                                    :class="['tab-pane p-3', !index ? 'active' : null]"
                                     :id="'campaign' + campaign.id"
                                     role="tabpanel"
-                                    v-for="campaign in account.campaigns"
+                                    v-for="(campaign, index) in account.campaigns"
                                 >
                                     <create-campaign
                                         :campaign="campaign"
@@ -100,10 +109,13 @@
                     </div>
                 </div>
                 <div class="card mb-0">
-                    <div class="card-header" id="headingThree">
+                    <div
+                        :class="[this.account.campaigns[0].campaign_schedules[0].steps.length ? 'bg-primary' : null, 'card-header d-flex justify-content-between']"
+                        id="headingThree"
+                    >
                         <h5 class="mb-0 mt-0 font-14">
                             <a
-                                class="text-dark collapsed"
+                                :class="[this.account.campaigns[0].campaign_schedules[0].steps.length ? 'text-white' : 'text-dark', 'collapsed']"
                                 data-toggle="collapse"
                                 data-parent="#accordion"
                                 href="#collapseThree"
@@ -111,29 +123,40 @@
                                 aria-controls="collapseThree"
                             >Schedules</a>
                         </h5>
+                        <span
+                            class="badge badge-default"
+                            v-if="this.account.campaigns[0].campaign_schedules[0].steps.length"
+                        >Complete</span>
+                        <span class="badge badge-danger" v-else>Incomplete</span>
                     </div>
                     <div
                         id="collapseThree"
-                        class="collapse"
+                        :class="['collapse', this.account.campaigns[0].campaign_schedules[0].steps.length ? 'null' : 'show']"
                         aria-labelledby="headingThree"
                         data-parent="#accordion"
                         style
                     >
                         <div class="card-body">
-                            <select class="form-control" v-model="selectedCampaign">
-                                <option :value="campaign.id" v-for="campaign in account.campaigns">{{campaign.name}}</option>
+                            <label for>Choose Campaign</label>
+                            <select class="form-control mb-2" v-model="selectedCampaign">
+                                <option
+                                    :value="campaign.id"
+                                    v-for="campaign in account.campaigns"
+                                >{{campaign.name}}</option>
                             </select>
 
                             <ul class="nav nav-pills nav-justified" role="tablist">
                                 <li
                                     class="nav-item waves-effect waves-light"
-                                    v-for="schedule in account.campaigns.find(campaign => campaign.id === selectedCampaign).campaign_schedules"
+                                    v-for="(schedule, index) in account.campaigns.find(campaign => campaign.id === selectedCampaign).campaign_schedules"
                                 >
                                     <a
                                         class="nav-link"
+                                        :class="['nav-link', !index ? 'active' : null]"
                                         data-toggle="tab"
                                         :href="'#schedule' + schedule.id"
                                         role="tab"
+                                        @click="selectedSchedule = index"
                                     >
                                         <span class="d-none d-md-block">{{schedule.schedule.name}}</span>
                                         <span class="d-block d-md-none">
@@ -145,14 +168,15 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div
-                                    class="tab-pane p-3"
+                                    :class="['tab-pane p-3', !index ? 'active' : null]"
                                     :id="'schedule' + schedule.id"
                                     role="tabpanel"
-                                    v-for="schedule in account.campaigns.find(campaign => campaign.id === selectedCampaign).campaign_schedules"
+                                    v-for="(schedule, index) in account.campaigns.find(campaign => campaign.id === selectedCampaign).campaign_schedules"
                                 >
-                                <create-schedule
-                                :schedule="schedule"
-                                ></create-schedule>
+                                    <create-schedule
+                                        :schedule="schedule"
+                                        v-if="selectedSchedule === index"
+                                    ></create-schedule>
                                 </div>
                             </div>
                         </div>
@@ -166,13 +190,14 @@
 <script>
     import Multiselect from "vue-multiselect";
     import CreateCampaign from "./CreateCampaign";
-    import CreateSchedule from './CreateSchedule';
+    import CreateSchedule from "./CreateSchedule";
     export default {
         components: { Multiselect, CreateCampaign, CreateSchedule },
         props: ["account", "users", "schedules"],
 
         data() {
             return {
+                selectedSchedule: 0,
                 selectedCampaign: this.account.campaigns[0].id,
                 selectedUsers: this.account.user_accounts.map(
                     (userAccount) => userAccount.user
@@ -181,6 +206,8 @@
                 userOptions: this.users,
             };
         },
+
+        mounted() {},
 
         methods: {
             addTag(newTag) {
@@ -193,6 +220,15 @@
                 this.options.push(tag);
                 this.value.push(tag);
             },
+
+            updateAccount(){
+                let obj = {
+                    account_name: accountName,
+                    selected_users: selectedUsers,
+                }
+
+                axios.post(`/admin/account/${this.account.id}`, obj).then(()=>{}).catch(()=>{})
+            }
         },
     };
 </script>

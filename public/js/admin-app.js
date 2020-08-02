@@ -2692,17 +2692,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Multiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a
   },
-  props: ["schedules", 'id', 'campaign', 'injSelectedSchedules'],
+  props: ["schedules", "id", "campaign", "injSelectedSchedules"],
   data: function data() {
     return {
-      campaignName: this.campaign.name || null,
-      campaignDescription: this.campaign.description || null,
+      campaignName: this.campaign ? this.campaign.name : null,
+      campaignDescription: this.campaign ? this.campaign.description : null,
       selectedSchedules: this.injSelectedSchedules ? this.injSelectedSchedules.map(function (account_schedule) {
         return account_schedule.schedule;
       }) : this.schedules.map(function (x) {
@@ -2725,14 +2724,22 @@ __webpack_require__.r(__webpack_exports__);
       this.options.push(tag);
       this.value.push(tag);
     },
-    changedCampaignDetails: function changedCampaignDetails() {
+    // changedCampaignDetails() {
+    //     let obj = {
+    //         campaignName: this.campaignName,
+    //         campaignDescription: this.campaignDescription,
+    //         selectedSchedules: this.selectedSchedules,
+    //     };
+    //     let id = this.id;
+    //     this.$emit("changed-campaign-details", obj, id);
+    // },
+    updateCampaign: function updateCampaign() {
       var obj = {
-        campaignName: this.campaignName,
-        campaignDescription: this.campaignDescription,
-        selectedSchedules: this.selectedSchedules
+        campaign_name: this.campaignName,
+        campaign_description: this.campaignDescription,
+        campaign_schedules: this.selectedSchedules
       };
-      var id = this.id;
-      this.$emit('changed-campaign-details', obj, id);
+      axios.post("/admin/campaign/".concat(this.campaign.id), obj).then()["catch"]();
     }
   }
 });
@@ -2784,7 +2791,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2793,7 +2799,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ["schedule"],
   data: function data() {
     return {
-      step_amount: this.schedule.steps.length
+      schedule_steps: this.schedule.steps
     };
   },
   computed: {
@@ -2812,30 +2818,30 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    changeType: function changeType() {
-      var selectedStep = this.steps_array.find(function (step) {
-        return step.step_number == event.target.getAttribute("data-key");
-      });
-      selectedStep.step_type = event.target.value;
-    },
-    changeDayGap: function changeDayGap() {
-      var selectedStep = this.steps_array.find(function (step) {
-        return step.step_number == event.target.getAttribute("data-key");
-      });
-      selectedStep.day_gap = event.target.value;
-    },
-    createSchedule: function createSchedule() {
-      var _this = this;
-
+    saveSchedule: function saveSchedule() {
       var obj = {
-        steps_array: this.steps_array,
-        schedule_name: this.schedule_name
+        steps_array: this.schedule_steps
+      }; // axios.post(`/schedule`, obj).then((res) => {
+      //     this.steps_array = null;
+      //     this.schedule_nam = null;
+      //     this.step_amount = 1;
+      // });
+    },
+    deleteStep: function deleteStep() {
+      console.log("how you delete the step");
+      this.schedule_steps.splice(this.schedule_steps.length - 1, 1);
+    },
+    addStep: function addStep() {
+      console.log("addStepBetween");
+      var step = {
+        campaign_schedule_id: 1,
+        schedule_id: null,
+        step_number: this.schedule_steps.length + 1,
+        type: "call",
+        day_gap: 1,
+        template: {}
       };
-      axios.post("/schedule", obj).then(function (res) {
-        _this.steps_array = null;
-        _this.schedule_nam = null;
-        _this.step_amount = 1;
-      });
+      this.schedule_steps.push(step);
     }
   }
 });
@@ -3020,6 +3026,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3032,6 +3062,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ["account", "users", "schedules"],
   data: function data() {
     return {
+      selectedSchedule: 0,
       selectedCampaign: this.account.campaigns[0].id,
       selectedUsers: this.account.user_accounts.map(function (userAccount) {
         return userAccount.user;
@@ -3040,6 +3071,7 @@ __webpack_require__.r(__webpack_exports__);
       userOptions: this.users
     };
   },
+  mounted: function mounted() {},
   methods: {
     addTag: function addTag(newTag) {
       var tag = {
@@ -3048,6 +3080,13 @@ __webpack_require__.r(__webpack_exports__);
       };
       this.options.push(tag);
       this.value.push(tag);
+    },
+    updateAccount: function updateAccount() {
+      var obj = {
+        account_name: accountName,
+        selected_users: selectedUsers
+      };
+      axios.post("/admin/account/".concat(this.account.id), obj).then(function () {})["catch"](function () {});
     }
   }
 });
@@ -3064,8 +3103,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TemplateModal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TemplateModal */ "./resources/js/components/admin/TemplateModal.vue");
-//
-//
 //
 //
 //
@@ -3171,11 +3208,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["template", "type"],
+  data: function data() {
+    return {
+      pointer: this.template.pointer,
+      emailSubject: this.template.email_subject,
+      emailContent: this.template.email_content
+    };
+  },
   mounted: function mounted() {
     if (this.type === "email") {
       $(".summernote").summernote("code", this.template.email_content);
+    }
+  },
+  methods: {
+    updateTemplate: function updateTemplate() {
+      var obj = {
+        pointer: this.pointer,
+        email_subject: this.emailSubject,
+        email_content: $(".summernote").summernote("code")
+      };
+      axios.post("/admin/schedule/".concat(this.template.id));
     }
   }
 });
@@ -18639,7 +18697,6 @@ var render = function() {
         attrs: { type: "text" },
         domProps: { value: _vm.campaignName },
         on: {
-          blur: _vm.changedCampaignDetails,
           input: function($event) {
             if ($event.target.composing) {
               return
@@ -18664,7 +18721,6 @@ var render = function() {
         attrs: { type: "text" },
         domProps: { value: _vm.campaignDescription },
         on: {
-          blur: _vm.changedCampaignDetails,
           input: function($event) {
             if ($event.target.composing) {
               return
@@ -18694,7 +18750,18 @@ var render = function() {
           },
           expression: "selectedSchedules"
         }
-      })
+      }),
+      _vm._v(" "),
+      this.campaign
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-outline-primary mt-2",
+              on: { click: _vm.updateCampaign }
+            },
+            [_vm._v("Save Changes")]
+          )
+        : _vm._e()
     ],
     1
   )
@@ -18727,48 +18794,6 @@ var render = function() {
         _vm._v("Create Schedule")
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "d-flex" }, [
-        _c("div", { staticClass: "w-100" }, [
-          _c("label", [_vm._v("Number of Steps")]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.step_amount,
-                  expression: "step_amount"
-                }
-              ],
-              staticClass: "form-control",
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.step_amount = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
-              }
-            },
-            _vm._l(20, function(index) {
-              return _c("option", { domProps: { value: index } }, [
-                _vm._v(_vm._s(index))
-              ])
-            }),
-            0
-          )
-        ])
-      ]),
-      _vm._v(" "),
       _c("h4", { staticClass: "card-title font-14" }, [_vm._v("Steps")]),
       _vm._v(" "),
       _c("div", { staticClass: "table-responsive" }, [
@@ -18777,7 +18802,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "tbody",
-            _vm._l(_vm.schedule.steps, function(step) {
+            _vm._l(_vm.schedule_steps, function(step) {
               return _c("step", { key: step.id, attrs: { step: step } })
             }),
             1
@@ -18785,13 +18810,33 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _c("div", { staticClass: "d-flex mt-2" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary waves-effect waves-light mx-2",
+            on: { click: _vm.addStep }
+          },
+          [_c("i", { staticClass: "mdi mdi-plus" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-danger waves-effect waves-light",
+            on: { click: _vm.deleteStep }
+          },
+          [_c("i", { staticClass: "mdi mdi-trash-can" })]
+        )
+      ]),
+      _vm._v(" "),
       _c(
         "button",
         {
-          staticClass: "btn btn-primary waves-effect waves-light mt-2",
-          on: { click: _vm.createSchedule }
+          staticClass: "btn btn-outline-primary waves-effect waves-light mt-2",
+          on: { click: _vm.saveSchedule }
         },
-        [_vm._v("Create Schedule")]
+        [_vm._v("Save Schedule")]
       )
     ])
   ])
@@ -18844,7 +18889,12 @@ var render = function() {
           _c(
             "div",
             {
-              staticClass: "collapse show",
+              class: [
+                "collapse",
+                this.account.campaigns[0].campaign_schedules[0].steps.length
+                  ? "show"
+                  : "null"
+              ],
               attrs: {
                 id: "collapseOne",
                 "aria-labelledby": "headingOne",
@@ -18905,6 +18955,15 @@ var render = function() {
                     })
                   ],
                   1
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-outline-primary my-2 w-100",
+                    on: { click: _vm.updateAccount }
+                  },
+                  [_vm._v("Save Changes")]
                 )
               ])
             ]
@@ -18932,7 +18991,7 @@ var render = function() {
                     staticClass: "nav nav-pills nav-justified",
                     attrs: { role: "tablist" }
                   },
-                  _vm._l(_vm.account.campaigns, function(campaign) {
+                  _vm._l(_vm.account.campaigns, function(campaign, index) {
                     return _c(
                       "li",
                       { staticClass: "nav-item waves-effect waves-light" },
@@ -18940,7 +18999,7 @@ var render = function() {
                         _c(
                           "a",
                           {
-                            staticClass: "nav-link",
+                            class: ["nav-link", !index ? "active" : null],
                             attrs: {
                               "data-toggle": "tab",
                               href: "#campaign" + campaign.id,
@@ -18964,11 +19023,11 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "tab-content" },
-                  _vm._l(_vm.account.campaigns, function(campaign) {
+                  _vm._l(_vm.account.campaigns, function(campaign, index) {
                     return _c(
                       "div",
                       {
-                        staticClass: "tab-pane p-3",
+                        class: ["tab-pane p-3", !index ? "active" : null],
                         attrs: {
                           id: "campaign" + campaign.id,
                           role: "tabpanel"
@@ -18995,12 +19054,60 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card mb-0" }, [
-          _vm._m(3),
+          _c(
+            "div",
+            {
+              class: [
+                this.account.campaigns[0].campaign_schedules[0].steps.length
+                  ? "bg-primary"
+                  : null,
+                "card-header d-flex justify-content-between"
+              ],
+              attrs: { id: "headingThree" }
+            },
+            [
+              _c("h5", { staticClass: "mb-0 mt-0 font-14" }, [
+                _c(
+                  "a",
+                  {
+                    class: [
+                      this.account.campaigns[0].campaign_schedules[0].steps
+                        .length
+                        ? "text-white"
+                        : "text-dark",
+                      "collapsed"
+                    ],
+                    attrs: {
+                      "data-toggle": "collapse",
+                      "data-parent": "#accordion",
+                      href: "#collapseThree",
+                      "aria-expanded": "false",
+                      "aria-controls": "collapseThree"
+                    }
+                  },
+                  [_vm._v("Schedules")]
+                )
+              ]),
+              _vm._v(" "),
+              this.account.campaigns[0].campaign_schedules[0].steps.length
+                ? _c("span", { staticClass: "badge badge-default" }, [
+                    _vm._v("Complete")
+                  ])
+                : _c("span", { staticClass: "badge badge-danger" }, [
+                    _vm._v("Incomplete")
+                  ])
+            ]
+          ),
           _vm._v(" "),
           _c(
             "div",
             {
-              staticClass: "collapse",
+              class: [
+                "collapse",
+                this.account.campaigns[0].campaign_schedules[0].steps.length
+                  ? "null"
+                  : "show"
+              ],
               attrs: {
                 id: "collapseThree",
                 "aria-labelledby": "headingThree",
@@ -19009,6 +19116,10 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "card-body" }, [
+                _c("label", { attrs: { for: "" } }, [
+                  _vm._v("Choose Campaign")
+                ]),
+                _vm._v(" "),
                 _c(
                   "select",
                   {
@@ -19020,7 +19131,7 @@ var render = function() {
                         expression: "selectedCampaign"
                       }
                     ],
-                    staticClass: "form-control",
+                    staticClass: "form-control mb-2",
                     on: {
                       change: function($event) {
                         var $$selectedVal = Array.prototype.filter
@@ -19055,7 +19166,7 @@ var render = function() {
                     _vm.account.campaigns.find(function(campaign) {
                       return campaign.id === _vm.selectedCampaign
                     }).campaign_schedules,
-                    function(schedule) {
+                    function(schedule, index) {
                       return _c(
                         "li",
                         { staticClass: "nav-item waves-effect waves-light" },
@@ -19064,10 +19175,16 @@ var render = function() {
                             "a",
                             {
                               staticClass: "nav-link",
+                              class: ["nav-link", !index ? "active" : null],
                               attrs: {
                                 "data-toggle": "tab",
                                 href: "#schedule" + schedule.id,
                                 role: "tab"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.selectedSchedule = index
+                                }
                               }
                             },
                             [
@@ -19075,7 +19192,7 @@ var render = function() {
                                 _vm._v(_vm._s(schedule.schedule.name))
                               ]),
                               _vm._v(" "),
-                              _vm._m(4, true)
+                              _vm._m(3, true)
                             ]
                           )
                         ]
@@ -19092,20 +19209,22 @@ var render = function() {
                     _vm.account.campaigns.find(function(campaign) {
                       return campaign.id === _vm.selectedCampaign
                     }).campaign_schedules,
-                    function(schedule) {
+                    function(schedule, index) {
                       return _c(
                         "div",
                         {
-                          staticClass: "tab-pane p-3",
+                          class: ["tab-pane p-3", !index ? "active" : null],
                           attrs: {
                             id: "schedule" + schedule.id,
                             role: "tabpanel"
                           }
                         },
                         [
-                          _c("create-schedule", {
-                            attrs: { schedule: schedule }
-                          })
+                          _vm.selectedSchedule === index
+                            ? _c("create-schedule", {
+                                attrs: { schedule: schedule }
+                              })
+                            : _vm._e()
                         ],
                         1
                       )
@@ -19128,13 +19247,16 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "card-header", attrs: { id: "headingOne" } },
+      {
+        staticClass: "card-header bg-primary d-flex justify-content-between",
+        attrs: { id: "headingOne" }
+      },
       [
         _c("h5", { staticClass: "mb-0 mt-0 font-14" }, [
           _c(
             "a",
             {
-              staticClass: "text-dark",
+              staticClass: "text-white",
               attrs: {
                 "data-toggle": "collapse",
                 "data-parent": "#accordion",
@@ -19145,7 +19267,9 @@ var staticRenderFns = [
             },
             [_vm._v("Account Name and Users")]
           )
-        ])
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "badge badge-default" }, [_vm._v("Complete")])
       ]
     )
   },
@@ -19155,13 +19279,16 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "card-header", attrs: { id: "headingTwo" } },
+      {
+        staticClass: "card-header bg-primary d-flex justify-content-between",
+        attrs: { id: "headingTwo" }
+      },
       [
         _c("h5", { staticClass: "mb-0 mt-0 font-14" }, [
           _c(
             "a",
             {
-              staticClass: "text-dark collapsed",
+              staticClass: "text-white collapsed",
               attrs: {
                 "data-toggle": "collapse",
                 "data-parent": "#accordion",
@@ -19172,7 +19299,9 @@ var staticRenderFns = [
             },
             [_vm._v("Campaigns")]
           )
-        ])
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "badge badge-default" }, [_vm._v("Complete")])
       ]
     )
   },
@@ -19183,33 +19312,6 @@ var staticRenderFns = [
     return _c("span", { staticClass: "d-block d-md-none" }, [
       _c("i", { staticClass: "mdi mdi-home-variant h5" })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "card-header", attrs: { id: "headingThree" } },
-      [
-        _c("h5", { staticClass: "mb-0 mt-0 font-14" }, [
-          _c(
-            "a",
-            {
-              staticClass: "text-dark collapsed",
-              attrs: {
-                "data-toggle": "collapse",
-                "data-parent": "#accordion",
-                href: "#collapseThree",
-                "aria-expanded": "false",
-                "aria-controls": "collapseThree"
-              }
-            },
-            [_vm._v("Schedules")]
-          )
-        ])
-      ]
-    )
   },
   function() {
     var _vm = this
@@ -19321,11 +19423,11 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c("td", [
+    _c("td", { staticClass: "d-flex justify-content-around" }, [
       _c(
         "button",
         {
-          staticClass: "btn btn-primary waves-effect waves-light",
+          staticClass: "btn btn-outline-primary waves-effect waves-light",
           attrs: {
             type: "button",
             "data-toggle": "modal",
@@ -19390,9 +19492,25 @@ var render = function() {
               _c("h5", { staticClass: "font-16" }, [_vm._v("Pointer")]),
               _vm._v(" "),
               _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pointer,
+                    expression: "pointer"
+                  }
+                ],
                 staticClass: "form-control",
                 attrs: { rows: "7" },
-                domProps: { value: this.template.pointer }
+                domProps: { value: _vm.pointer },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.pointer = $event.target.value
+                  }
+                }
               })
             ])
           : _c("div", [
@@ -19411,7 +19529,26 @@ var render = function() {
             ])
       ]),
       _vm._v(" "),
-      _vm._m(1)
+      _c("div", { staticClass: "modal-footer" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary waves-effect",
+            attrs: { type: "button", "data-dismiss": "modal" }
+          },
+          [_vm._v("Close")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary waves-effect waves-light",
+            attrs: { type: "button" },
+            on: { click: _vm.updateTemplate }
+          },
+          [_vm._v("Save changes")]
+        )
+      ])
     ])
   ])
 }
@@ -19438,30 +19575,6 @@ var staticRenderFns = [
           }
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary waves-effect",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Close")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary waves-effect waves-light",
-          attrs: { type: "button" }
-        },
-        [_vm._v("Save changes")]
       )
     ])
   }

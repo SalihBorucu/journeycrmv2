@@ -5,14 +5,12 @@
             type="text"
             class="form-control"
             v-model="campaignName"
-            @blur="changedCampaignDetails"
         />
         <label for>Description</label>
         <input
             type="text"
             class="form-control"
             v-model="campaignDescription"
-            @blur="changedCampaignDetails"
         />
         <label class="typo__label">Attach Schedules</label>
         <multiselect
@@ -26,6 +24,7 @@
             :taggable="true"
             @tag="addTag"
         ></multiselect>
+        <button class="btn btn-outline-primary mt-2" @click="updateCampaign" v-if="this.campaign">Save Changes</button>
     </div>
 </template>
 
@@ -33,21 +32,25 @@
     import Multiselect from "vue-multiselect";
     export default {
         components: { Multiselect },
-        props: ["schedules", 'id', 'campaign', 'injSelectedSchedules'],
+        props: ["schedules", "id", "campaign", "injSelectedSchedules"],
 
         data() {
             return {
-                campaignName: this.campaign.name || null,
-                campaignDescription: this.campaign.description || null,
-                selectedSchedules: this.injSelectedSchedules ? this.injSelectedSchedules.map(account_schedule => account_schedule.schedule) : this.schedules.map((x) => x),
+                campaignName: this.campaign ? this.campaign.name : null,
+                campaignDescription: this.campaign ? this.campaign.description : null,
+                selectedSchedules: this.injSelectedSchedules
+                    ? this.injSelectedSchedules.map(
+                        (account_schedule) => account_schedule.schedule
+                    )
+                    : this.schedules.map((x) => x),
                 scheduleOptions: this.schedules,
             };
         },
 
         watch: {
-            selectedSchedules(){
-                this.changedCampaignDetails()
-            }
+            selectedSchedules() {
+                this.changedCampaignDetails();
+            },
         },
         methods: {
             addTag(newTag) {
@@ -61,16 +64,29 @@
                 this.value.push(tag);
             },
 
-            changedCampaignDetails() {
+            // changedCampaignDetails() {
+            //     let obj = {
+            //         campaignName: this.campaignName,
+            //         campaignDescription: this.campaignDescription,
+            //         selectedSchedules: this.selectedSchedules,
+            //     };
+
+            //     let id = this.id;
+
+            //     this.$emit("changed-campaign-details", obj, id);
+            // },
+
+            updateCampaign() {
                 let obj = {
-                    campaignName: this.campaignName,
-                    campaignDescription: this.campaignDescription,
-                    selectedSchedules: this.selectedSchedules,
+                    campaign_name: this.campaignName,
+                    campaign_description: this.campaignDescription,
+                    campaign_schedules: this.selectedSchedules,
                 };
 
-                let id = this.id;
-
-                this.$emit('changed-campaign-details', obj, id)
+                axios
+                    .post(`/admin/campaign/${this.campaign.id}`, obj)
+                    .then()
+                    .catch();
             },
         },
     };

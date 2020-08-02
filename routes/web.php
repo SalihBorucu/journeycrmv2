@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
         $users = User::all();
         $currentUser = Auth::user();
 
-        return view('admin.admin-create', compact('campaigns', 'schedules', 'users', 'currentUser'));
+        return view('admin.admin-account-create', compact('campaigns', 'schedules', 'users', 'currentUser'));
     });
 
     Route::get('/activities', 'ActivitiesController@index');
@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::post('admin/account', 'AccountController@create');
+    Route::get('admin/account', 'AccountController@index');
     Route::get('admin/account/{id}', 'AccountController@show');
 
     Route::get('/lead/incomplete-leads', 'IncompleteLeadController@index');

@@ -2,14 +2,6 @@
     <div class="row">
         <div class="card m-b-30 card-body">
             <h3 class="card-title font-16 mt-0">Create Schedule</h3>
-            <div class="d-flex">
-                <div class="w-100">
-                    <label>Number of Steps</label>
-                    <select class="form-control" v-model="step_amount">
-                        <option :value="index" v-for="index in 20">{{index}}</option>
-                    </select>
-                </div>
-            </div>
             <h4 class="card-title font-14">Steps</h4>
             <div class="table-responsive">
                 <table class="table mb-0">
@@ -22,15 +14,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <step v-for="step in schedule.steps" :key="step.id" :step="step"></step>
+                        <step v-for="step in schedule_steps" :key="step.id" :step="step"></step>
                     </tbody>
                 </table>
             </div>
-
+            <div class="d-flex mt-2">
+                <button class="btn btn-primary waves-effect waves-light mx-2" @click="addStep">
+                    <i class="mdi mdi-plus"></i>
+                </button>
+                <button class="btn btn-danger waves-effect waves-light" @click="deleteStep">
+                    <i class="mdi mdi-trash-can"></i>
+                </button>
+            </div>
             <button
-                class="btn btn-primary waves-effect waves-light mt-2"
-                @click="createSchedule"
-            >Create Schedule</button>
+                class="btn btn-outline-primary waves-effect waves-light mt-2"
+                @click="saveSchedule"
+            >Save Schedule</button>
         </div>
     </div>
 </template>
@@ -41,7 +40,7 @@
         props: ["schedule"],
         data() {
             return {
-                step_amount: this.schedule.steps.length,
+                schedule_steps: this.schedule.steps,
             };
         },
 
@@ -60,33 +59,34 @@
         },
 
         methods: {
-            changeType() {
-                let selectedStep = this.steps_array.find(
-                    (step) =>
-                        step.step_number == event.target.getAttribute("data-key")
-                );
-                selectedStep.step_type = event.target.value;
-            },
-
-            changeDayGap() {
-                let selectedStep = this.steps_array.find(
-                    (step) =>
-                        step.step_number == event.target.getAttribute("data-key")
-                );
-                selectedStep.day_gap = event.target.value;
-            },
-
-            createSchedule() {
+            saveSchedule() {
                 let obj = {
-                    steps_array: this.steps_array,
-                    schedule_name: this.schedule_name,
+                    steps_array: this.schedule_steps,
                 };
 
-                axios.post(`/schedule`, obj).then((res) => {
-                    this.steps_array = null;
-                    this.schedule_nam = null;
-                    this.step_amount = 1;
-                });
+                // axios.post(`/schedule`, obj).then((res) => {
+                //     this.steps_array = null;
+                //     this.schedule_nam = null;
+                //     this.step_amount = 1;
+                // });
+            },
+
+            deleteStep() {
+                console.log("how you delete the step");
+                this.schedule_steps.splice(this.schedule_steps.length - 1, 1);
+            },
+
+            addStep() {
+                console.log("addStepBetween");
+                let step = {
+                    campaign_schedule_id: 1,
+                    schedule_id: null,
+                    step_number: this.schedule_steps.length + 1,
+                    type: "call",
+                    day_gap: 1,
+                    template: {},
+                };
+                this.schedule_steps.push(step);
             },
         },
     };

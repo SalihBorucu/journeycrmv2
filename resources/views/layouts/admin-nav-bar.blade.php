@@ -1,23 +1,22 @@
 <ul class="nav nav-pills nav-justified" role="tablist">
     <li class="nav-item waves-effect waves-light">
-        <a class="nav-link {{ Request::is('lead') ? 'active' : '' }}" href="{{ Request::is('lead') ? 'javascript: void(0)' : '/lead' }}">
-            <span class="d-none d-md-block {{ Request::is('lead') ? 'text-white' : 'text-primary' }}">New Lead</span><span class="d-block d-md-none"><i class="mdi mdi-home-variant h5"></i></span>
+        <a class="nav-link {{ Request::is('admin') ? 'active' : '' }}" href="{{ Request::is('admin') ? 'javascript: void(0)' : '/admin' }}">
+            <span class="d-none d-md-block {{ Request::is('admin') ? 'text-white' : 'text-primary' }}">New Account</span>
         </a>
     </li>
     <li class="nav-item waves-effect waves-light">
-        <a class="nav-link {{ Request::is('lead/incomplete-leads') ? 'active' : '' }}" href="{{ Request::is('lead/incomplete-leads') ? 'javascript: void(0)' : '/lead/incomplete-leads' }}">
-            <span class="d-none d-md-block {{ Request::is('lead/incomplete-leads') ? 'text-white' : 'text-primary' }}">Incomplete Leads</span><span class="d-block d-md-none"><i class="mdi mdi-account h5"></i></span>
+        <a class="nav-link {{ Request::is('admin/account*') ? 'active' : '' }}" href="{{ Request::is('admin/account') ? 'javascript: void(0)' : '/admin/account' }}">
+            <span class="d-none d-md-block {{ Request::is('admin/account*') ? 'text-white' : 'text-primary' }}">Edit Account</span><span class="d-block d-md-none">
         </a>
     </li>
     <li class="nav-item waves-effect waves-light">
-        <a class="nav-link {{ Request::is('lead/unassigned-leads') ? 'active' : '' }}" href="{{ Request::is('lead/unassigned-leads') ? 'javascript: void(0)' : '/lead/unassigned-leads' }}">
-            <span class="d-none d-md-block {{ Request::is('lead/unassigned-leads') ? 'text-white' : 'text-primary' }}">Unassigned Leads</span><span class="d-block d-md-none"><i class="mdi mdi-email h5"></i></span>
+        <a class="nav-link {{ Request::is('admin/user*') ? 'active' : '' }}" href="{{ Request::is('admin/user') ? 'javascript: void(0)' : '/admin/user' }}">
+            <span class="d-none d-md-block {{ Request::is('admin/user*') ? 'text-white' : 'text-primary' }}">New User</span><span class="d-block d-md-none">
         </a>
     </li>
     <li class="nav-item waves-effect waves-light">
-        <a class="nav-link {{ Request::is('lead/lead-shopping') ? 'active' : '' }}" href="{{ Request::is('lead/lead-shopping') ? 'javascript: void(0)' : '/lead/lead-shopping' }}">
-            <span class="d-none d-md-block {{ Request::is('lead/lead-shopping') ? 'text-white' : 'text-primary' }}">Lead Shopping</span><span class="d-block d-md-none"><i class="mdi mdi-email h5"></i></span>
+        <a class="nav-link {{ Request::is('admin/user*') ? 'active' : '' }}" href="{{ Request::is('admin/user') ? 'javascript: void(0)' : '/admin/user' }}">
+            <span class="d-none d-md-block {{ Request::is('admin/user*') ? 'text-white' : 'text-primary' }}">Edit Users</span><span class="d-block d-md-none">
         </a>
     </li>
-
 </ul>

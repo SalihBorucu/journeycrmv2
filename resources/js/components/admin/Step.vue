@@ -13,15 +13,14 @@
                 <option :value="i" v-for="(n, i) in 20">{{i}}</option>
             </select>
         </td>
-        <td>
+        <td class="d-flex justify-content-around">
             <button
                 type="button"
-                class="btn btn-primary waves-effect waves-light"
+                class="btn btn-outline-primary waves-effect waves-light"
                 data-toggle="modal"
                 :data-target="'#myModal' + step.id"
                 @click="activateSummerNote"
             >Template</button>
-
             <div
                 :id="'myModal' + step.id"
                 class="modal fade bs-example-modal-lg"
@@ -30,8 +29,7 @@
                 aria-labelledby="myModalLabel"
                 aria-hidden="true"
             >
-                <template-modal :template="step.template"
-                :type="type"></template-modal>
+                <template-modal :template="step.template" :type="type"></template-modal>
             </div>
         </td>
     </tr>
@@ -50,14 +48,14 @@
         },
 
         methods: {
-            activateSummerNote(){
+            activateSummerNote() {
                 $(".summernote").summernote({
-                        height: 300,
-                        minHeight: null,
-                        maxHeight: null,
-                        focus: true,
-                    });
-            }
+                    height: 300,
+                    minHeight: null,
+                    maxHeight: null,
+                    focus: true,
+                });
+            },
         },
     };
 </script>

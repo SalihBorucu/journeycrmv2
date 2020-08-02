@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div v-if="type !== 'email'">
                     <h5 class="font-16">Pointer</h5>
-                    <textarea class="form-control" :value="this.template.pointer" rows="7" />
+                    <textarea class="form-control" v-model="pointer" rows="7" />
                 </div>
                 <div v-else>
                     <h5 class="font-16">Email Template</h5>
@@ -26,7 +26,11 @@
                     class="btn btn-secondary waves-effect"
                     data-dismiss="modal"
                 >Close</button>
-                <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button>
+                <button
+                    type="button"
+                    class="btn btn-primary waves-effect waves-light"
+                    @click="updateTemplate"
+                >Save changes</button>
             </div>
         </div>
     </div>
@@ -35,10 +39,30 @@
     export default {
         props: ["template", "type"],
 
+        data() {
+            return {
+                pointer: this.template.pointer,
+                emailSubject: this.template.email_subject,
+                emailContent: this.template.email_content,
+            };
+        },
+
         mounted() {
             if (this.type === "email") {
                 $(".summernote").summernote("code", this.template.email_content);
             }
+        },
+
+        methods: {
+            updateTemplate() {
+                let obj = {
+                    pointer: this.pointer,
+                    email_subject: this.emailSubject,
+                    email_content: $(".summernote").summernote("code"),
+                };
+
+                axios.post(`/admin/schedule/${this.template.id}`)
+            },
         },
     };
 </script>

@@ -15,6 +15,11 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
+    public function index(){
+        $accounts = Account::with(['campaigns.campaignSchedules.schedule', 'userAccounts.user' ])->get();
+        return view('admin.admin-accounts', compact('accounts'));
+    }
+
     public function create()
     {
         $account = Account::create([
