@@ -19220,7 +19220,9 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _vm.injAccount.campaigns.length > 1
+                            _vm.account.campaigns.filter(function(acc) {
+                              return acc.id
+                            }).length > 1
                               ? _c(
                                   "button",
                                   {

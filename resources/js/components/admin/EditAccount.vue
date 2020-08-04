@@ -119,7 +119,7 @@
                                         <i class="mdi mdi-plus"></i>
                                         Add New Campaign
                                     </button>
-                                    <button v-if="injAccount.campaigns.length > 1"
+                                    <button v-if="account.campaigns.filter(acc => acc.id).length > 1"
                                     class="btn btn-outline-danger" @click="deleteCampaign(campaign)">
                                         <i class="mdi mdi-minus"></i>
                                         Delete Campaign
