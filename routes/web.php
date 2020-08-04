@@ -3,6 +3,8 @@
 use App\Account;
 use App\Step;
 use App\Campaign;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\GlobalLeadNotesController;
 use App\Schedule;
 use App\StepTemplate;
 use App\User;
@@ -48,6 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/activities/campaign/{campaign}', 'ActivitiesController@show');
     Route::post('/activity', 'ActivitiesController@create');
     Route::post('/activity/email', 'ActivitiesController@email');
+
+    Route::post('/global-note', 'GlobalLeadNotesController@create');
+    Route::patch('/company/{id}', 'CompanyController@update');
 
     Route::get('/lead', 'LeadController@index');
     Route::post('/lead', 'LeadController@create');

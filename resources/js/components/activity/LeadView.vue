@@ -39,55 +39,77 @@
                             <i class="mdi mdi-email bg-primary text-white" style="font-size: 60px"></i>
                         </a>
                         <a class="social-source-icon lg-icon mr-1" :href="this.lead.lead.linkedin">
-                            <i class="mdi mdi-linkedin bg-primary text-white" style="font-size: 60px"></i>
+                            <i
+                                class="mdi mdi-linkedin bg-primary text-white"
+                                style="font-size: 60px"
+                            ></i>
                         </a>
                         <div class="social-source-icon lg-icon mr-1">
                             <i class="mdi mdi-google bg-primary text-white" style="font-size: 60px"></i>
                         </div>
                     </div>
                 </div>
-                <div class="card card-body">
-                    Other users who have interacted with this lead.
+                <div class="card card-body pt-2 pr-2">
+                    <div v-if="!editingCompanyNote" class="d-flex justify-content-between" @click="editingCompanyNote = true">
+                        About {{ lead.lead.company.name }}:
+                        <i
+                            class="btn btn-outline-primary mdi mdi-pencil text-primaryfont-16 py-0 px-1 float-right d-none d-md-block"
+                        ></i>
+                    </div>
                     <div class="d-flex mt-2 justify-content-around">
-                        <div>
-                            <a class="d-flex pr-3" href="#">
-                                <img src="/assets/images/users/avatar-3.jpg" alt="" height="40" class="rounded-circle" />
-                            </a>
-                            <p>User 1</p>
+                        <div v-if="editingCompanyNote">
+                            <textarea
+                                class="form-control"
+                                cols="60"
+                                rows="3"
+                                v-model="companyNote"
+                            ></textarea>
+                            <button
+                                class="btn btn-outline-primary mt-1"
+                                @click="updateCompanyNote"
+                            >Submit</button>
                         </div>
-                        <div>
-                            <a class="d-flex pr-3" href="#">
-                                <img src="/assets/images/users/avatar-3.jpg" alt="" height="40" class="rounded-circle" />
-                            </a>
-                            <p>User 2</p>
-                        </div>
-                        <div>
-                            <a class="d-flex pr-3" href="#">
-                                <img src="/assets/images/users/avatar-3.jpg" alt="" height="40" class="rounded-circle" />
-                            </a>
-                            <p>User 3</p>
-                        </div>
+                        <div v-else>{{ companyNote }}</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <activity-component
-        @activity-complete="$emit('activity-complete', lead.id)"
-        :lead="this.lead"
-        :step="this.lead.step">
-        </activity-component>
+            @activity-complete="$emit('activity-complete', lead.id)"
+            :lead="this.lead"
+            :step="this.lead.step"
+        ></activity-component>
 
         <lead-history :lead="this.lead"></lead-history>
     </div>
 </template>
 
 <script>
-    import LeadHistory from './LeadHistory';
-    import ActivityComponent from './ActivityComponent';
+    import LeadHistory from "./LeadHistory";
+    import ActivityComponent from "./ActivityComponent";
 
     export default {
         components: { LeadHistory, ActivityComponent },
-        props: ['lead'],
+        props: ["lead"],
+
+        data() {
+            return {
+                editingCompanyNote: false,
+                companyNote: this.lead.lead.company.tools_note,
+            };
+        },
+
+        methods: {
+            updateCompanyNote(){
+                let obj = {
+                    tools_note: this.companyNote
+                }
+                axios.patch(`/company/${this.lead.lead.company.id}`, obj).then(res=>{
+                    this.editingCompanyNote = false,
+                    this.companyNote = res.data
+                })
+            }
+        },
     };
 </script>

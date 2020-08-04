@@ -14,8 +14,11 @@
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/summernote-bs4.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/morris.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/bootstrap-rating.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <script src="/js/plugins.js"></script>
+        <script src="{{ asset('assets/js/bootstrap-rating.min.js') }}"></script>
+        <script src="{{ asset('assets/js/rating-init.js') }}"></script>
     </head>
 
     <body>
