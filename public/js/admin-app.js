@@ -2641,7 +2641,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post("/admin/account", obj).then(function (res) {
         var account = res.data;
-        swal("Well done!", "Account and campaign created succesfully. Head over to <a href=/test>schedules</a> to publish it.", "success").then(function () {
+        swal("Well done!", "Account and campaign created succesfully. Complete all the next sections to publish it.", "success").then(function () {
           window.location.href = window.location.href + "/account/".concat(account.id);
         });
       })["catch"](function () {});
@@ -2688,6 +2688,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2705,6 +2715,15 @@ __webpack_require__.r(__webpack_exports__);
       }),
       scheduleOptions: this.schedules
     };
+  },
+  watch: {
+    selectedSchedules: function selectedSchedules() {
+      this.$emit("changed-campaign-details", {
+        campaignName: this.campaignName,
+        campaignDescription: this.campaignDescription,
+        selectedSchedules: this.selectedSchedules
+      }, this.id);
+    }
   },
   methods: {
     addTag: function addTag(newTag) {
@@ -2779,6 +2798,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2790,33 +2814,26 @@ __webpack_require__.r(__webpack_exports__);
       schedule_steps: this.schedule.steps
     };
   },
-  computed: {
-    steps_array: function steps_array() {
-      var stepsArray = [];
-
-      for (var amount = 0; amount < this.step_amount; amount++) {
-        stepsArray.push({
-          step_number: amount + 1,
-          step_type: "email",
-          day_gap: 1
-        });
-      }
-
-      return stepsArray;
-    }
-  },
   methods: {
     saveSchedule: function saveSchedule() {
       var obj = {
         steps_array: this.schedule_steps
       };
-      axios.post("admin/schedule/".concat(this.schedule.id), obj).then(function (res) {})["catch"]();
+      axios.patch("/admin/schedule/".concat(this.schedule.id), obj).then(function (res) {
+        swal("Well done!", "Steps updated.", "success");
+      })["catch"]();
+    },
+    updateStep: function updateStep(changedStep) {
+      var step = this.schedule_steps.find(function (step) {
+        return step.step_number === changedStep.step_number;
+      });
+      step.day_gap = changedStep.day_gap;
+      step.type = changedStep.type;
     },
     deleteStep: function deleteStep() {
       this.schedule_steps.splice(this.schedule_steps.length - 1, 1);
     },
     addStep: function addStep() {
-      console.log("addStepBetween");
       var step = {
         campaign_schedule_id: 1,
         schedule_id: null,
@@ -2845,6 +2862,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _CreateCampaign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateCampaign */ "./resources/js/components/admin/CreateCampaign.vue");
 /* harmony import */ var _CreateSchedule__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CreateSchedule */ "./resources/js/components/admin/CreateSchedule.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3148,7 +3179,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     activateSummerNote: function activateSummerNote() {
-      $(".summernote").summernote({
+      $(".summernote".concat(this.step.step_number)).summernote({
         height: 300,
         minHeight: null,
         maxHeight: null,
@@ -3207,17 +3238,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["template", "type"],
+  props: ["template", "type", "step"],
   data: function data() {
     return {
-      pointer: this.template.pointer,
-      emailSubject: this.template.email_subject,
-      emailContent: this.template.email_content
+      pointer: this.template ? this.template.pointer : null,
+      emailSubject: this.template ? this.template.email_subject : null,
+      emailContent: this.template ? this.template.email_content : null
     };
   },
   mounted: function mounted() {
     if (this.type === "email") {
-      $(".summernote").summernote("code", this.template.email_content);
+      $(".summernote".concat(this.step.step_number)).summernote("code", this.emailContent);
     }
   },
   methods: {
@@ -3225,9 +3256,16 @@ __webpack_require__.r(__webpack_exports__);
       var obj = {
         pointer: this.pointer,
         email_subject: this.emailSubject,
-        email_content: $(".summernote").summernote("code")
+        email_content: $(".summernote".concat(this.step.step_number)).summernote("code")
       };
-      axios.post("/admin/schedule/".concat(this.template.id));
+
+      if (Object.keys(this.template)) {
+        obj["step"] = this.step;
+        axios.post("/admin/template", obj).then()["catch"]();
+        return;
+      }
+
+      axios.patch("/admin/template/".concat(this.template.id), obj);
     }
   }
 });
@@ -18691,6 +18729,17 @@ var render = function() {
         attrs: { type: "text" },
         domProps: { value: _vm.campaignName },
         on: {
+          change: function($event) {
+            return _vm.$emit(
+              "changed-campaign-details",
+              {
+                campaignName: _vm.campaignName,
+                campaignDescription: _vm.campaignDescription,
+                selectedSchedules: _vm.selectedSchedules
+              },
+              _vm.id
+            )
+          },
           input: function($event) {
             if ($event.target.composing) {
               return
@@ -18715,6 +18764,17 @@ var render = function() {
         attrs: { type: "text" },
         domProps: { value: _vm.campaignDescription },
         on: {
+          change: function($event) {
+            return _vm.$emit(
+              "changed-campaign-details",
+              {
+                campaignName: _vm.campaignName,
+                campaignDescription: _vm.campaignDescription,
+                selectedSchedules: _vm.selectedSchedules
+              },
+              _vm.id
+            )
+          },
           input: function($event) {
             if ($event.target.composing) {
               return
@@ -18797,7 +18857,11 @@ var render = function() {
           _c(
             "tbody",
             _vm._l(_vm.schedule_steps, function(step) {
-              return _c("step", { key: step.id, attrs: { step: step } })
+              return _c("step", {
+                key: step.id,
+                attrs: { step: step },
+                on: { "updated-step": _vm.updateStep }
+              })
             }),
             1
           )
@@ -18876,6 +18940,22 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card m-b-30" }, [
     _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "d-flex justify-content-between" }, [
+        _c("h3", { staticClass: "card-title font-16 mt-0" }, [
+          _vm._v(_vm._s(this.account.name))
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          !this.account.complete
+            ? _c("span", { staticClass: "btn btn-outline-warning" }, [
+                _vm._v("Not Published")
+              ])
+            : _c("span", { staticClass: "btn btn-outline-success" }, [
+                _vm._v("Published")
+              ])
+        ])
+      ]),
+      _vm._v(" "),
       _c("div", { attrs: { id: "accordion" } }, [
         _c("div", { staticClass: "card mb-0" }, [
           _vm._m(0),
@@ -19232,7 +19312,9 @@ var render = function() {
           )
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _vm._m(4)
   ])
 }
 var staticRenderFns = [
@@ -19315,6 +19397,20 @@ var staticRenderFns = [
     return _c("span", { staticClass: "d-block d-md-none" }, [
       _c("i", { staticClass: "mdi mdi-home-variant h5" })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex" }, [
+      _c("button", { staticClass: "btn btn-primary ml-2 w-100" }, [
+        _vm._v("Publish Account")
+      ]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-danger ml-2 w-100" }, [
+        _vm._v("Halt Account")
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -19357,19 +19453,28 @@ var render = function() {
           ],
           staticClass: "form-control",
           on: {
-            change: function($event) {
-              var $$selectedVal = Array.prototype.filter
-                .call($event.target.options, function(o) {
-                  return o.selected
+            change: [
+              function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.type = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+              function($event) {
+                return _vm.$emit("updated-step", {
+                  type: _vm.type,
+                  day_gap: _vm.day_gap,
+                  step_number: _vm.step.step_number
                 })
-                .map(function(o) {
-                  var val = "_value" in o ? o._value : o.value
-                  return val
-                })
-              _vm.type = $event.target.multiple
-                ? $$selectedVal
-                : $$selectedVal[0]
-            }
+              }
+            ]
           }
         },
         [
@@ -19396,19 +19501,28 @@ var render = function() {
           ],
           staticClass: "form-control",
           on: {
-            change: function($event) {
-              var $$selectedVal = Array.prototype.filter
-                .call($event.target.options, function(o) {
-                  return o.selected
+            change: [
+              function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.day_gap = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+              function($event) {
+                return _vm.$emit("updated-step", {
+                  type: _vm.type,
+                  day_gap: _vm.day_gap,
+                  step_number: _vm.step.step_number
                 })
-                .map(function(o) {
-                  var val = "_value" in o ? o._value : o.value
-                  return val
-                })
-              _vm.day_gap = $event.target.multiple
-                ? $$selectedVal
-                : $$selectedVal[0]
-            }
+              }
+            ]
           }
         },
         _vm._l(20, function(n, i) {
@@ -19447,7 +19561,11 @@ var render = function() {
         },
         [
           _c("template-modal", {
-            attrs: { template: _vm.step.template, type: _vm.type }
+            attrs: {
+              template: _vm.step.template,
+              type: _vm.type,
+              step: _vm.step
+            }
           })
         ],
         1
@@ -19514,13 +19632,29 @@ var render = function() {
               _c("label", { attrs: { for: "" } }, [_vm._v("Subject")]),
               _vm._v(" "),
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.emailSubject,
+                    expression: "emailSubject"
+                  }
+                ],
                 staticClass: "form-control",
-                domProps: { value: this.template.email_subject }
+                domProps: { value: _vm.emailSubject },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.emailSubject = $event.target.value
+                  }
+                }
               }),
               _vm._v(" "),
               _c("label", { attrs: { for: "" } }, [_vm._v("Content")]),
               _vm._v(" "),
-              _c("div", { staticClass: "summernote" })
+              _c("div", { class: "summernote" + _vm.step.step_number })
             ])
       ]),
       _vm._v(" "),

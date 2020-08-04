@@ -1,6 +1,16 @@
 <template>
     <div class="card m-b-30">
         <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h3 class="card-title font-16 mt-0">{{ this.account.name }}</h3>
+                <div>
+                    <span
+                        class="btn btn-outline-warning"
+                        v-if="!this.account.complete"
+                    >Not Published</span>
+                    <span class="btn btn-outline-success" v-else>Published</span>
+                </div>
+            </div>
             <div id="accordion">
                 <div class="card mb-0">
                     <div
@@ -188,6 +198,10 @@
                 </div>
             </div>
         </div>
+        <div class="d-flex">
+            <button class="btn btn-primary ml-2 w-100">Publish Account</button>
+            <button class="btn btn-danger ml-2 w-100">Halt Account</button>
+        </div>
     </div>
 </template>
 
@@ -244,9 +258,9 @@
                     .catch(() => {});
             },
 
-            updateCampaignDetails(account){
-                this.account = account
-            }
+            updateCampaignDetails(account) {
+                this.account = account;
+            },
         },
     };
 </script>

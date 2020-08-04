@@ -15,9 +15,9 @@
                 <div v-else>
                     <h5 class="font-16">Email Template</h5>
                     <label for>Subject</label>
-                    <input class="form-control" :value="this.template.email_subject" />
+                    <input class="form-control" v-model="emailSubject" />
                     <label for>Content</label>
-                    <div class="summernote"></div>
+                    <div :class="'summernote'+step.step_number"></div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -37,19 +37,22 @@
 </template>
 <script>
     export default {
-        props: ["template", "type"],
+        props: ["template", "type", "step"],
 
         data() {
             return {
-                pointer: this.template.pointer,
-                emailSubject: this.template.email_subject,
-                emailContent: this.template.email_content,
+                pointer: this.template ? this.template.pointer : null,
+                emailSubject: this.template ? this.template.email_subject : null,
+                emailContent: this.template ? this.template.email_content : null,
             };
         },
 
         mounted() {
             if (this.type === "email") {
-                $(".summernote").summernote("code", this.template.email_content);
+                $(`.summernote${this.step.step_number}`).summernote(
+                    "code",
+                    this.emailContent
+                );
             }
         },
 
@@ -58,10 +61,18 @@
                 let obj = {
                     pointer: this.pointer,
                     email_subject: this.emailSubject,
-                    email_content: $(".summernote").summernote("code"),
+                    email_content: $(
+                        `.summernote${this.step.step_number}`
+                    ).summernote("code"),
                 };
 
-                axios.post(`/admin/schedule/${this.template.id}`)
+                if (Object.keys(this.template)) {
+                    obj["step"] = this.step;
+                    axios.post(`/admin/template`, obj).then().catch();
+                    return;
+                }
+
+                axios.patch(`/admin/template/${this.template.id}`, obj);
             },
         },
     };

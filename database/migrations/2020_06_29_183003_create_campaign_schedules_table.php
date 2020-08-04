@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStepTemplatesTable extends Migration
+class CreateCampaignSchedulesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,15 @@ class CreateStepTemplatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('step_templates', function (Blueprint $table) {
+        Schema::create('campaign_schedules', function (Blueprint $table) {
             $table->id();
-            $table->text('pointer')->nullable();
-            $table->text('name');
-            $table->text('email_subject')->nullable();
-            $table->text('email_content')->nullable();
-            $table->unsignedBigInteger('step_id');
+            $table->unsignedBigInteger('campaign_id');
+            $table->unsignedBigInteger('schedule_id');
             $table->timestamps();
 
-            $table->foreign('step_id')
+            $table->foreign('campaign_id')
                 ->references('id')
-                ->on('steps')
+                ->on('campaigns')
                 ->onDelete('cascade');
         });
     }
@@ -36,6 +33,6 @@ class CreateStepTemplatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('step_templates');
+        Schema::dropIfExists('campaign_schedules');
     }
 }

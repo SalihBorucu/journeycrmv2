@@ -1,9 +1,19 @@
 <template>
     <div class="card bordered-card">
         <label for>Campaign Name</label>
-        <input type="text" class="form-control" v-model="campaignName" />
+        <input
+            type="text"
+            class="form-control"
+            v-model="campaignName"
+            @change="$emit('changed-campaign-details', {campaignName, campaignDescription, selectedSchedules}, id)"
+        />
         <label for>Description</label>
-        <input type="text" class="form-control" v-model="campaignDescription" />
+        <input
+            type="text"
+            class="form-control"
+            v-model="campaignDescription"
+            @change="$emit('changed-campaign-details', {campaignName, campaignDescription, selectedSchedules}, id)"
+        />
         <label class="typo__label">Attach Schedules</label>
         <multiselect
             v-model="selectedSchedules"
@@ -43,6 +53,20 @@
                     : this.schedules.map((x) => x),
                 scheduleOptions: this.schedules,
             };
+        },
+
+        watch: {
+            selectedSchedules() {
+                this.$emit(
+                    "changed-campaign-details",
+                    {
+                        campaignName: this.campaignName,
+                        campaignDescription: this.campaignDescription,
+                        selectedSchedules: this.selectedSchedules,
+                    },
+                    this.id
+                );
+            },
         },
 
         methods: {

@@ -2,14 +2,14 @@
     <tr>
         <th scope="row">{{step.step_number}}</th>
         <td>
-            <select class="form-control" v-model="type">
+            <select class="form-control" v-model="type" @change="$emit('updated-step',{type, day_gap, step_number:step.step_number})">
                 <option value="email">Email</option>
                 <option value="call">Call</option>
                 <option value="social">Social</option>
             </select>
         </td>
         <td>
-            <select class="form-control" v-model="day_gap">
+            <select class="form-control" v-model="day_gap" @change="$emit('updated-step',{type, day_gap, step_number:step.step_number})">
                 <option :value="i" v-for="(n, i) in 20">{{i}}</option>
             </select>
         </td>
@@ -29,7 +29,7 @@
                 aria-labelledby="myModalLabel"
                 aria-hidden="true"
             >
-                <template-modal :template="step.template" :type="type"></template-modal>
+                <template-modal :template="step.template" :type="type" :step="step"></template-modal>
             </div>
         </td>
     </tr>
@@ -49,7 +49,7 @@
 
         methods: {
             activateSummerNote() {
-                $(".summernote").summernote({
+                $(`.summernote${this.step.step_number}`).summernote({
                     height: 300,
                     minHeight: null,
                     maxHeight: null,

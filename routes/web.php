@@ -63,6 +63,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('admin/account/{id}', 'AccountController@update');
     Route::patch('admin/campaign/{id}', 'CampaignController@update');
     Route::patch('admin/schedule/{id}', 'StepController@update');
+    Route::patch('admin/template/{id}', 'StepTemplateController@update');
+    Route::post('admin/template', 'StepTemplateController@create');
+
 
     Route::get('admin/user/create', 'UserController@index');
     Route::post('admin/user', 'UserController@create');

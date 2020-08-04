@@ -14,7 +14,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <step v-for="step in schedule_steps" :key="step.id" :step="step"></step>
+                        <step
+                            v-for="step in schedule_steps"
+                            :key="step.id"
+                            :step="step"
+                            @updated-step="updateStep"
+                        ></step>
                     </tbody>
                 </table>
             </div>
@@ -44,27 +49,26 @@
             };
         },
 
-        computed: {
-            steps_array() {
-                let stepsArray = [];
-                for (let amount = 0; amount < this.step_amount; amount++) {
-                    stepsArray.push({
-                        step_number: amount + 1,
-                        step_type: "email",
-                        day_gap: 1,
-                    });
-                }
-                return stepsArray;
-            },
-        },
-
         methods: {
             saveSchedule() {
                 let obj = {
                     steps_array: this.schedule_steps,
                 };
 
-                axios.post(`admin/schedule/${this.schedule.id}`, obj).then((res) => {}).catch();
+                axios
+                    .patch(`/admin/schedule/${this.schedule.id}`, obj)
+                    .then((res) => {
+                        swal("Well done!", `Steps updated.`, "success");
+                    })
+                    .catch();
+            },
+
+            updateStep(changedStep) {
+                let step = this.schedule_steps.find(
+                    (step) => step.step_number === changedStep.step_number
+                );
+                step.day_gap = changedStep.day_gap;
+                step.type = changedStep.type;
             },
 
             deleteStep() {
@@ -72,7 +76,6 @@
             },
 
             addStep() {
-                console.log("addStepBetween");
                 let step = {
                     campaign_schedule_id: 1,
                     schedule_id: null,

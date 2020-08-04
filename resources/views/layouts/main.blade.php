@@ -50,7 +50,7 @@
         @case (Request::is('settings'))
         <script src="{{ mix('js/settings-app.js') }}"></script>
         @break
-        @case (Request::is('admin*'))
+        @case (Request::is('admin') || Request::is('admin/account/*'))
         <script src="{{ mix('js/admin-app.js') }}"></script>
         @break
         @endswitch

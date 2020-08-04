@@ -23,7 +23,8 @@ class AccountController extends Controller
     public function create()
     {
         $account = Account::create([
-            'name' => request('accountName')
+            'name' => request('accountName'),
+            'complete' => false
         ]);
 
         $userAccounts = [];
@@ -54,8 +55,6 @@ class AccountController extends Controller
         }
 
         CampaignSchedule::insert($campaignSchedules);
-
-        // $this->flashSuccess("Account created successfully");
 
         return response()->json($account);
     }

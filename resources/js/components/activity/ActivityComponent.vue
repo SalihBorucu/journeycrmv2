@@ -67,7 +67,7 @@
                         <div class="d-flex mb-2">
                             <call-component :lead="this.lead" @call-started="call_started = true"></call-component>
                             <p class="card-text">
-                                {{ lead.step.templates[0].pointer }}
+                                {{ lead.step.template.pointer }}
                             </p>
                         </div>
                         <textarea
@@ -172,7 +172,7 @@
                 custom_activity_type: null,
                 custom_activity_date: null,
                 callback_active: false,
-                email_content: this.lead.step.templates[0].email_content,
+                email_content: this.lead.step.template.email_content,
             };
         },
 
@@ -191,7 +191,7 @@
             });
             $(".summernote").summernote("code", this.processedEmailContent)
 
-            this.email_subject = this.lead.step.templates[0].email_subject
+            this.email_subject = this.lead.step.template.email_subject
         },
 
         computed: {
