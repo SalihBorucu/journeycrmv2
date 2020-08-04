@@ -105,15 +105,26 @@
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content">
-                                <button class="btn btn-outline-primary" @click="createNewCampaign">
-                                    <i class="mdi mdi-plus"></i>
-                                    Add New Campaign</button>
                                 <div
                                     :class="['tab-pane p-3', !index ? 'active' : null]"
                                     :id="'campaign' + campaign.id"
                                     role="tabpanel"
                                     v-for="(campaign, index) in account.campaigns"
                                 >
+                                <div class="d-flex mb-2 justify-content-between">
+                                    <button
+                                        class="btn btn-outline-primary"
+                                        @click="createNewCampaign"
+                                    >
+                                        <i class="mdi mdi-plus"></i>
+                                        Add New Campaign
+                                    </button>
+                                    <button v-if="injAccount.campaigns.length > 1"
+                                    class="btn btn-outline-danger" @click="deleteCampaign(campaign)">
+                                        <i class="mdi mdi-minus"></i>
+                                        Delete Campaign
+                                    </button>
+                                </div>
                                     <create-campaign
                                         @campaign-updated="updateCampaignDetails"
                                         :campaign="campaign"
@@ -228,7 +239,7 @@
 
         data() {
             return {
-                account: this.injAccount,
+                account: JSON.parse(JSON.stringify(this.injAccount)),
                 selectedSchedule: 0,
                 selectedCampaign: this.injAccount.campaigns[0].id,
                 selectedUsers: this.injAccount.user_accounts.map(
@@ -269,14 +280,21 @@
                     .catch(() => {});
             },
 
-            createNewCampaign(){
+            createNewCampaign() {
                 let dummyCampaign = {
                     account_id: this.account.id,
                     campaign_schedules: [],
                     description: null,
-                    name: 'New Campaign',
-                }
+                    name: "New Campaign",
+                };
                 this.account.campaigns.push(dummyCampaign);
+            },
+
+            deleteCampaign(campaignToExecute){
+                axios.delete(`/admin/campaign/${campaignToExecute.id}`).then((res)=>{
+                    let campaignToExecuteIndex = this.account.campaigns.findIndex(campaign => campaign.id === campaignToExecute.id)
+                    this.account.campaigns.splice(campaignToExecuteIndex, 1)
+                })
             },
 
             updateCampaignDetails(account) {
@@ -284,13 +302,17 @@
             },
 
             toggleAccountState() {
-                if (this.account.campaigns[0].campaign_schedules.some(schedule => !schedule.steps.length)) {
+                if (
+                    this.account.campaigns[0].campaign_schedules.some(
+                        (schedule) => !schedule.steps.length
+                    )
+                ) {
                     swal(
                         "Oh no!",
                         `Something is incomplete, can not be published.`,
                         "error"
                     );
-                    return
+                    return;
                 }
                 axios
                     .patch(`/admin/account/publish/${this.account.id}`, {

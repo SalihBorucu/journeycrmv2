@@ -2762,6 +2762,8 @@ __webpack_require__.r(__webpack_exports__);
         account_id: this.campaign.account_id
       };
       axios.post("/admin/campaign", obj).then(function (res) {
+        console.log(res);
+
         _this2.$emit("campaign-updated", res.data);
 
         swal("Well done!", "Campaign created succesfully.", "success");
@@ -3101,6 +3103,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3113,7 +3126,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ["injAccount", "users", "schedules"],
   data: function data() {
     return {
-      account: this.injAccount,
+      account: JSON.parse(JSON.stringify(this.injAccount)),
       selectedSchedule: 0,
       selectedCampaign: this.injAccount.campaigns[0].id,
       selectedUsers: this.injAccount.user_accounts.map(function (userAccount) {
@@ -3146,15 +3159,26 @@ __webpack_require__.r(__webpack_exports__);
         account_id: this.account.id,
         campaign_schedules: [],
         description: null,
-        name: 'New Campaign'
+        name: "New Campaign"
       };
       this.account.campaigns.push(dummyCampaign);
+    },
+    deleteCampaign: function deleteCampaign(campaignToExecute) {
+      var _this = this;
+
+      axios["delete"]("/admin/campaign/".concat(campaignToExecute.id)).then(function (res) {
+        var campaignToExecuteIndex = _this.account.campaigns.findIndex(function (campaign) {
+          return campaign.id === campaignToExecute.id;
+        });
+
+        _this.account.campaigns.splice(campaignToExecuteIndex, 1);
+      });
     },
     updateCampaignDetails: function updateCampaignDetails(account) {
       this.account = account;
     },
     toggleAccountState: function toggleAccountState() {
-      var _this = this;
+      var _this2 = this;
 
       if (this.account.campaigns[0].campaign_schedules.some(function (schedule) {
         return !schedule.steps.length;
@@ -3167,7 +3191,7 @@ __webpack_require__.r(__webpack_exports__);
         state: event.target.value
       }).then(function (res) {
         swal("Success!", "Account state succesfully changed.", "success");
-        _this.account.complete = res.data.complete;
+        _this2.account.complete = res.data.complete;
       })["catch"]();
     }
   }
@@ -19165,49 +19189,73 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "tab-content" },
-                  [
-                    _c(
-                      "button",
+                  _vm._l(_vm.account.campaigns, function(campaign, index) {
+                    return _c(
+                      "div",
                       {
-                        staticClass: "btn btn-outline-primary",
-                        on: { click: _vm.createNewCampaign }
+                        class: ["tab-pane p-3", !index ? "active" : null],
+                        attrs: {
+                          id: "campaign" + campaign.id,
+                          role: "tabpanel"
+                        }
                       },
                       [
-                        _c("i", { staticClass: "mdi mdi-plus" }),
-                        _vm._v(
-                          "\n                                Add New Campaign"
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _vm._l(_vm.account.campaigns, function(campaign, index) {
-                      return _c(
-                        "div",
-                        {
-                          class: ["tab-pane p-3", !index ? "active" : null],
+                        _c(
+                          "div",
+                          {
+                            staticClass: "d-flex mb-2 justify-content-between"
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-outline-primary",
+                                on: { click: _vm.createNewCampaign }
+                              },
+                              [
+                                _c("i", { staticClass: "mdi mdi-plus" }),
+                                _vm._v(
+                                  "\n                                    Add New Campaign\n                                "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm.injAccount.campaigns.length > 1
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-outline-danger",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deleteCampaign(campaign)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", { staticClass: "mdi mdi-minus" }),
+                                    _vm._v(
+                                      "\n                                    Delete Campaign\n                                "
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("create-campaign", {
                           attrs: {
-                            id: "campaign" + campaign.id,
-                            role: "tabpanel"
-                          }
-                        },
-                        [
-                          _c("create-campaign", {
-                            attrs: {
-                              campaign: campaign,
-                              schedules: _vm.schedules,
-                              "inj-selected-schedules":
-                                campaign.campaign_schedules
-                            },
-                            on: {
-                              "campaign-updated": _vm.updateCampaignDetails
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    })
-                  ],
-                  2
+                            campaign: campaign,
+                            schedules: _vm.schedules,
+                            "inj-selected-schedules":
+                              campaign.campaign_schedules
+                          },
+                          on: { "campaign-updated": _vm.updateCampaignDetails }
+                        })
+                      ],
+                      1
+                    )
+                  }),
+                  0
                 )
               ])
             ]

@@ -117,6 +117,7 @@
                 axios
                     .post(`/admin/campaign`, obj)
                     .then((res) => {
+                        console.log(res)
                         this.$emit("campaign-updated", res.data);
                         swal(
                             "Well done!",

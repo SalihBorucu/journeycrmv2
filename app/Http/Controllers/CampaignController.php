@@ -24,7 +24,9 @@ class CampaignController extends Controller
             ]);
         }
 
-        return response()->json();
+        $account = Account::with(['campaigns.campaignSchedules.steps.template', 'userAccounts.user', 'campaigns.campaignSchedules.schedule'])->findOrFail($campaign->account_id);
+
+        return response()->json($account);
     }
 
     public function update($campaignId)
@@ -55,5 +57,11 @@ class CampaignController extends Controller
         $account = Account::with(['campaigns.campaignSchedules.steps.template', 'userAccounts.user', 'campaigns.campaignSchedules.schedule'])->findOrFail($campaign->account_id);
 
         return response()->json($account);
+    }
+
+    public function destroy($campaignId){
+        Campaign::destroy($campaignId);
+
+        return response()->json();
     }
 }

@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('admin/account/publish/{id}', 'AccountController@publish');
     Route::patch('admin/campaign/{id}', 'CampaignController@update');
     Route::post('admin/campaign', 'CampaignController@create');
+    Route::delete('admin/campaign/{id}', 'CampaignController@destroy');
     Route::patch('admin/schedule/{id}', 'StepController@update');
     Route::patch('admin/template/{id}', 'StepTemplateController@update');
     Route::post('admin/template', 'StepTemplateController@create');
