@@ -17,7 +17,14 @@
         @foreach ($accounts as $account)
         <div class="col-xl-4">
             <div class="card m-b-30 card-body">
-                <h4 class="card-title font-16 mt-0">{{ $account->name }}</h4>
+                <div class="d-flex justify-content-between mb-2">
+                    <h4 class="card-title font-16 mt-0">{{ $account->name }}</h4>
+                    @if (!$account->complete)
+                    <div>
+                        <span class="badge badge-warning" disabled>Not Published</span>
+                    </div>
+                    @endif
+                </div>
                 <ul>
                     <li><strong>Campaigns:</strong>
                         @foreach ($account->campaigns as $campaign)

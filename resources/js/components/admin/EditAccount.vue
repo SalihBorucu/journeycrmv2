@@ -31,7 +31,7 @@
                     </div>
                     <div
                         id="collapseOne"
-                        :class="['collapse', this.account.campaigns[0].campaign_schedules[0].steps.length ? 'show' : 'null']"
+                        :class="['collapse', !this.account.campaigns[0].campaign_schedules.some(schedule => !schedule.steps.length) ? 'show' : 'null']"
                         aria-labelledby="headingOne"
                         data-parent="#accordion"
                         style
@@ -105,6 +105,9 @@
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content">
+                                <button class="btn btn-outline-primary" @click="createNewCampaign">
+                                    <i class="mdi mdi-plus"></i>
+                                    Add New Campaign</button>
                                 <div
                                     :class="['tab-pane p-3', !index ? 'active' : null]"
                                     :id="'campaign' + campaign.id"
@@ -124,7 +127,7 @@
                 </div>
                 <div class="card mb-0">
                     <div
-                        :class="[this.account.campaigns[0].campaign_schedules[0].steps.length ? 'bg-primary' : null, 'card-header d-flex justify-content-between']"
+                        :class="[!this.account.campaigns[0].campaign_schedules.some(schedule => !schedule.steps.length) ? 'bg-primary' : null, 'card-header d-flex justify-content-between']"
                         id="headingThree"
                     >
                         <h5 class="mb-0 mt-0 font-14">
@@ -139,13 +142,13 @@
                         </h5>
                         <span
                             class="badge badge-default"
-                            v-if="this.account.campaigns[0].campaign_schedules[0].steps.length"
+                            v-if="!this.account.campaigns[0].campaign_schedules.some(schedule => !schedule.steps.length)"
                         >Complete</span>
                         <span class="badge badge-danger" v-else>Incomplete</span>
                     </div>
                     <div
                         id="collapseThree"
-                        :class="['collapse', this.account.campaigns[0].campaign_schedules[0].steps.length ? 'null' : 'show']"
+                        :class="['collapse', !this.account.campaigns[0].campaign_schedules.some(schedule => !schedule.steps.length) ? 'null' : 'show']"
                         aria-labelledby="headingThree"
                         data-parent="#accordion"
                         style
@@ -199,8 +202,18 @@
             </div>
         </div>
         <div class="d-flex">
-            <button class="btn btn-primary ml-2 w-100">Publish Account</button>
-            <button class="btn btn-danger ml-2 w-100">Halt Account</button>
+            <button
+                v-if="!account.complete"
+                class="btn btn-primary ml-2 w-100"
+                value="1"
+                @click="toggleAccountState"
+            >Publish Account</button>
+            <button
+                v-else
+                value="0"
+                class="btn btn-danger ml-2 w-100"
+                @click="toggleAccountState"
+            >Halt Account</button>
         </div>
     </div>
 </template>
@@ -225,8 +238,6 @@
                 userOptions: this.users,
             };
         },
-
-        mounted() {},
 
         methods: {
             addTag(newTag) {
@@ -258,8 +269,42 @@
                     .catch(() => {});
             },
 
+            createNewCampaign(){
+                let dummyCampaign = {
+                    account_id: this.account.id,
+                    campaign_schedules: [],
+                    description: null,
+                    name: 'New Campaign',
+                }
+                this.account.campaigns.push(dummyCampaign);
+            },
+
             updateCampaignDetails(account) {
                 this.account = account;
+            },
+
+            toggleAccountState() {
+                if (this.account.campaigns[0].campaign_schedules.some(schedule => !schedule.steps.length)) {
+                    swal(
+                        "Oh no!",
+                        `Something is incomplete, can not be published.`,
+                        "error"
+                    );
+                    return
+                }
+                axios
+                    .patch(`/admin/account/publish/${this.account.id}`, {
+                        state: event.target.value,
+                    })
+                    .then((res) => {
+                        swal(
+                            "Success!",
+                            `Account state succesfully changed.`,
+                            "success"
+                        );
+                        this.account.complete = res.data.complete;
+                    })
+                    .catch();
             },
         },
     };

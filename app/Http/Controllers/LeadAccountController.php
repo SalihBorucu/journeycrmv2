@@ -20,7 +20,7 @@ class LeadAccountController extends Controller
     public function index(AllFilters $filters)
     {
         $companies = Company::all();
-        $accounts = Account::all();
+        $accounts = Account::where('complete', 1)->get();
         $countries = DB::table('countries')->pluck('name');
         $user = User::with(['userAccounts.account.campaigns'])->find(Auth::id());
         $leads = [];

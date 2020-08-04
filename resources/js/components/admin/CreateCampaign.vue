@@ -29,8 +29,13 @@
         <button
             class="btn btn-outline-primary mt-2"
             @click="updateCampaign"
-            v-if="this.campaign"
+            v-if="this.campaign.id"
         >Save Changes</button>
+        <button
+            class="btn btn-outline-primary mt-2"
+            @click="createCampaign"
+            v-else
+        >Create Campaign</button>
     </div>
 </template>
 
@@ -95,6 +100,27 @@
                         swal(
                             "Well done!",
                             `Campaign details updated succesfully.`,
+                            "success"
+                        );
+                    })
+                    .catch();
+            },
+
+            createCampaign() {
+                let obj = {
+                    campaign_name: this.campaignName,
+                    campaign_description: this.campaignDescription,
+                    campaign_schedules: this.selectedSchedules,
+                    account_id: this.campaign.account_id
+                };
+
+                axios
+                    .post(`/admin/campaign`, obj)
+                    .then((res) => {
+                        this.$emit("campaign-updated", res.data);
+                        swal(
+                            "Well done!",
+                            `Campaign created succesfully.`,
                             "success"
                         );
                     })

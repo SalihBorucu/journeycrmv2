@@ -2586,7 +2586,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -2698,6 +2697,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2746,6 +2750,21 @@ __webpack_require__.r(__webpack_exports__);
         _this.$emit("campaign-updated", res.data);
 
         swal("Well done!", "Campaign details updated succesfully.", "success");
+      })["catch"]();
+    },
+    createCampaign: function createCampaign() {
+      var _this2 = this;
+
+      var obj = {
+        campaign_name: this.campaignName,
+        campaign_description: this.campaignDescription,
+        campaign_schedules: this.selectedSchedules,
+        account_id: this.campaign.account_id
+      };
+      axios.post("/admin/campaign", obj).then(function (res) {
+        _this2.$emit("campaign-updated", res.data);
+
+        swal("Well done!", "Campaign created succesfully.", "success");
       })["catch"]();
     }
   }
@@ -3069,6 +3088,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3091,7 +3123,6 @@ __webpack_require__.r(__webpack_exports__);
       userOptions: this.users
     };
   },
-  mounted: function mounted() {},
   methods: {
     addTag: function addTag(newTag) {
       var tag = {
@@ -3110,8 +3141,34 @@ __webpack_require__.r(__webpack_exports__);
         swal("Well done!", "Account details updated succesfully.", "success");
       })["catch"](function () {});
     },
+    createNewCampaign: function createNewCampaign() {
+      var dummyCampaign = {
+        account_id: this.account.id,
+        campaign_schedules: [],
+        description: null,
+        name: 'New Campaign'
+      };
+      this.account.campaigns.push(dummyCampaign);
+    },
     updateCampaignDetails: function updateCampaignDetails(account) {
       this.account = account;
+    },
+    toggleAccountState: function toggleAccountState() {
+      var _this = this;
+
+      if (this.account.campaigns[0].campaign_schedules.some(function (schedule) {
+        return !schedule.steps.length;
+      })) {
+        swal("Oh no!", "Something is incomplete, can not be published.", "error");
+        return;
+      }
+
+      axios.patch("/admin/account/publish/".concat(this.account.id), {
+        state: event.target.value
+      }).then(function (res) {
+        swal("Success!", "Account state succesfully changed.", "success");
+        _this.account.complete = res.data.complete;
+      })["catch"]();
     }
   }
 });
@@ -18806,7 +18863,7 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      this.campaign
+      this.campaign.id
         ? _c(
             "button",
             {
@@ -18815,7 +18872,14 @@ var render = function() {
             },
             [_vm._v("Save Changes")]
           )
-        : _vm._e()
+        : _c(
+            "button",
+            {
+              staticClass: "btn btn-outline-primary mt-2",
+              on: { click: _vm.createCampaign }
+            },
+            [_vm._v("Create Campaign")]
+          )
     ],
     1
   )
@@ -18965,7 +19029,11 @@ var render = function() {
             {
               class: [
                 "collapse",
-                this.account.campaigns[0].campaign_schedules[0].steps.length
+                !this.account.campaigns[0].campaign_schedules.some(function(
+                  schedule
+                ) {
+                  return !schedule.steps.length
+                })
                   ? "show"
                   : "null"
               ],
@@ -19097,31 +19165,49 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "tab-content" },
-                  _vm._l(_vm.account.campaigns, function(campaign, index) {
-                    return _c(
-                      "div",
+                  [
+                    _c(
+                      "button",
                       {
-                        class: ["tab-pane p-3", !index ? "active" : null],
-                        attrs: {
-                          id: "campaign" + campaign.id,
-                          role: "tabpanel"
-                        }
+                        staticClass: "btn btn-outline-primary",
+                        on: { click: _vm.createNewCampaign }
                       },
                       [
-                        _c("create-campaign", {
+                        _c("i", { staticClass: "mdi mdi-plus" }),
+                        _vm._v(
+                          "\n                                Add New Campaign"
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._l(_vm.account.campaigns, function(campaign, index) {
+                      return _c(
+                        "div",
+                        {
+                          class: ["tab-pane p-3", !index ? "active" : null],
                           attrs: {
-                            campaign: campaign,
-                            schedules: _vm.schedules,
-                            "inj-selected-schedules":
-                              campaign.campaign_schedules
-                          },
-                          on: { "campaign-updated": _vm.updateCampaignDetails }
-                        })
-                      ],
-                      1
-                    )
-                  }),
-                  0
+                            id: "campaign" + campaign.id,
+                            role: "tabpanel"
+                          }
+                        },
+                        [
+                          _c("create-campaign", {
+                            attrs: {
+                              campaign: campaign,
+                              schedules: _vm.schedules,
+                              "inj-selected-schedules":
+                                campaign.campaign_schedules
+                            },
+                            on: {
+                              "campaign-updated": _vm.updateCampaignDetails
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    })
+                  ],
+                  2
                 )
               ])
             ]
@@ -19133,7 +19219,11 @@ var render = function() {
             "div",
             {
               class: [
-                this.account.campaigns[0].campaign_schedules[0].steps.length
+                !this.account.campaigns[0].campaign_schedules.some(function(
+                  schedule
+                ) {
+                  return !schedule.steps.length
+                })
                   ? "bg-primary"
                   : null,
                 "card-header d-flex justify-content-between"
@@ -19164,7 +19254,11 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              this.account.campaigns[0].campaign_schedules[0].steps.length
+              !this.account.campaigns[0].campaign_schedules.some(function(
+                schedule
+              ) {
+                return !schedule.steps.length
+              })
                 ? _c("span", { staticClass: "badge badge-default" }, [
                     _vm._v("Complete")
                   ])
@@ -19179,7 +19273,11 @@ var render = function() {
             {
               class: [
                 "collapse",
-                this.account.campaigns[0].campaign_schedules[0].steps.length
+                !this.account.campaigns[0].campaign_schedules.some(function(
+                  schedule
+                ) {
+                  return !schedule.steps.length
+                })
                   ? "null"
                   : "show"
               ],
@@ -19314,7 +19412,27 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(4)
+    _c("div", { staticClass: "d-flex" }, [
+      !_vm.account.complete
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-primary ml-2 w-100",
+              attrs: { value: "1" },
+              on: { click: _vm.toggleAccountState }
+            },
+            [_vm._v("Publish Account")]
+          )
+        : _c(
+            "button",
+            {
+              staticClass: "btn btn-danger ml-2 w-100",
+              attrs: { value: "0" },
+              on: { click: _vm.toggleAccountState }
+            },
+            [_vm._v("Halt Account")]
+          )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -19396,20 +19514,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "d-block d-md-none" }, [
       _c("i", { staticClass: "mdi mdi-home-variant h5" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex" }, [
-      _c("button", { staticClass: "btn btn-primary ml-2 w-100" }, [
-        _vm._v("Publish Account")
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-danger ml-2 w-100" }, [
-        _vm._v("Halt Account")
-      ])
     ])
   }
 ]

@@ -61,9 +61,12 @@ class LeadController extends Controller
     public function show(Lead $lead)
     {
         $unassignedLeads = $lead->where([['unassigned', 1], ['user_id', Auth::id()]])->with(['company'])->get();
-        $user = User::with(['userAccounts.account.campaigns'])->find(Auth::id());
+        $user = Auth::user();
+        $userAccounts = Auth::user()->userAccounts->filter(function ($userAccount) {
+            return $userAccount->account->complete === 1;
+        });
 
-        return view('new-leads.unassigned-leads', compact('unassignedLeads', 'user'));
+        return view('new-leads.unassigned-leads', compact('unassignedLeads', 'user', 'userAccounts'));
     }
 
     public function edit(Lead $lead)

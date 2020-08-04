@@ -82,4 +82,13 @@ class AccountController extends Controller
 
         return response()->json();
     }
+
+    public function publish($accountId){
+        $account = Account::findOrFail($accountId);
+        $account->update([
+            'complete' => (int)request('state')
+        ]);
+
+        return response()->json($account);
+    }
 }

@@ -41,7 +41,7 @@
                 >
                     <option
                         :value="account.account.id"
-                        v-for="account in user.user_accounts"
+                        v-for="account in userAccounts"
                     >{{ account.account.name }}</option>
                 </select>
                 <select
@@ -51,7 +51,7 @@
                 >
                     <option
                         :value="campaign.id"
-                        v-for="campaign in user.user_accounts[0].account.campaigns"
+                        v-for="campaign in userAccounts[0].account.campaigns"
                     >{{campaign.name}}</option>
                 </select>
                 <button
@@ -71,7 +71,7 @@
                         <select name class="form-control" v-model="global_account">
                             <option
                                 :value="account.account_id"
-                                v-for="account in this.user.user_accounts"
+                                v-for="account in this.userAccounts"
                             >{{account.account.name}}</option>
                         </select>
                     </div>
@@ -81,7 +81,7 @@
                             <option value v-if="!global_account"></option>
                             <option
                                 :value="campaign.id"
-                                v-for="campaign in this.user.user_accounts.find(account => account.account_id === this.global_account).account.campaigns"
+                                v-for="campaign in this.userAccounts.find(account => account.account_id === this.global_account).account.campaigns"
                             >{{campaign.name}}</option>
                         </select>
                     </div>
@@ -97,7 +97,7 @@
 
 
     export default {
-        props: ["unassignedLeads", "user"],
+        props: ["unassignedLeads", "user", "userAccounts"],
 
         data() {
             return {
@@ -179,7 +179,7 @@
             },
 
             selectedIndividualAccount() {
-                let campaignsArray = this.user.user_accounts.find(
+                let campaignsArray = this.userAccounts.find(
                     (account) => account.account_id == event.target.value
                 ).account.campaigns;
 

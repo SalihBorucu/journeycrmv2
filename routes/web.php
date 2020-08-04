@@ -61,7 +61,9 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/account', 'AccountController@index');
     Route::get('admin/account/{id}', 'AccountController@show');
     Route::patch('admin/account/{id}', 'AccountController@update');
+    Route::patch('admin/account/publish/{id}', 'AccountController@publish');
     Route::patch('admin/campaign/{id}', 'CampaignController@update');
+    Route::post('admin/campaign', 'CampaignController@create');
     Route::patch('admin/schedule/{id}', 'StepController@update');
     Route::patch('admin/template/{id}', 'StepTemplateController@update');
     Route::post('admin/template', 'StepTemplateController@create');
@@ -93,5 +95,8 @@ Route::post('/token', 'CallController@newToken');
 Route::get('/answer', 'CallController@newCall');
 
 Route::get('/test', function () {
-    dd(Account::with('userAccounts.user')->find(1));
+    $user = User::with(['userAccounts.account'])->find(Auth::id());
+    $userAccounts = Auth::user()->userAccounts->filter(function($userAccount){
+        return $userAccount->account->complete === 1;});
+    dd($userAccounts);
 });

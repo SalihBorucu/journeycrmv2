@@ -46,7 +46,6 @@
                 >Create Account and Campaign</button>
             </div>
         </div>
-        <!-- <create-schedule></create-schedule> -->
     </div>
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>;

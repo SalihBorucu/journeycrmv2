@@ -4262,7 +4262,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["unassignedLeads", "user"],
+  props: ["unassignedLeads", "user", "userAccounts"],
   data: function data() {
     var _this = this;
 
@@ -4335,7 +4335,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     selectedIndividualAccount: function selectedIndividualAccount() {
-      var campaignsArray = this.user.user_accounts.find(function (account) {
+      var campaignsArray = this.userAccounts.find(function (account) {
         return account.account_id == event.target.value;
       }).account.campaigns;
       $("#campaign".concat(event.target.id)).html("");
@@ -36104,7 +36104,7 @@ var render = function() {
                         attrs: { id: props.row.id },
                         on: { change: _vm.selectedIndividualAccount }
                       },
-                      _vm._l(_vm.user.user_accounts, function(account) {
+                      _vm._l(_vm.userAccounts, function(account) {
                         return _c(
                           "option",
                           { domProps: { value: account.account.id } },
@@ -36120,16 +36120,15 @@ var render = function() {
                         staticClass: "form-control",
                         attrs: { id: "campaign" + props.row.id }
                       },
-                      _vm._l(
-                        _vm.user.user_accounts[0].account.campaigns,
-                        function(campaign) {
-                          return _c(
-                            "option",
-                            { domProps: { value: campaign.id } },
-                            [_vm._v(_vm._s(campaign.name))]
-                          )
-                        }
-                      ),
+                      _vm._l(_vm.userAccounts[0].account.campaigns, function(
+                        campaign
+                      ) {
+                        return _c(
+                          "option",
+                          { domProps: { value: campaign.id } },
+                          [_vm._v(_vm._s(campaign.name))]
+                        )
+                      }),
                       0
                     )
                   : props.column.field == "button"
@@ -36188,7 +36187,7 @@ var render = function() {
                     }
                   }
                 },
-                _vm._l(this.user.user_accounts, function(account) {
+                _vm._l(this.userAccounts, function(account) {
                   return _c(
                     "option",
                     { domProps: { value: account.account_id } },
@@ -36241,7 +36240,7 @@ var render = function() {
                           : _vm._e(),
                         _vm._v(" "),
                         _vm._l(
-                          this.user.user_accounts.find(function(account) {
+                          this.userAccounts.find(function(account) {
                             return account.account_id === this$1.global_account
                           }).account.campaigns,
                           function(campaign) {

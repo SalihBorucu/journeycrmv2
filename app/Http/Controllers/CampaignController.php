@@ -11,21 +11,24 @@ class CampaignController extends Controller
 {
     public function create()
     {
-        Campaign::create([
+        $campaign = Campaign::create([
             'name' => request('campaign_name'),
-            'definition' => request('campaign_definition'),
-            'type' => request('campaign_type'),
-            'schedule_id' => request('schedule_id')
+            'description' => request('campaign_description'),
+            'account_id' => request('account_id')
         ]);
 
-        $this->flashSuccess("Campaign created successfully");
+        foreach (request('campaign_schedules') as $key => $value) {
+            CampaignSchedule::firstOrCreate([
+                'schedule_id' => $value['id'],
+                'campaign_id' => $campaign->id
+            ]);
+        }
 
-        return redirect()->back();
+        return response()->json();
     }
 
     public function update($campaignId)
     {
-
         $campaign = Campaign::with(['campaignSchedules'])->findOrFail($campaignId);
         $campaign->update([
             'name' => request('campaign_name'),
