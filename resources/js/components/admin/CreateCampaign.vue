@@ -26,6 +26,7 @@
             :taggable="true"
             @tag="addTag"
         ></multiselect>
+        <div v-if="this.campaign">
         <button
             class="btn btn-outline-primary mt-2"
             @click="updateCampaign"
@@ -36,6 +37,8 @@
             @click="createCampaign"
             v-else
         >Create Campaign</button>
+
+        </div>
     </div>
 </template>
 

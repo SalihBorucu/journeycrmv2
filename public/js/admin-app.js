@@ -2702,6 +2702,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -18887,23 +18890,27 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      this.campaign.id
-        ? _c(
-            "button",
-            {
-              staticClass: "btn btn-outline-primary mt-2",
-              on: { click: _vm.updateCampaign }
-            },
-            [_vm._v("Save Changes")]
-          )
-        : _c(
-            "button",
-            {
-              staticClass: "btn btn-outline-primary mt-2",
-              on: { click: _vm.createCampaign }
-            },
-            [_vm._v("Create Campaign")]
-          )
+      this.campaign
+        ? _c("div", [
+            this.campaign.id
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-outline-primary mt-2",
+                    on: { click: _vm.updateCampaign }
+                  },
+                  [_vm._v("Save Changes")]
+                )
+              : _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-outline-primary mt-2",
+                    on: { click: _vm.createCampaign }
+                  },
+                  [_vm._v("Create Campaign")]
+                )
+          ])
+        : _vm._e()
     ],
     1
   )
