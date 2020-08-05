@@ -35,7 +35,7 @@
                     <div class="page-title-box">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h4 class="page-title m-0">Dashboard</h4>
+                                <h4 class="page-title m-0"></h4>
                             </div>
                             <div class="col-md-4">
                                 <div class="float-right d-none d-md-block" @click="nextLead" v-if="parseInt(this.$route.query.leadIndex) !== this.$refs.dataTable.processedRows[0].children.length - 1">
@@ -124,7 +124,7 @@
                     },
                     {
                         label: 'Phone',
-                        field: 'lead.phone',
+                        field: 'lead.phone_1',
                         type: 'text',
                         filterOptions: {
                             enabled: true,
@@ -133,11 +133,10 @@
                     {
                         label: 'Due Date',
                         field: 'due_date',
-                        width: '200px',
-                        tdClass: 'text-center',
+                        width: '120px',
                         dateInputFormat: 'yyyy-MM-dd',
                         dateOutputFormat: 'dd/MM/yyyy',
-                        type: 'date',
+                        type: 'text',
                     },
                     {
                         label: 'Rating',

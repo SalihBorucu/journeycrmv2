@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Lead;
 use App\Company;
 use App\IncompleteLead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class IncompleteLeadController extends Controller
 {
@@ -13,8 +15,10 @@ class IncompleteLeadController extends Controller
     {
         $incompleteLeads = IncompleteLead::all();
         $companies = Company::all();
+        $leadEmails = Lead::all()->pluck('email');
+        $countries = DB::table('countries')->pluck('name');
 
-        return view('new-leads.incomplete-leads', compact('incompleteLeads', 'companies'));
+        return view('new-leads.incomplete-leads', compact('incompleteLeads', 'companies', 'leadEmails', 'countries'));
     }
 
     public function create(Request $request)

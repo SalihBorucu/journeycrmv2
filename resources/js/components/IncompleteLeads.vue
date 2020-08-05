@@ -25,16 +25,22 @@
             ref="dataTable"
         >
             <template slot="table-row" slot-scope="props">
-                <span v-if="props.column.field == 'first_name'">
-                    <textarea class="form-control btn" v-model="props.row.first_name" />
-                </span>
-                <span v-else-if="props.column.field == 'last_name'">
-                    <textarea class="form-control btn" v-model="props.row.last_name" />
-                </span>
-                <span v-else-if="props.column.field == 'company_search'">
-                    <autocomplete :search="searchCompany" autoSelect>
-                        <template
-                            #default="{
+                <form @submit.prevent="completeLead(props.row)">
+                    <span v-if="props.column.field == 'first_name'">
+                        <textarea
+                            rows="4"
+                            class="form-control btn"
+                            v-model="props.row.first_name"
+                            required
+                        />
+                    </span>
+                    <span v-else-if="props.column.field == 'last_name'">
+                        <textarea rows="4" class="form-control btn" v-model="props.row.last_name" />
+                    </span>
+                    <span v-else-if="props.column.field == 'company_search'">
+                        <autocomplete :search="searchCompany" autoSelect>
+                            <template
+                                #default="{
                                 rootProps,
                                 inputProps,
                                 inputListeners,
@@ -43,66 +49,121 @@
                                 results,
                                 resultProps
                                 }"
-                        >
-                            <div v-bind="rootProps">
-                                <input
-                                    v-bind="inputProps"
-                                    v-on="inputListeners"
-                                    v-model="props.row.company_name"
-                                    :class="[
+                            >
+                                <div v-bind="rootProps">
+                                    <input
+                                        v-bind="inputProps"
+                                        v-on="inputListeners"
+                                        v-model="props.row.company_name"
+                                        :class="[
                                     companies.find(company => company.name === props.row.company_name) ? 'form-control-success': 'form-control-warning',
                                     'form-control',
                                         { 'autocomplete-input-no-results': false },
                                         { 'autocomplete-input-focused': false }
                                         ]"
-                                />
-                                <ul
-                                    v-if="false"
-                                    class="autocomplete-result-list"
-                                    style="position: absolute; z-index: 1; width: 100%; top: 100%;"
-                                >
-                                    <li class="autocomplete-result">No results found</li>
-                                </ul>
-                                <ul v-bind="resultListProps" v-on="resultListListeners">
-                                    <li
-                                        v-for="(result, index) in results"
-                                        @click="props.row.company_name = result"
-                                        :key="resultProps[index].id"
-                                        v-bind="resultProps[index]"
-                                    >{{ result }}</li>
-                                    <!-- Need to add event listener keydown.enter, can't work it out, will get back later  -->
-                                </ul>
-                            </div>
-                        </template>
-                    </autocomplete>
-                    <small
-                        class="text-warning small"
-                        v-if="!companies.find(company => company.name === props.row.company_name) && props.row.company_name"
-                    >Couldn't find this company, creating new.</small>
-                </span>
-                <span v-else-if="props.column.field == 'title'">
-                    <textarea class="form-control btn" v-model="props.row.title" />
-                </span>
-                <span v-else-if="props.column.field == 'email'">
-                    <textarea class="form-control btn" v-model="props.row.email" />
-                </span>
-                <span v-else-if="props.column.field == 'phone_1'">
-                    <textarea class="form-control btn" v-model="props.row.phone_1" />
-                </span>
-                <span v-else-if="props.column.field == 'phone_2'">
-                    <textarea class="form-control btn" v-model="props.row.phone_2" />
-                </span>
-                <span v-else-if="props.column.field == 'linkedin'">
-                    <textarea class="form-control btn" v-model="props.row.linkedin" />
-                </span>
-                <div v-else-if="props.column.field == 'button'" class="d-flex">
-                    <button class="btn btn-primary" @click="completeLead(props.row)">
-                        <i class="mdi mdi-check text-white"></i>
-                    </button>
-                    <button class="btn btn-danger" @click="deleteLead(props.row)">
-                        <i class="mdi mdi-trash-can text-white"></i>
-                    </button>
-                </div>
+                                    />
+                                    <ul
+                                        v-if="false"
+                                        class="autocomplete-result-list"
+                                        style="position: absolute; z-index: 1; width: 100%; top: 100%;"
+                                    >
+                                        <li class="autocomplete-result">No results found</li>
+                                    </ul>
+                                    <ul v-bind="resultListProps" v-on="resultListListeners">
+                                        <li
+                                            v-for="(result, index) in results"
+                                            @click="props.row.company_name = result"
+                                            :key="resultProps[index].id"
+                                            v-bind="resultProps[index]"
+                                        >{{ result }}</li>
+                                        <!-- Need to add event listener keydown.enter, can't work it out, will get back later  -->
+                                    </ul>
+                                </div>
+                            </template>
+                        </autocomplete>
+                        <small
+                            class="text-warning small"
+                            v-if="!companies.find(company => company.name === props.row.company_name) && props.row.company_name"
+                        >Couldn't find this company, creating new.</small>
+                    </span>
+                    <span v-else-if="props.column.field == 'title'">
+                        <textarea rows="4" class="form-control btn" v-model="props.row.title" />
+                    </span>
+                    <span v-else-if="props.column.field == 'country'">
+                        <autocomplete :search="searchCountry">
+                            <template
+                                #default="{
+                                rootProps,
+                                inputProps,
+                                inputListeners,
+                                resultListProps,
+                                resultListListeners,
+                                results,
+                                resultProps
+                                }"
+                            >
+                                <div v-bind="rootProps">
+                                    <input
+                                        v-bind="inputProps"
+                                        v-on="inputListeners"
+                                        v-model="props.row.country"
+                                        :class="[
+                                        'form-control',
+                                        { 'autocomplete-input-no-results': false },
+                                        { 'autocomplete-input-focused': false }
+                                        ]"
+                                    />
+                                    <ul
+                                        v-if="false"
+                                        class="autocomplete-result-list"
+                                        style="position: absolute; z-index: 1; width: 100%; top: 100%;"
+                                    >
+                                        <li class="autocomplete-result">No results found</li>
+                                    </ul>
+                                    <ul v-bind="resultListProps" v-on="resultListListeners">
+                                        <li
+                                            v-for="(result, index) in results"
+                                            @click="props.row.country = result"
+                                            :key="resultProps[index].id"
+                                            v-bind="resultProps[index]"
+                                        >{{ result }}</li>
+                                        <!-- Need to add event listener keydown.enter, can't work it out, will get back later  -->
+                                    </ul>
+                                </div>
+                            </template>
+                        </autocomplete>
+                    </span>
+                    <span v-else-if="props.column.field == 'email'">
+                        <input
+                            :class="[props.row.email === '' ? 'form-control-danger' : '', 'form-control']"
+                            type="email"
+                            v-model="props.row.email"
+                            @blur="checkIfExists(props.row)"
+                            required
+                        />
+                        <small
+                            v-if="email_error.find(id=> id === props.row.id)"
+                            class="form-control-feedback text-danger"
+                        >This email is already used, potential duplicate lead.</small>
+                    </span>
+                    <span v-else-if="props.column.field == 'phone_1'">
+                        <textarea rows="4" class="form-control btn" v-model="props.row.phone_1" />
+                    </span>
+                    <span v-else-if="props.column.field == 'phone_2'">
+                        <textarea rows="4" class="form-control btn" v-model="props.row.phone_2" />
+                    </span>
+                    <span v-else-if="props.column.field == 'linkedin'">
+                        <textarea rows="4" class="form-control btn" v-model="props.row.linkedin" />
+                    </span>
+                    <div v-else-if="props.column.field == 'button'" class="d-flex">
+                        <button class="btn btn-primary">
+                            <i class="mdi mdi-check text-white"></i>
+                        </button>
+                        <button class="btn btn-danger" @click="deleteLead(props.row)">
+                            <i class="mdi mdi-trash-can text-white"></i>
+                        </button>
+                    </div>
+                </form>
             </template>
         </vue-good-table>
     </div>
@@ -111,12 +172,12 @@
     import "vue-good-table/dist/vue-good-table.css";
     import { VueGoodTable } from "vue-good-table";
 
-
     export default {
-        props: ["companies", "leads", "user"],
+        props: ["companies", "leads", "user", "leadEmails", "countries"],
 
         data() {
             return {
+                email_error: [],
                 columns: [
                     {
                         label: "First Name",
@@ -180,6 +241,15 @@
                     });
             },
 
+            searchCountry(input) {
+                if (input.length < 1) {
+                    return [];
+                }
+                return this.countries.filter((country) => {
+                    return country.toLowerCase().startsWith(input.toLowerCase());
+                });
+            },
+
             completeLead(row) {
                 let obj = {
                     first_name: row.first_name,
@@ -211,14 +281,14 @@
                 obj["phone_2"] = row.phone_2;
 
                 axios.post(`/lead`, obj).then((res) => {
-                    this.deleteLead(row)
+                    this.deleteLead(row);
                 });
             },
 
             deleteLead(row) {
                 axios.delete(`/incomplete-leads/${row.id}`).then((res) => {
                     this.rows.splice(row.originalIndex, 1);
-                    });
+                });
             },
 
             setCompanyName() {
@@ -233,6 +303,20 @@
                         event.target.className =
                             "form-control form-control-warning";
                 }
+            },
+
+            checkIfExists(row) {
+                if (this.leadEmails.find((email) => email === event.target.value)) {
+                    this.email_error.push(row.id);
+                    event.target.className = "form-control form-control-danger";
+                    return;
+                }
+                let rowIndex = this.email_error.findIndex((id) => id === row.id);
+                if (rowIndex !== -1) {
+                    this.email_error.splice(rowIndex, 1);
+                }
+                event.target.className = "form-control";
+                // throw error class
             },
         },
     };

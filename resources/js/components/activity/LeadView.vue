@@ -35,41 +35,53 @@
                         <div class="social-source-icon lg-icon mr-1">
                             <i class="mdi mdi-phone bg-primary text-white" style="font-size: 60px"></i>
                         </div>
-                        <a class="social-source-icon lg-icon mr-1">
+                        <a
+                            class="social-source-icon lg-icon mr-1"
+                            :href="'mailto:' + this.lead.lead.email"
+                        >
                             <i class="mdi mdi-email bg-primary text-white" style="font-size: 60px"></i>
                         </a>
-                        <a class="social-source-icon lg-icon mr-1" :href="this.lead.lead.linkedin">
+                        <a
+                            class="social-source-icon lg-icon mr-1"
+                            :href="this.lead.lead.linkedin"
+                            target="_blank"
+                        >
                             <i
                                 class="mdi mdi-linkedin bg-primary text-white"
                                 style="font-size: 60px"
                             ></i>
                         </a>
-                        <div class="social-source-icon lg-icon mr-1">
+                        <a
+                            class="social-source-icon lg-icon mr-1"
+                            target="_blank"
+                            :href="'http://www.google.com/search?q=' + lead.lead.full_name + lead.lead.company.name"
+                        >
                             <i class="mdi mdi-google bg-primary text-white" style="font-size: 60px"></i>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="card card-body pt-2 pr-2">
-                    <div v-if="!editingCompanyNote" class="d-flex justify-content-between" @click="editingCompanyNote = true">
-                        About {{ lead.lead.company.name }}:
-                        <i
-                            class="btn btn-outline-primary mdi mdi-pencil text-primaryfont-16 py-0 px-1 float-right d-none d-md-block"
-                        ></i>
+                    <div
+                        v-if="!editingCompanyNote"
+                        class="d-flex justify-content-between"
+                        @click="editingCompanyNote = true"
+                    >
+                        <h6>About {{ lead.lead.company.name }}:</h6>
+                        <div>
+                            <i
+                                class="btn btn-outline-primary mdi mdi-pencil text-primaryfont-16 py-0 px-1 float-right d-none d-md-block"
+                            ></i>
+                        </div>
                     </div>
                     <div class="d-flex mt-2 justify-content-around">
                         <div v-if="editingCompanyNote">
-                            <textarea
-                                class="form-control"
-                                cols="60"
-                                rows="3"
-                                v-model="companyNote"
-                            ></textarea>
+                            <textarea class="form-control" cols="60" rows="3" v-model="companyNote"></textarea>
                             <button
                                 class="btn btn-outline-primary mt-1"
                                 @click="updateCompanyNote"
                             >Submit</button>
                         </div>
-                        <div v-else>{{ companyNote }}</div>
+                        <p class="card-text" v-else>{{ companyNote }}</p>
                     </div>
                 </div>
             </div>
@@ -101,15 +113,17 @@
         },
 
         methods: {
-            updateCompanyNote(){
+            updateCompanyNote() {
                 let obj = {
-                    tools_note: this.companyNote
-                }
-                axios.patch(`/company/${this.lead.lead.company.id}`, obj).then(res=>{
-                    this.editingCompanyNote = false,
-                    this.companyNote = res.data
-                })
-            }
+                    tools_note: this.companyNote,
+                };
+                axios
+                    .patch(`/company/${this.lead.lead.company.id}`, obj)
+                    .then((res) => {
+                        (this.editingCompanyNote = false),
+                            (this.companyNote = res.data);
+                    });
+            },
         },
     };
 </script>
