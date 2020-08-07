@@ -3,7 +3,6 @@
         <vue-good-table
             :columns="columns"
             :rows="rows"
-            :fixed-header="true"
             styleClass="vgt-table striped bordered custom-table"
             :pagination-options="{
                 enabled: true,
@@ -28,6 +27,7 @@
                 <form @submit.prevent="completeLead(props.row)">
                     <span v-if="props.column.field == 'first_name'">
                         <textarea
+                            type="text"
                             rows="4"
                             class="form-control btn"
                             v-model="props.row.first_name"
@@ -51,7 +51,7 @@
                                 }"
                             >
                                 <div v-bind="rootProps">
-                                    <input
+                                    <textarea
                                         v-bind="inputProps"
                                         v-on="inputListeners"
                                         v-model="props.row.company_name"
@@ -103,14 +103,12 @@
                                 }"
                             >
                                 <div v-bind="rootProps">
-                                    <input
+                                    <textarea
                                         v-bind="inputProps"
                                         v-on="inputListeners"
                                         v-model="props.row.country"
                                         :class="[
                                         'form-control',
-                                        { 'autocomplete-input-no-results': false },
-                                        { 'autocomplete-input-focused': false }
                                         ]"
                                     />
                                     <ul
@@ -134,7 +132,7 @@
                         </autocomplete>
                     </span>
                     <span v-else-if="props.column.field == 'email'">
-                        <input
+                        <textarea
                             :class="[props.row.email === '' ? 'form-control-danger' : '', 'form-control']"
                             type="email"
                             v-model="props.row.email"
@@ -147,16 +145,26 @@
                         >This email is already used, potential duplicate lead.</small>
                     </span>
                     <span v-else-if="props.column.field == 'phone_1'">
-                        <textarea rows="4" class="form-control btn" v-model="props.row.phone_1" />
+                        <textarea
+                            rows="4"
+                            class="form-control btn"
+                            v-model="props.row.phone_1"
+                            required
+                        />
                     </span>
                     <span v-else-if="props.column.field == 'phone_2'">
                         <textarea rows="4" class="form-control btn" v-model="props.row.phone_2" />
                     </span>
                     <span v-else-if="props.column.field == 'linkedin'">
-                        <textarea rows="4" class="form-control btn" v-model="props.row.linkedin" />
+                        <textarea
+                            rows="4"
+                            class="form-control btn"
+                            v-model="props.row.linkedin"
+                            required
+                        />
                     </span>
                     <div v-else-if="props.column.field == 'button'" class="d-flex">
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" type="submit">
                             <i class="mdi mdi-check text-white"></i>
                         </button>
                         <button class="btn btn-danger" @click="deleteLead(props.row)">
@@ -271,6 +279,7 @@
                 if (Object.keys(obj).some((key) => !obj[key])) {
                     Object.keys(obj).map((key) => {
                         if (!obj[key]) {
+                            console.log(row);
                             this[key] = "";
                         }
                     });

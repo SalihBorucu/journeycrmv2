@@ -3937,6 +3937,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4028,6 +4036,7 @@ __webpack_require__.r(__webpack_exports__);
       })) {
         Object.keys(obj).map(function (key) {
           if (!obj[key]) {
+            console.log(row);
             _this2[key] = "";
           }
         });
@@ -35359,7 +35368,6 @@ var render = function() {
         attrs: {
           columns: _vm.columns,
           rows: _vm.rows,
-          "fixed-header": true,
           styleClass: "vgt-table striped bordered custom-table",
           "pagination-options": {
             enabled: true,
@@ -35407,7 +35415,7 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control btn",
-                            attrs: { rows: "4", required: "" },
+                            attrs: { type: "text", rows: "4", required: "" },
                             domProps: { value: props.row.first_name },
                             on: {
                               input: function($event) {
@@ -35478,261 +35486,69 @@ var render = function() {
                                           "div",
                                           _vm._b({}, "div", rootProps, false),
                                           [
-                                            inputProps.type === "checkbox"
-                                              ? _c(
-                                                  "input",
-                                                  _vm._g(
-                                                    _vm._b(
+                                            _c(
+                                              "textarea",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    directives: [
                                                       {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              props.row
-                                                                .company_name,
-                                                            expression:
-                                                              "props.row.company_name"
-                                                          }
-                                                        ],
-                                                        class: [
-                                                          _vm.companies.find(
-                                                            function(company) {
-                                                              return (
-                                                                company.name ===
-                                                                props.row
-                                                                  .company_name
-                                                              )
-                                                            }
-                                                          )
-                                                            ? "form-control-success"
-                                                            : "form-control-warning",
-                                                          "form-control",
-                                                          {
-                                                            "autocomplete-input-no-results": false
-                                                          },
-                                                          {
-                                                            "autocomplete-input-focused": false
-                                                          }
-                                                        ],
-                                                        attrs: {
-                                                          type: "checkbox"
-                                                        },
-                                                        domProps: {
-                                                          checked: Array.isArray(
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          props.row
+                                                            .company_name,
+                                                        expression:
+                                                          "props.row.company_name"
+                                                      }
+                                                    ],
+                                                    class: [
+                                                      _vm.companies.find(
+                                                        function(company) {
+                                                          return (
+                                                            company.name ===
                                                             props.row
                                                               .company_name
                                                           )
-                                                            ? _vm._i(
-                                                                props.row
-                                                                  .company_name,
-                                                                null
-                                                              ) > -1
-                                                            : props.row
-                                                                .company_name
-                                                        },
-                                                        on: {
-                                                          change: function(
-                                                            $event
-                                                          ) {
-                                                            var $$a =
-                                                                props.row
-                                                                  .company_name,
-                                                              $$el =
-                                                                $event.target,
-                                                              $$c = $$el.checked
-                                                                ? true
-                                                                : false
-                                                            if (
-                                                              Array.isArray($$a)
-                                                            ) {
-                                                              var $$v = null,
-                                                                $$i = _vm._i(
-                                                                  $$a,
-                                                                  $$v
-                                                                )
-                                                              if (
-                                                                $$el.checked
-                                                              ) {
-                                                                $$i < 0 &&
-                                                                  _vm.$set(
-                                                                    props.row,
-                                                                    "company_name",
-                                                                    $$a.concat([
-                                                                      $$v
-                                                                    ])
-                                                                  )
-                                                              } else {
-                                                                $$i > -1 &&
-                                                                  _vm.$set(
-                                                                    props.row,
-                                                                    "company_name",
-                                                                    $$a
-                                                                      .slice(
-                                                                        0,
-                                                                        $$i
-                                                                      )
-                                                                      .concat(
-                                                                        $$a.slice(
-                                                                          $$i +
-                                                                            1
-                                                                        )
-                                                                      )
-                                                                  )
-                                                              }
-                                                            } else {
-                                                              _vm.$set(
-                                                                props.row,
-                                                                "company_name",
-                                                                $$c
-                                                              )
-                                                            }
-                                                          }
                                                         }
-                                                      },
-                                                      "input",
-                                                      inputProps,
-                                                      false
-                                                    ),
-                                                    inputListeners
-                                                  )
-                                                )
-                                              : inputProps.type === "radio"
-                                              ? _c(
-                                                  "input",
-                                                  _vm._g(
-                                                    _vm._b(
+                                                      )
+                                                        ? "form-control-success"
+                                                        : "form-control-warning",
+                                                      "form-control",
                                                       {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              props.row
-                                                                .company_name,
-                                                            expression:
-                                                              "props.row.company_name"
-                                                          }
-                                                        ],
-                                                        class: [
-                                                          _vm.companies.find(
-                                                            function(company) {
-                                                              return (
-                                                                company.name ===
-                                                                props.row
-                                                                  .company_name
-                                                              )
-                                                            }
-                                                          )
-                                                            ? "form-control-success"
-                                                            : "form-control-warning",
-                                                          "form-control",
-                                                          {
-                                                            "autocomplete-input-no-results": false
-                                                          },
-                                                          {
-                                                            "autocomplete-input-focused": false
-                                                          }
-                                                        ],
-                                                        attrs: {
-                                                          type: "radio"
-                                                        },
-                                                        domProps: {
-                                                          checked: _vm._q(
-                                                            props.row
-                                                              .company_name,
-                                                            null
-                                                          )
-                                                        },
-                                                        on: {
-                                                          change: function(
-                                                            $event
-                                                          ) {
-                                                            return _vm.$set(
-                                                              props.row,
-                                                              "company_name",
-                                                              null
-                                                            )
-                                                          }
-                                                        }
+                                                        "autocomplete-input-no-results": false
                                                       },
-                                                      "input",
-                                                      inputProps,
-                                                      false
-                                                    ),
-                                                    inputListeners
-                                                  )
-                                                )
-                                              : _c(
-                                                  "input",
-                                                  _vm._g(
-                                                    _vm._b(
                                                       {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              props.row
-                                                                .company_name,
-                                                            expression:
-                                                              "props.row.company_name"
-                                                          }
-                                                        ],
-                                                        class: [
-                                                          _vm.companies.find(
-                                                            function(company) {
-                                                              return (
-                                                                company.name ===
-                                                                props.row
-                                                                  .company_name
-                                                              )
-                                                            }
-                                                          )
-                                                            ? "form-control-success"
-                                                            : "form-control-warning",
-                                                          "form-control",
-                                                          {
-                                                            "autocomplete-input-no-results": false
-                                                          },
-                                                          {
-                                                            "autocomplete-input-focused": false
-                                                          }
-                                                        ],
-                                                        attrs: {
-                                                          type: inputProps.type
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            props.row
-                                                              .company_name
-                                                        },
-                                                        on: {
-                                                          input: function(
-                                                            $event
-                                                          ) {
-                                                            if (
-                                                              $event.target
-                                                                .composing
-                                                            ) {
-                                                              return
-                                                            }
-                                                            _vm.$set(
-                                                              props.row,
-                                                              "company_name",
-                                                              $event.target
-                                                                .value
-                                                            )
-                                                          }
+                                                        "autocomplete-input-focused": false
+                                                      }
+                                                    ],
+                                                    domProps: {
+                                                      value:
+                                                        props.row.company_name
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
                                                         }
-                                                      },
-                                                      "input",
-                                                      inputProps,
-                                                      false
-                                                    ),
-                                                    inputListeners
-                                                  )
+                                                        _vm.$set(
+                                                          props.row,
+                                                          "company_name",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  "textarea",
+                                                  inputProps,
+                                                  false
                                                 ),
+                                                inputListeners
+                                              )
+                                            ),
                                             _vm._v(" "),
                                             false
                                               ? undefined
@@ -35855,221 +35671,48 @@ var render = function() {
                                           "div",
                                           _vm._b({}, "div", rootProps, false),
                                           [
-                                            inputProps.type === "checkbox"
-                                              ? _c(
-                                                  "input",
-                                                  _vm._g(
-                                                    _vm._b(
+                                            _c(
+                                              "textarea",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    directives: [
                                                       {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              props.row.country,
-                                                            expression:
-                                                              "props.row.country"
-                                                          }
-                                                        ],
-                                                        class: [
-                                                          "form-control",
-                                                          {
-                                                            "autocomplete-input-no-results": false
-                                                          },
-                                                          {
-                                                            "autocomplete-input-focused": false
-                                                          }
-                                                        ],
-                                                        attrs: {
-                                                          type: "checkbox"
-                                                        },
-                                                        domProps: {
-                                                          checked: Array.isArray(
-                                                            props.row.country
-                                                          )
-                                                            ? _vm._i(
-                                                                props.row
-                                                                  .country,
-                                                                null
-                                                              ) > -1
-                                                            : props.row.country
-                                                        },
-                                                        on: {
-                                                          change: function(
-                                                            $event
-                                                          ) {
-                                                            var $$a =
-                                                                props.row
-                                                                  .country,
-                                                              $$el =
-                                                                $event.target,
-                                                              $$c = $$el.checked
-                                                                ? true
-                                                                : false
-                                                            if (
-                                                              Array.isArray($$a)
-                                                            ) {
-                                                              var $$v = null,
-                                                                $$i = _vm._i(
-                                                                  $$a,
-                                                                  $$v
-                                                                )
-                                                              if (
-                                                                $$el.checked
-                                                              ) {
-                                                                $$i < 0 &&
-                                                                  _vm.$set(
-                                                                    props.row,
-                                                                    "country",
-                                                                    $$a.concat([
-                                                                      $$v
-                                                                    ])
-                                                                  )
-                                                              } else {
-                                                                $$i > -1 &&
-                                                                  _vm.$set(
-                                                                    props.row,
-                                                                    "country",
-                                                                    $$a
-                                                                      .slice(
-                                                                        0,
-                                                                        $$i
-                                                                      )
-                                                                      .concat(
-                                                                        $$a.slice(
-                                                                          $$i +
-                                                                            1
-                                                                        )
-                                                                      )
-                                                                  )
-                                                              }
-                                                            } else {
-                                                              _vm.$set(
-                                                                props.row,
-                                                                "country",
-                                                                $$c
-                                                              )
-                                                            }
-                                                          }
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          props.row.country,
+                                                        expression:
+                                                          "props.row.country"
+                                                      }
+                                                    ],
+                                                    class: ["form-control"],
+                                                    domProps: {
+                                                      value: props.row.country
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
                                                         }
-                                                      },
-                                                      "input",
-                                                      inputProps,
-                                                      false
-                                                    ),
-                                                    inputListeners
-                                                  )
-                                                )
-                                              : inputProps.type === "radio"
-                                              ? _c(
-                                                  "input",
-                                                  _vm._g(
-                                                    _vm._b(
-                                                      {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              props.row.country,
-                                                            expression:
-                                                              "props.row.country"
-                                                          }
-                                                        ],
-                                                        class: [
-                                                          "form-control",
-                                                          {
-                                                            "autocomplete-input-no-results": false
-                                                          },
-                                                          {
-                                                            "autocomplete-input-focused": false
-                                                          }
-                                                        ],
-                                                        attrs: {
-                                                          type: "radio"
-                                                        },
-                                                        domProps: {
-                                                          checked: _vm._q(
-                                                            props.row.country,
-                                                            null
-                                                          )
-                                                        },
-                                                        on: {
-                                                          change: function(
-                                                            $event
-                                                          ) {
-                                                            return _vm.$set(
-                                                              props.row,
-                                                              "country",
-                                                              null
-                                                            )
-                                                          }
-                                                        }
-                                                      },
-                                                      "input",
-                                                      inputProps,
-                                                      false
-                                                    ),
-                                                    inputListeners
-                                                  )
-                                                )
-                                              : _c(
-                                                  "input",
-                                                  _vm._g(
-                                                    _vm._b(
-                                                      {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              props.row.country,
-                                                            expression:
-                                                              "props.row.country"
-                                                          }
-                                                        ],
-                                                        class: [
-                                                          "form-control",
-                                                          {
-                                                            "autocomplete-input-no-results": false
-                                                          },
-                                                          {
-                                                            "autocomplete-input-focused": false
-                                                          }
-                                                        ],
-                                                        attrs: {
-                                                          type: inputProps.type
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            props.row.country
-                                                        },
-                                                        on: {
-                                                          input: function(
-                                                            $event
-                                                          ) {
-                                                            if (
-                                                              $event.target
-                                                                .composing
-                                                            ) {
-                                                              return
-                                                            }
-                                                            _vm.$set(
-                                                              props.row,
-                                                              "country",
-                                                              $event.target
-                                                                .value
-                                                            )
-                                                          }
-                                                        }
-                                                      },
-                                                      "input",
-                                                      inputProps,
-                                                      false
-                                                    ),
-                                                    inputListeners
-                                                  )
+                                                        _vm.$set(
+                                                          props.row,
+                                                          "country",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  "textarea",
+                                                  inputProps,
+                                                  false
                                                 ),
+                                                inputListeners
+                                              )
+                                            ),
                                             _vm._v(" "),
                                             false
                                               ? undefined
@@ -36128,7 +35771,7 @@ var render = function() {
                         )
                       : props.column.field == "email"
                       ? _c("span", [
-                          _c("input", {
+                          _c("textarea", {
                             directives: [
                               {
                                 name: "model",
@@ -36191,7 +35834,7 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control btn",
-                            attrs: { rows: "4" },
+                            attrs: { rows: "4", required: "" },
                             domProps: { value: props.row.phone_1 },
                             on: {
                               input: function($event) {
@@ -36247,7 +35890,7 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control btn",
-                            attrs: { rows: "4" },
+                            attrs: { rows: "4", required: "" },
                             domProps: { value: props.row.linkedin },
                             on: {
                               input: function($event) {
@@ -36265,9 +35908,18 @@ var render = function() {
                         ])
                       : props.column.field == "button"
                       ? _c("div", { staticClass: "d-flex" }, [
-                          _c("button", { staticClass: "btn btn-primary" }, [
-                            _c("i", { staticClass: "mdi mdi-check text-white" })
-                          ]),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: { type: "submit" }
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "mdi mdi-check text-white"
+                              })
+                            ]
+                          ),
                           _vm._v(" "),
                           _c(
                             "button",
