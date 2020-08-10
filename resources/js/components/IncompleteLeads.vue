@@ -20,26 +20,19 @@
             :sort-options="{
                 enabled:false,
             }"
-            min-width="500px"
             ref="dataTable"
             compactMode
         >
             <template slot="table-row" slot-scope="props">
-                <span v-if="props.column.field == 'first_name'">
-                    <textarea
-                        type="text"
-                        rows="4"
-                        class="form-control btn"
-                        v-model="props.row.first_name"
-                        required
-                    />
+                <span v-if="props.column.field == 'first_name'" class="w-25">
+                    <editable v-model="props.row.first_name"></editable>
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.first_name"
                     >First name can not be empty.</small>
                 </span>
                 <span v-else-if="props.column.field == 'last_name'">
-                    <textarea rows="4" class="form-control btn" v-model="props.row.last_name" />
+                    <editable v-model="props.row.last_name"></editable>
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.last_name"
@@ -60,7 +53,7 @@
                         >
                             <div v-bind="rootProps">
                                 <textarea
-                                    rows="4"
+                                    rows="2"
                                     v-bind="inputProps"
                                     v-on="inputListeners"
                                     v-model="props.row.company_name"
@@ -88,7 +81,8 @@
                     >Couldn't find this company, creating new.</small>
                 </span>
                 <span v-else-if="props.column.field == 'title'">
-                    <textarea rows="4" class="form-control btn" v-model="props.row.title" />
+                    <!-- <textarea class="form-control btn" v-model="props.row.title" /> -->
+                    <editable v-model="props.row.title"></editable>
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.title"
@@ -109,7 +103,7 @@
                         >
                             <div v-bind="rootProps">
                                 <textarea
-                                    rows="4"
+                                    rows="2"
                                     v-bind="inputProps"
                                     v-on="inputListeners"
                                     v-model="props.row.country"
@@ -135,14 +129,13 @@
                     >Country can not be empty.</small>
                 </span>
                 <span v-else-if="props.column.field == 'email'">
-                    <textarea
-                        rows="4"
-                        class="form-control"
+                    <editable
+                        class="form-control btn"
                         type="email"
                         v-model="props.row.email"
-                        @blur="checkIfExists(props.row)"
+                        @blur.native="checkIfExists(props.row)"
                         required
-                    />
+                    ></editable>
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.last_name"
@@ -153,20 +146,17 @@
                     >This email is already used, potential duplicate lead.</small>
                 </span>
                 <span v-else-if="props.column.field == 'phone_1'">
-                    <textarea
-                        rows="4"
+                    <editable
                         class="form-control btn"
                         v-model="props.row.phone_1"
                         required
-                    />
+                    ></editable>
                 </span>
                 <span v-else-if="props.column.field == 'phone_2'">
-                    <textarea rows="4" class="form-control btn" v-model="props.row.phone_2" />
+                    <textarea rows="2" class="form-control btn" v-model="props.row.phone_2" />
                 </span>
                 <span v-else-if="props.column.field == 'linkedin'">
-                    <textarea
-                        rows="4"
-                        class="form-control btn"
+                    <editable
                         style="font-size=14px;"
                         v-model="props.row.linkedin"
                         required
@@ -191,8 +181,10 @@
 <script>
     import "vue-good-table/dist/vue-good-table.css";
     import { VueGoodTable } from "vue-good-table";
+    import Editable from "./helpers/Editable";
 
     export default {
+        components: { Editable },
         props: ["companies", "leads", "user", "leadEmails", "countries"],
 
         data() {
@@ -202,7 +194,6 @@
                     {
                         label: "First Name",
                         field: "first_name",
-                        class: "form-control-danger",
                     },
                     {
                         label: "Last Name",
@@ -211,6 +202,7 @@
                     {
                         label: "Company Search",
                         field: "company_search",
+                        width: "200px",
                     },
                     {
                         label: "Title",
@@ -235,6 +227,7 @@
                     {
                         label: "Linkedin",
                         field: "linkedin",
+                        width: "200px",
                     },
                     {
                         label: "",
@@ -288,6 +281,9 @@
                     phone_1: row.phone_1,
                     country: row.country,
                 };
+
+                console.log(row);
+                return;
 
                 if (Object.keys(obj).some((key) => !obj[key])) {
                     Object.keys(obj).map((key) => {
@@ -343,7 +339,19 @@ textarea.form-control {
     background: transparent;
     border: 0;
     text-align: left;
-    font-size: 20px;
+    font-size: 14px;
     color: black;
+}
+
+.autocomplete-input {
+    padding: 0;
+}
+
+.autocomplete-input:focus {
+    box-shadow: none;
+}
+
+.small {
+    font-size: 65%;
 }
 </style>
