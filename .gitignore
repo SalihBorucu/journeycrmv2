@@ -6,6 +6,7 @@
 /public/css/app.css
 /public/js/reporting-app.js
 /public/js/activity-app.js
+/public/js/create-lead-app.js
 /public/mix-manifest.json
 /vendor
 .env
