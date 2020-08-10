@@ -22,25 +22,33 @@
             }"
             min-width="500px"
             ref="dataTable"
+            compactMode
         >
             <template slot="table-row" slot-scope="props">
-                <form @submit.prevent="completeLead(props.row)">
-                    <span v-if="props.column.field == 'first_name'">
-                        <textarea
-                            type="text"
-                            rows="4"
-                            class="form-control btn"
-                            v-model="props.row.first_name"
-                            required
-                        />
-                    </span>
-                    <span v-else-if="props.column.field == 'last_name'">
-                        <textarea rows="4" class="form-control btn" v-model="props.row.last_name" />
-                    </span>
-                    <span v-else-if="props.column.field == 'company_search'">
-                        <autocomplete :search="searchCompany" autoSelect>
-                            <template
-                                #default="{
+                <span v-if="props.column.field == 'first_name'">
+                    <textarea
+                        type="text"
+                        rows="4"
+                        class="form-control btn"
+                        v-model="props.row.first_name"
+                        required
+                    />
+                    <small
+                        class="text-danger small m-1"
+                        v-if="!props.row.first_name"
+                    >First name can not be empty.</small>
+                </span>
+                <span v-else-if="props.column.field == 'last_name'">
+                    <textarea rows="4" class="form-control btn" v-model="props.row.last_name" />
+                    <small
+                        class="text-danger small m-1"
+                        v-if="!props.row.last_name"
+                    >Last name can not be empty.</small>
+                </span>
+                <span v-else-if="props.column.field == 'company_search'" :class="[]">
+                    <autocomplete :search="searchCompany" autoSelect>
+                        <template
+                            #default="{
                                 rootProps,
                                 inputProps,
                                 inputListeners,
@@ -49,50 +57,47 @@
                                 results,
                                 resultProps
                                 }"
-                            >
-                                <div v-bind="rootProps">
-                                    <textarea
-                                        v-bind="inputProps"
-                                        v-on="inputListeners"
-                                        v-model="props.row.company_name"
-                                        :class="[
-                                    companies.find(company => company.name === props.row.company_name) ? 'form-control-success': 'form-control-warning',
-                                    'form-control',
-                                        { 'autocomplete-input-no-results': false },
-                                        { 'autocomplete-input-focused': false }
-                                        ]"
-                                    />
-                                    <ul
-                                        v-if="false"
-                                        class="autocomplete-result-list"
-                                        style="position: absolute; z-index: 1; width: 100%; top: 100%;"
-                                    >
-                                        <li class="autocomplete-result">No results found</li>
-                                    </ul>
-                                    <ul v-bind="resultListProps" v-on="resultListListeners">
-                                        <li
-                                            v-for="(result, index) in results"
-                                            @click="props.row.company_name = result"
-                                            :key="resultProps[index].id"
-                                            v-bind="resultProps[index]"
-                                        >{{ result }}</li>
-                                        <!-- Need to add event listener keydown.enter, can't work it out, will get back later  -->
-                                    </ul>
-                                </div>
-                            </template>
-                        </autocomplete>
-                        <small
-                            class="text-warning small"
-                            v-if="!companies.find(company => company.name === props.row.company_name) && props.row.company_name"
-                        >Couldn't find this company, creating new.</small>
-                    </span>
-                    <span v-else-if="props.column.field == 'title'">
-                        <textarea rows="4" class="form-control btn" v-model="props.row.title" />
-                    </span>
-                    <span v-else-if="props.column.field == 'country'">
-                        <autocomplete :search="searchCountry">
-                            <template
-                                #default="{
+                        >
+                            <div v-bind="rootProps">
+                                <textarea
+                                    rows="4"
+                                    v-bind="inputProps"
+                                    v-on="inputListeners"
+                                    v-model="props.row.company_name"
+                                    class="form-control"
+                                />
+                                <ul v-bind="resultListProps" v-on="resultListListeners">
+                                    <li
+                                        v-for="(result, index) in results"
+                                        @click="props.row.company_name = result"
+                                        :key="resultProps[index].id"
+                                        v-bind="resultProps[index]"
+                                    >{{ result }}</li>
+                                    <!-- Need to add event listener keydown.enter, can't work it out, will get back later  -->
+                                </ul>
+                            </div>
+                        </template>
+                    </autocomplete>
+                    <small
+                        class="text-danger small m-1"
+                        v-if="!props.row.company_name"
+                    >Company can not be empty.</small>
+                    <small
+                        class="text-warning small m-1"
+                        v-else-if="!companies.find(company => company.name === props.row.company_name) && props.row.company_name"
+                    >Couldn't find this company, creating new.</small>
+                </span>
+                <span v-else-if="props.column.field == 'title'">
+                    <textarea rows="4" class="form-control btn" v-model="props.row.title" />
+                    <small
+                        class="text-danger small m-1"
+                        v-if="!props.row.title"
+                    >Title can not be empty.</small>
+                </span>
+                <span v-else-if="props.column.field == 'country'">
+                    <autocomplete :search="searchCountry">
+                        <template
+                            #default="{
                                 rootProps,
                                 inputProps,
                                 inputListeners,
@@ -101,77 +106,84 @@
                                 results,
                                 resultProps
                                 }"
-                            >
-                                <div v-bind="rootProps">
-                                    <textarea
-                                        v-bind="inputProps"
-                                        v-on="inputListeners"
-                                        v-model="props.row.country"
-                                        :class="[
+                        >
+                            <div v-bind="rootProps">
+                                <textarea
+                                    rows="4"
+                                    v-bind="inputProps"
+                                    v-on="inputListeners"
+                                    v-model="props.row.country"
+                                    :class="[
                                         'form-control',
                                         ]"
-                                    />
-                                    <ul
-                                        v-if="false"
-                                        class="autocomplete-result-list"
-                                        style="position: absolute; z-index: 1; width: 100%; top: 100%;"
-                                    >
-                                        <li class="autocomplete-result">No results found</li>
-                                    </ul>
-                                    <ul v-bind="resultListProps" v-on="resultListListeners">
-                                        <li
-                                            v-for="(result, index) in results"
-                                            @click="props.row.country = result"
-                                            :key="resultProps[index].id"
-                                            v-bind="resultProps[index]"
-                                        >{{ result }}</li>
-                                        <!-- Need to add event listener keydown.enter, can't work it out, will get back later  -->
-                                    </ul>
-                                </div>
-                            </template>
-                        </autocomplete>
-                    </span>
-                    <span v-else-if="props.column.field == 'email'">
-                        <textarea
-                            :class="[props.row.email === '' ? 'form-control-danger' : '', 'form-control']"
-                            type="email"
-                            v-model="props.row.email"
-                            @blur="checkIfExists(props.row)"
-                            required
-                        />
-                        <small
-                            v-if="email_error.find(id=> id === props.row.id)"
-                            class="form-control-feedback text-danger"
-                        >This email is already used, potential duplicate lead.</small>
-                    </span>
-                    <span v-else-if="props.column.field == 'phone_1'">
-                        <textarea
-                            rows="4"
-                            class="form-control btn"
-                            v-model="props.row.phone_1"
-                            required
-                        />
-                    </span>
-                    <span v-else-if="props.column.field == 'phone_2'">
-                        <textarea rows="4" class="form-control btn" v-model="props.row.phone_2" />
-                    </span>
-                    <span v-else-if="props.column.field == 'linkedin'">
-                        <textarea
-                            rows="4"
-                            class="form-control btn"
-                            v-model="props.row.linkedin"
-                            required
-                        />
-                    </span>
-                    <div v-else-if="props.column.field == 'button'" class="d-flex">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="mdi mdi-check text-white"></i>
-                        </button>
-                        <button class="btn btn-danger" @click="deleteLead(props.row)">
-                            <i class="mdi mdi-trash-can text-white"></i>
-                        </button>
-                    </div>
-                </form>
+                                />
+                                <ul v-bind="resultListProps" v-on="resultListListeners">
+                                    <li
+                                        v-for="(result, index) in results"
+                                        @click="props.row.country = result"
+                                        :key="resultProps[index].id"
+                                        v-bind="resultProps[index]"
+                                    >{{ result }}</li>
+                                    <!-- Need to add event listener keydown.enter, can't work it out, will get back later  -->
+                                </ul>
+                            </div>
+                        </template>
+                    </autocomplete>
+                    <small
+                        class="text-danger small m-1"
+                        v-if="!props.row.country"
+                    >Country can not be empty.</small>
+                </span>
+                <span v-else-if="props.column.field == 'email'">
+                    <textarea
+                        rows="4"
+                        class="form-control"
+                        type="email"
+                        v-model="props.row.email"
+                        @blur="checkIfExists(props.row)"
+                        required
+                    />
+                    <small
+                        class="text-danger small m-1"
+                        v-if="!props.row.last_name"
+                    >Email can not be empty.</small>
+                    <small
+                        v-if="email_error.find(id=> id === props.row.id)"
+                        class="form-control-feedback text-danger m-1"
+                    >This email is already used, potential duplicate lead.</small>
+                </span>
+                <span v-else-if="props.column.field == 'phone_1'">
+                    <textarea
+                        rows="4"
+                        class="form-control btn"
+                        v-model="props.row.phone_1"
+                        required
+                    />
+                </span>
+                <span v-else-if="props.column.field == 'phone_2'">
+                    <textarea rows="4" class="form-control btn" v-model="props.row.phone_2" />
+                </span>
+                <span v-else-if="props.column.field == 'linkedin'">
+                    <textarea
+                        rows="4"
+                        class="form-control btn"
+                        style="font-size=14px;"
+                        v-model="props.row.linkedin"
+                        required
+                    />
+                    <small
+                        class="text-danger small m-1"
+                        v-if="!props.row.linkedin"
+                    >Linkedin link can not be empty.</small>
+                </span>
+                <div v-else-if="props.column.field == 'button'" class="d-flex mt-5">
+                    <button class="btn btn-primary" type="submit" @click="completeLead(props.row)">
+                        <i class="mdi mdi-check text-white"></i>
+                    </button>
+                    <button class="btn btn-danger" @click="deleteLead(props.row)">
+                        <i class="mdi mdi-trash-can text-white"></i>
+                    </button>
+                </div>
             </template>
         </vue-good-table>
     </div>
@@ -190,6 +202,7 @@
                     {
                         label: "First Name",
                         field: "first_name",
+                        class: "form-control-danger",
                     },
                     {
                         label: "Last Name",
@@ -224,7 +237,7 @@
                         field: "linkedin",
                     },
                     {
-                        label: "Complete Button",
+                        label: "",
                         field: "button",
                     },
                 ],
@@ -300,20 +313,6 @@
                 });
             },
 
-            setCompanyName() {
-                if (
-                    this.companies.find(
-                        (company) => company.name === event.target.value
-                    )
-                ) {
-                    event.target.className = "form-control form-control-success";
-                } else {
-                    if (event.target.value !== "")
-                        event.target.className =
-                            "form-control form-control-warning";
-                }
-            },
-
             checkIfExists(row) {
                 if (this.leadEmails.find((email) => email === event.target.value)) {
                     this.email_error.push(row.id);
@@ -330,3 +329,21 @@
         },
     };
 </script>
+
+<style scoped>
+table.vgt-table td {
+    padding: 0;
+    vertical-align: center;
+    border-bottom: 1px solid #dcdfe6;
+    color: #606266;
+}
+
+textarea.form-control {
+    resize: none;
+    background: transparent;
+    border: 0;
+    text-align: left;
+    font-size: 20px;
+    color: black;
+}
+</style>
