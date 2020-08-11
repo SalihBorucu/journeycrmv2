@@ -24,19 +24,19 @@
             compactMode
         >
             <template slot="table-row" slot-scope="props">
-                <span v-if="props.column.field == 'first_name'" class="w-25">
+                <span v-if="props.column.field == 'first_name'">
                     <editable v-model="props.row.first_name"></editable>
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.first_name"
-                    >First name can not be empty.</small>
+                    >First name is empty.</small>
                 </span>
                 <span v-else-if="props.column.field == 'last_name'">
                     <editable v-model="props.row.last_name"></editable>
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.last_name"
-                    >Last name can not be empty.</small>
+                    >Last name is empty.</small>
                 </span>
                 <span v-else-if="props.column.field == 'company_search'" :class="[]">
                     <autocomplete :search="searchCompany" autoSelect>
@@ -74,7 +74,7 @@
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.company_name"
-                    >Company can not be empty.</small>
+                    >Company is empty.</small>
                     <small
                         class="text-warning small m-1"
                         v-else-if="!companies.find(company => company.name === props.row.company_name) && props.row.company_name"
@@ -83,10 +83,7 @@
                 <span v-else-if="props.column.field == 'title'">
                     <!-- <textarea class="form-control btn" v-model="props.row.title" /> -->
                     <editable v-model="props.row.title"></editable>
-                    <small
-                        class="text-danger small m-1"
-                        v-if="!props.row.title"
-                    >Title can not be empty.</small>
+                    <small class="text-danger small m-1" v-if="!props.row.title">Title is empty.</small>
                 </span>
                 <span v-else-if="props.column.field == 'country'">
                     <autocomplete :search="searchCountry">
@@ -113,6 +110,7 @@
                                 />
                                 <ul v-bind="resultListProps" v-on="resultListListeners">
                                     <li
+                                        class="asdasd"
                                         v-for="(result, index) in results"
                                         @click="props.row.country = result"
                                         :key="resultProps[index].id"
@@ -123,48 +121,33 @@
                             </div>
                         </template>
                     </autocomplete>
-                    <small
-                        class="text-danger small m-1"
-                        v-if="!props.row.country"
-                    >Country can not be empty.</small>
+                    <small class="text-danger small m-1" v-if="!props.row.country">Country is empty.</small>
                 </span>
                 <span v-else-if="props.column.field == 'email'">
                     <editable
-                        class="form-control btn"
                         type="email"
                         v-model="props.row.email"
-                        @blur.native="checkIfExists(props.row)"
+                        @blur="checkIfExists(props.row)"
                         required
                     ></editable>
-                    <small
-                        class="text-danger small m-1"
-                        v-if="!props.row.last_name"
-                    >Email can not be empty.</small>
+                    <small class="text-danger small m-1" v-if="!props.row.email">Email is empty.</small>
                     <small
                         v-if="email_error.find(id=> id === props.row.id)"
                         class="form-control-feedback text-danger m-1"
                     >This email is already used, potential duplicate lead.</small>
                 </span>
                 <span v-else-if="props.column.field == 'phone_1'">
-                    <editable
-                        class="form-control btn"
-                        v-model="props.row.phone_1"
-                        required
-                    ></editable>
+                    <editable v-model="props.row.phone_1" required></editable>
                 </span>
                 <span v-else-if="props.column.field == 'phone_2'">
-                    <textarea rows="2" class="form-control btn" v-model="props.row.phone_2" />
+                    <editable v-model="props.row.phone_2" />
                 </span>
                 <span v-else-if="props.column.field == 'linkedin'">
-                    <editable
-                        style="font-size=14px;"
-                        v-model="props.row.linkedin"
-                        required
-                    />
+                    <editable style="width:100px" v-model="props.row.linkedin" required />
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.linkedin"
-                    >Linkedin link can not be empty.</small>
+                    >Linkedin link is empty.</small>
                 </span>
                 <div v-else-if="props.column.field == 'button'" class="d-flex mt-5">
                     <button class="btn btn-primary" type="submit" @click="completeLead(props.row)">
@@ -194,44 +177,64 @@
                     {
                         label: "First Name",
                         field: "first_name",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Last Name",
                         field: "last_name",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Company Search",
                         field: "company_search",
-                        width: "200px",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
+                        width: "150px",
                     },
                     {
                         label: "Title",
                         field: "title",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Country",
                         field: "country",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
+                        width: "150px",
                     },
                     {
                         label: "Email",
                         field: "email",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Phone",
                         field: "phone_1",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Phone 2",
                         field: "phone_2",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Linkedin",
                         field: "linkedin",
-                        width: "200px",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "",
                         field: "button",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                 ],
                 rows: this.leads.map((lead) => {
@@ -310,16 +313,16 @@
             },
 
             checkIfExists(row) {
-                if (this.leadEmails.find((email) => email === event.target.value)) {
+                if (this.leadEmails.find((email) => email === row.email)) {
                     this.email_error.push(row.id);
-                    event.target.className = "form-control form-control-danger";
+                    // event.target.className = "form-control form-control-danger";
                     return;
                 }
                 let rowIndex = this.email_error.findIndex((id) => id === row.id);
                 if (rowIndex !== -1) {
                     this.email_error.splice(rowIndex, 1);
                 }
-                event.target.className = "form-control";
+                // event.target.className = "form-control";
                 // throw error class
             },
         },
@@ -339,7 +342,7 @@ textarea.form-control {
     background: transparent;
     border: 0;
     text-align: left;
-    font-size: 14px;
+    font-size: 12px;
     color: black;
 }
 
@@ -352,6 +355,31 @@ textarea.form-control {
 }
 
 .small {
-    font-size: 65%;
+    font-size: 55%;
+}
+
+small {
+    position: absolute;
+    bottom: 0;
+}
+.autocomplete-result-list {
+    font-size: 12px;
+}
+
+.autocomplete-result {
+    padding: 0;
+    margin: 0;
+    background-image: none;
+}
+</style>
+
+<style>
+.small-wrapper {
+    color: red;
+    position: relative !important;
+}
+
+.th-class {
+    font-size: 12px;
 }
 </style>

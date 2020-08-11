@@ -1,5 +1,5 @@
 <template>
-    <p ref="editable" contenteditable v-on="listeners" />
+    <p ref="editable" contenteditable v-on="listeners" @keydown="s" />
 </template>
 
 <script>
@@ -22,6 +22,17 @@
             onInput(e) {
                 this.$emit("input", e.target.innerText);
             },
+
+            s(){
+                console.log('asdasd')
+            }
         },
     };
 </script>
+
+<style scoped>
+    p{
+        font-size: 12px;
+        color: black;
+    }
+</style>
