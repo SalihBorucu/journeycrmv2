@@ -2586,6 +2586,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2630,20 +2632,23 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     createAccountandCampaign: function createAccountandCampaign() {
+      var _this = this;
+
       var obj = {
         selectedUsers: this.selectedUsers.map(function (user) {
           return user.id;
         }),
         accountName: this.accountName,
         campaigns: this.campaigns
-      }; //stop if any is null
-
+      };
       axios.post("/admin/account", obj).then(function (res) {
         var account = res.data;
         swal("Well done!", "Account and campaign created succesfully. Complete all the next sections to publish it.", "success").then(function () {
           window.location.href = window.location.href + "/account/".concat(account.id);
         });
-      })["catch"](function () {});
+      })["catch"](function (error) {
+        _this.handleAjaxError(error);
+      });
     }
   }
 });
@@ -2661,6 +2666,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
 //
 //
 //
@@ -18638,138 +18645,151 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "card m-b-30 card-body" }, [
-        _c("h3", { staticClass: "card-title font-16 mt-0" }, [
-          _vm._v("Create Account")
-        ]),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "" } }, [_vm._v("Account Name")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.accountName,
-              expression: "accountName"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text" },
-          domProps: { value: _vm.accountName },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.accountName = $event.target.value
-            }
+    _c(
+      "form",
+      {
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.createAccountandCampaign($event)
           }
-        }),
-        _vm._v(" "),
-        _c(
-          "div",
-          [
-            _c("label", { staticClass: "typo__label" }, [
-              _vm._v("Attach Users")
+        }
+      },
+      [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "card m-b-30 card-body" }, [
+            _c("h3", { staticClass: "card-title font-16 mt-0" }, [
+              _vm._v("Create Account")
             ]),
             _vm._v(" "),
-            _c("multiselect", {
-              attrs: {
-                "tag-placeholder": "Add this as new tag",
-                placeholder: "Search or add a tag",
-                label: "name",
-                "track-by": "id",
-                options: _vm.userOptions,
-                multiple: true,
-                taggable: true
-              },
-              on: { tag: _vm.addTag },
-              model: {
-                value: _vm.selectedUsers,
-                callback: function($$v) {
-                  _vm.selectedUsers = $$v
-                },
-                expression: "selectedUsers"
+            _c("label", { attrs: { for: "" } }, [_vm._v("Account Name")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.accountName,
+                  expression: "accountName"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", required: "" },
+              domProps: { value: _vm.accountName },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.accountName = $event.target.value
+                }
               }
-            })
-          ],
-          1
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        { staticClass: "card m-b-30 card-body" },
-        [
-          _c("div", { staticClass: "d-flex justify-content-between" }, [
-            _c("h3", { staticClass: "card-title font-16 mt-0" }, [
-              _vm._v("Create Campaigns")
-            ]),
+            }),
             _vm._v(" "),
             _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.campaignNumber,
-                    expression: "campaignNumber"
-                  }
-                ],
-                staticClass: "form-control w-25",
-                on: {
-                  change: [
-                    function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.campaignNumber = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
+              "div",
+              [
+                _c("label", { staticClass: "typo__label" }, [
+                  _vm._v("Attach Users")
+                ]),
+                _vm._v(" "),
+                _c("multiselect", {
+                  attrs: {
+                    "tag-placeholder": "Add this as new tag",
+                    placeholder: "Search or add a tag",
+                    label: "name",
+                    "track-by": "id",
+                    options: _vm.userOptions,
+                    multiple: true,
+                    taggable: true,
+                    required: ""
+                  },
+                  on: { tag: _vm.addTag },
+                  model: {
+                    value: _vm.selectedUsers,
+                    callback: function($$v) {
+                      _vm.selectedUsers = $$v
                     },
-                    _vm.adjustCampaignKeys
-                  ]
-                }
-              },
-              _vm._l(5, function(index) {
-                return _c("option", { domProps: { value: index } }, [
-                  _vm._v(_vm._s(index))
-                ])
-              }),
-              0
+                    expression: "selectedUsers"
+                  }
+                })
+              ],
+              1
             )
-          ]),
-          _vm._v(" "),
-          _vm._l(_vm.campaignNumber, function(index) {
-            return _c("create-campaign", {
-              key: index,
-              attrs: { schedules: _vm.schedules, id: index },
-              on: { "changed-campaign-details": _vm.setCampaign }
-            })
-          }),
-          _vm._v(" "),
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
           _c(
-            "button",
-            {
-              staticClass: "btn btn-primary waves-effect waves-light mt-2",
-              on: { click: _vm.createAccountandCampaign }
-            },
-            [_vm._v("Create Account and Campaign")]
+            "div",
+            { staticClass: "card m-b-30 card-body" },
+            [
+              _c("div", { staticClass: "d-flex justify-content-between" }, [
+                _c("h3", { staticClass: "card-title font-16 mt-0" }, [
+                  _vm._v("Create Campaigns")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.campaignNumber,
+                        expression: "campaignNumber"
+                      }
+                    ],
+                    staticClass: "form-control w-25",
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.campaignNumber = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                        _vm.adjustCampaignKeys
+                      ]
+                    }
+                  },
+                  _vm._l(5, function(index) {
+                    return _c("option", { domProps: { value: index } }, [
+                      _vm._v(_vm._s(index))
+                    ])
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.campaignNumber, function(index) {
+                return _c("create-campaign", {
+                  key: index,
+                  attrs: { schedules: _vm.schedules, id: index },
+                  on: { "changed-campaign-details": _vm.setCampaign }
+                })
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary waves-effect waves-light mt-2"
+                },
+                [_vm._v("Create Account and Campaign")]
+              )
+            ],
+            2
           )
-        ],
-        2
-      )
-    ])
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = []
@@ -18810,7 +18830,7 @@ var render = function() {
           }
         ],
         staticClass: "form-control",
-        attrs: { type: "text" },
+        attrs: { required: "", type: "text" },
         domProps: { value: _vm.campaignName },
         on: {
           change: function($event) {
@@ -18845,7 +18865,7 @@ var render = function() {
           }
         ],
         staticClass: "form-control",
-        attrs: { type: "text" },
+        attrs: { required: "", type: "text" },
         domProps: { value: _vm.campaignDescription },
         on: {
           change: function($event) {
@@ -18872,6 +18892,7 @@ var render = function() {
       _vm._v(" "),
       _c("multiselect", {
         attrs: {
+          required: "",
           "tag-placeholder": "Add this as new tag",
           placeholder: "Search or add a tag",
           label: "name",
@@ -32035,9 +32056,12 @@ module.exports = g;
 /*!***********************************!*\
   !*** ./resources/js/admin-app.js ***!
   \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mixins_global__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mixins/global */ "./resources/js/mixins/global.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -32046,6 +32070,8 @@ module.exports = g;
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+
+Vue.mixin(_mixins_global__WEBPACK_IMPORTED_MODULE_0__["default"]);
 Vue.component('create-account', __webpack_require__(/*! ./components/admin/CreateAccount.vue */ "./resources/js/components/admin/CreateAccount.vue")["default"]);
 Vue.component('edit-account', __webpack_require__(/*! ./components/admin/EditAccount.vue */ "./resources/js/components/admin/EditAccount.vue")["default"]);
 /**
@@ -32523,6 +32549,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TemplateModal_vue_vue_type_template_id_024d6010___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/mixins/global.js":
+/*!***************************************!*\
+  !*** ./resources/js/mixins/global.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    handleAjaxError: function handleAjaxError(err) {
+      var errorText = err.response.data.message;
+
+      if (err.response.status === 422) {
+        errorText = this.convertLaravelErrorBagToString(err.response.data.errors);
+      } // Here errorText variable should be ready to show all the error message in a string format,
+      // which I could simply display it.
+      // In this instance, I preferred using SweetAlert;
+
+
+      swal('Something went wrong', errorText, 'error');
+    },
+    // Implode Laravel ErrorBag into multi-line string
+    convertLaravelErrorBagToString: function convertLaravelErrorBagToString(errorsArr) {
+      var errorBag = [];
+      Object.values(errorsArr).forEach(function (error_msg) {
+        errorBag.push(error_msg);
+      });
+      return errorBag.join('\n');
+    }
+  }
+});
 
 /***/ }),
 

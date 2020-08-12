@@ -7,10 +7,12 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import global from './mixins/global';
+
+Vue.mixin(global);
 
 Vue.component('create-account', require('./components/admin/CreateAccount.vue').default);
 Vue.component('edit-account', require('./components/admin/EditAccount.vue').default);
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

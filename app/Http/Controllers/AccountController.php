@@ -22,6 +22,13 @@ class AccountController extends Controller
 
     public function create()
     {
+        request()->validate([
+            'accountName' => 'required|string|max:30',
+            'selectedUsers' => 'required|array|min:1',
+            'campaigns' => 'required|array|min:1',
+            'campaigns.*' => 'required|array|min:3',
+        ]);
+
         $account = Account::create([
             'name' => request('accountName'),
             'complete' => false

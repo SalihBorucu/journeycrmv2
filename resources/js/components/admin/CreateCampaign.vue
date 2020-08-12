@@ -2,6 +2,7 @@
     <div class="card bordered-card">
         <label for>Campaign Name</label>
         <input
+            required
             type="text"
             class="form-control"
             v-model="campaignName"
@@ -9,6 +10,7 @@
         />
         <label for>Description</label>
         <input
+            required
             type="text"
             class="form-control"
             v-model="campaignDescription"
@@ -16,6 +18,7 @@
         />
         <label class="typo__label">Attach Schedules</label>
         <multiselect
+            required
             v-model="selectedSchedules"
             tag-placeholder="Add this as new tag"
             placeholder="Search or add a tag"
@@ -27,17 +30,16 @@
             @tag="addTag"
         ></multiselect>
         <div v-if="this.campaign">
-        <button
-            class="btn btn-outline-primary mt-2"
-            @click="updateCampaign"
-            v-if="this.campaign.id"
-        >Save Changes</button>
-        <button
-            class="btn btn-outline-primary mt-2"
-            @click="createCampaign"
-            v-else
-        >Create Campaign</button>
-
+            <button
+                class="btn btn-outline-primary mt-2"
+                @click="updateCampaign"
+                v-if="this.campaign.id"
+            >Save Changes</button>
+            <button
+                class="btn btn-outline-primary mt-2"
+                @click="createCampaign"
+                v-else
+            >Create Campaign</button>
         </div>
     </div>
 </template>
@@ -114,13 +116,13 @@
                     campaign_name: this.campaignName,
                     campaign_description: this.campaignDescription,
                     campaign_schedules: this.selectedSchedules,
-                    account_id: this.campaign.account_id
+                    account_id: this.campaign.account_id,
                 };
 
                 axios
                     .post(`/admin/campaign`, obj)
                     .then((res) => {
-                        console.log(res)
+                        console.log(res);
                         this.$emit("campaign-updated", res.data);
                         swal(
                             "Well done!",
