@@ -25,14 +25,14 @@
         >
             <template slot="table-row" slot-scope="props">
                 <span v-if="props.column.field == 'first_name'">
-                    <editable v-model="props.row.first_name"></editable>
+                    <editable v-model="props.row.first_name" :key="props.row.id"></editable>
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.first_name"
                     >First name is empty.</small>
                 </span>
                 <span v-else-if="props.column.field == 'last_name'">
-                    <editable v-model="props.row.last_name"></editable>
+                    <editable v-model="props.row.last_name" :key="props.row.id"></editable>
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.last_name"
@@ -110,7 +110,6 @@
                                 />
                                 <ul v-bind="resultListProps" v-on="resultListListeners">
                                     <li
-                                        class="asdasd"
                                         v-for="(result, index) in results"
                                         @click="props.row.country = result"
                                         :key="resultProps[index].id"
@@ -128,22 +127,22 @@
                         type="email"
                         v-model="props.row.email"
                         @blur="checkIfExists(props.row)"
-                        required
-                    ></editable>
+                        :key="props.row.id"
+                        />
                     <small class="text-danger small m-1" v-if="!props.row.email">Email is empty.</small>
                     <small
                         v-if="email_error.find(id=> id === props.row.id)"
-                        class="form-control-feedback text-danger m-1"
+                        class="text-danger small m-1"
                     >This email is already used, potential duplicate lead.</small>
                 </span>
                 <span v-else-if="props.column.field == 'phone_1'">
-                    <editable v-model="props.row.phone_1" required></editable>
+                    <editable v-model="props.row.phone_1" :key="props.row.id"/>
                 </span>
                 <span v-else-if="props.column.field == 'phone_2'">
-                    <editable v-model="props.row.phone_2" />
+                    <editable v-model="props.row.phone_2" :key="props.row.id"/>
                 </span>
                 <span v-else-if="props.column.field == 'linkedin'">
-                    <editable style="width:100px" v-model="props.row.linkedin" required />
+                    <editable style="width:100px" v-model="props.row.linkedin" :key="props.row.id"/>
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.linkedin"
@@ -164,7 +163,7 @@
 <script>
     import "vue-good-table/dist/vue-good-table.css";
     import { VueGoodTable } from "vue-good-table";
-    import Editable from "./helpers/Editable";
+    import Editable from "../helpers/Editable";
 
     export default {
         components: { Editable },
@@ -244,6 +243,7 @@
             };
         },
 
+
         methods: {
             searchCompany(input) {
                 if (input.length < 1) {
@@ -282,27 +282,14 @@
                     title: row.title,
                     linkedin: row.linkedin,
                     phone_1: row.phone_1,
+                    phone_2: row.phone_1,
                     country: row.country,
                 };
 
-                console.log(row);
-                return;
-
-                if (Object.keys(obj).some((key) => !obj[key])) {
-                    Object.keys(obj).map((key) => {
-                        if (!obj[key]) {
-                            console.log(row);
-                            this[key] = "";
-                        }
-                    });
-                    console.error("empty field");
-                    return;
-                }
-
-                obj["phone_2"] = row.phone_2;
-
                 axios.post(`/lead`, obj).then((res) => {
                     this.deleteLead(row);
+                }).catch(error => {
+                    this.handleAjaxError(error)
                 });
             },
 

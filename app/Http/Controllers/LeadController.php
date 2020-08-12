@@ -27,6 +27,18 @@ class LeadController extends Controller
 
     public function create()
     {
+        request()->validate([
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'company' => 'required',
+            'email' => 'required|email|unique:leads,email',
+            'title' => 'required',
+            'phone_1' => 'required|numeric',
+            'country' => 'required|string',
+            'linkedin' => 'required|url|unique:leads,linkedin',
+        ]);
+
+
         $companyId = request('company');
         if(gettype(request('company')) === "string"){
             $company = Company::create([
@@ -35,6 +47,7 @@ class LeadController extends Controller
 
             $companyId = $company->id;
         };
+
 
         Lead::create([
             'first_name' => request('first_name'),

@@ -1,5 +1,5 @@
 <template>
-    <p ref="editable" contenteditable v-on="listeners" @keydown="s" />
+    <p ref="editable" contenteditable v-on="listeners" />
 </template>
 
 <script>
@@ -22,10 +22,6 @@
             onInput(e) {
                 this.$emit("input", e.target.innerText);
             },
-
-            s(){
-                console.log('asdasd')
-            }
         },
     };
 </script>
