@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Account;
 use App\User;
+use App\Account;
 use App\UserRole;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -18,9 +19,20 @@ class UserController extends Controller
 
     public function create()
     {
-        User::create([
-
+        request()->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ]);
+
+        User::create([
+            'name' => request('name'),
+            'email' => request('email'),
+            'user_role_id' => request('role'),
+            'password' => Hash::make(request('password')),
+        ]);
+
+        return redirect();
     }
 
     public function show()

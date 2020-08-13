@@ -14,6 +14,7 @@
         </div>
     </div>
     <div class="row">
+
         @foreach ($users as $user)
         <div class="col-xl-4">
             <div class="card m-b-30 card-body">
