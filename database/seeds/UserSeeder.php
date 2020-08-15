@@ -25,7 +25,8 @@ class UserSeeder extends Seeder
                 'name' => $user[0],
                 'email' => $user[1],
                 'password' => Hash::make($user[2]),
-                'user_role_id' => $user[3]
+                'user_role_id' => $user[3],
+                'twilio_number' => '+15162625069'
             ]);
 
             $accountIds = Account::pluck('id')->toArray();

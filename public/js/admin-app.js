@@ -3294,6 +3294,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["user"],
@@ -3506,6 +3529,12 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
+    $(".summernote").summernote({
+      height: 300,
+      minHeight: null,
+      maxHeight: null,
+      focus: true
+    });
     $(".summernote").summernote("code", "");
   }
 });
@@ -19754,6 +19783,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c("h1", [_vm._v("Under Construction")]),
+    _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-sm-12" }, [
         _c("div", { staticClass: "page-title-box" }, [
@@ -19762,7 +19793,9 @@ var render = function() {
               _c("h4", { staticClass: "page-title m-0" }, [
                 _vm._v(_vm._s(_vm.user.name))
               ])
-            ])
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
           ])
         ])
       ])
@@ -19794,6 +19827,22 @@ var render = function() {
                   staticClass: "form-control",
                   attrs: { name: "email", placeholder: "Email" },
                   domProps: { value: _vm.user.email }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c("div", { staticClass: "col-6" }, [
+                _c("label", [_vm._v("Twilio Number")]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: {
+                    name: "name",
+                    type: "name",
+                    placeholder: "Full Name"
+                  },
+                  domProps: { value: _vm.user.twilio_number }
                 })
               ])
             ]),
@@ -19854,7 +19903,7 @@ var render = function() {
             attrs: { "selected-account": _vm.selectedAccount }
           }),
           _vm._v(" "),
-          _vm._m(0)
+          _vm._m(1)
         ],
         1
       )
@@ -19862,6 +19911,22 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "float-right d-none d-md-block" }, [
+        _c("div", { staticClass: "dropdown" }, [
+          _c(
+            "button",
+            { staticClass: "btn btn-primary", attrs: { type: "button" } },
+            [_vm._v("Change Password")]
+          )
+        ])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

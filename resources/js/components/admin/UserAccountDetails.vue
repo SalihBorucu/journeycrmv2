@@ -31,9 +31,15 @@
                 account_email: null,
                 account_email_password: null,
                 email_signature: null,
-            }
+            };
         },
         mounted() {
+            $(".summernote").summernote({
+                height: 300,
+                minHeight: null,
+                maxHeight: null,
+                focus: true,
+            });
             $(`.summernote`).summernote("code", "");
         },
     };

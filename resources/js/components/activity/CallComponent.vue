@@ -8,14 +8,13 @@
             >
                 <i class="mdi mdi-phone bg-success text-white" style="font-size: 60px"></i>
             </button>
-
-            <!-- <button
-            v-if="call_status === 'Ready'"
-            class="btn btn-success btn-lg text-white"
-            @click="callCustomer(this.selectedNumber)"
-        >
-            <i class="mdi mdi-phone bg-success text-white" style="font-size: 60px"></i>
-            </button>-->
+            <button
+                v-else
+                class="btn btn-success btn-lg text-white"
+                @click="demoUserError"
+            >
+                <i class="mdi mdi-phone bg-success text-white" style="font-size: 60px"></i>
+            </button>
 
             <button
                 v-if="call_status !== 'Ready' && call_status !== null"
@@ -96,6 +95,10 @@
                     vm.updateCallStatus("ERROR: " + error.message);
                 });
             },
+
+            demoUserError(){
+                swal(`Demo users can not make calls. Arrange a demo by emailing salih_borucu@hotmail.com to acquire a standard user account for testing purposes.`)
+            }
         },
     };
 </script>

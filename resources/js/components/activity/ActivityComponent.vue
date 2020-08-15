@@ -21,7 +21,6 @@
                                 v-for="(attachment, index) in this.attachments"
                             >
                                 {{ attachment }}
-                                <!-- <a class="btn p-0" @click="removeAttachment">x</a> -->
                             </span>
                             <input
                                 type="file"

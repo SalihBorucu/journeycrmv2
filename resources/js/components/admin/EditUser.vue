@@ -1,11 +1,22 @@
 <template>
     <div>
+        <h1>Under Construction</h1>
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
                     <div class="row align-items-center">
                         <div class="col-md-8">
                             <h4 class="page-title m-0">{{ user.name }}</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="float-right d-none d-md-block">
+                                <div class="dropdown">
+                                    <button
+                                        class="btn btn-primary"
+                                        type="button"
+                                    >Change Password</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -34,6 +45,18 @@
                                     name="email"
                                     placeholder="Email"
                                     :value="user.email"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <label>Twilio Number</label>
+                                <input
+                                    class="form-control"
+                                    name="name"
+                                    type="name"
+                                    placeholder="Full Name"
+                                    :value="user.twilio_number"
                                 />
                             </div>
                         </div>
@@ -74,10 +97,10 @@
 </template>
 
 <script>
-import UserAccountDetails from './UserAccountDetails'
+    import UserAccountDetails from "./UserAccountDetails";
     export default {
         props: ["user"],
-        components:{UserAccountDetails},
+        components: { UserAccountDetails },
 
         data() {
             return {

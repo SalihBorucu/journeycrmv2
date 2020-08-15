@@ -14,7 +14,8 @@ class UserRoleSeeder extends Seeder
     {
         $userRoles = [
             'standard' => ['Standard', 'This is the standard user, can only read and log activities'],
-            'admin' => ['Admin', 'This is the admin user, can do everything.']
+            'admin' => ['Admin', 'This is the admin user, can do everything.'],
+            'demo' => ['Demo User', 'This user has only read access, can not make calls or send emails.']
         ];
         foreach ($userRoles as $key => $userRole) {
             UserRole::create([
