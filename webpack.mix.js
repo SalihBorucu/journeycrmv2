@@ -21,6 +21,7 @@ mix.js('resources/js/activity-app.js', 'public/js')
     .scripts(
         [
             'resources/js/vendor/jquery.min.js',
+            'resources/js/vendor/sweetalert.js',
             'resources/js/vendor/bootstrap.bundle.min.js',
             'resources/js/vendor/modernizr.min.js',
             'resources/js/vendor/jquery.slimscroll.js',

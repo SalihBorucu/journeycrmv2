@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Account;
 use App\UserRole;
+use App\UserAccount;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
+
     public function index()
     {
         $userRoles = UserRole::get();
@@ -25,19 +27,34 @@ class UserController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => request('name'),
             'email' => request('email'),
             'user_role_id' => request('role'),
             'password' => Hash::make(request('password')),
         ]);
 
-        return redirect();
+        UserAccount::create([
+            'user_id' => $user->id,
+            'account_id' => request('account_id')
+        ]);
+
+        Password::broker()->sendResetLink(['email' => $user->email]);
+
+        $this->flashSuccess("{$user->name}'s account created successfully!");
+
+        return redirect()->back();
     }
 
     public function show()
     {
         $users = User::with(['userRole', 'userAccounts.account'])->get();
-        return view('admin.admin-user', compact('users'));
+        return view('admin.admin-users', compact('users'));
+    }
+
+    public function edit($id){
+        $user = User::with(['userAccounts', 'userRole'])->find($id);
+
+        return view('admin/admin-user-details', compact('user'));
     }
 }

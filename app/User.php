@@ -50,8 +50,4 @@ class User extends Authenticatable
     public function activityHistories(){
         return $this->hasMany(ActivityHistory::class);
     }
-
-
-
-
 }

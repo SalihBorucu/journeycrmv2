@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/user/create', 'UserController@index');
     Route::post('admin/user', 'UserController@create');
     Route::get('admin/user', 'UserController@show');
+    Route::get('admin/user/{id}', 'UserController@edit');
 
 
     Route::get('/lead/incomplete-leads', 'IncompleteLeadController@index');
