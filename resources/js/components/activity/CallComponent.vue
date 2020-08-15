@@ -1,20 +1,20 @@
 <template>
     <div class="mx-2">
         <div class="mt-4 mx-4 mb-1">
-            <button
-                v-if="call_status === 'Ready'"
-                class="btn btn-success btn-lg text-white"
-                @click="callCustomer('+447504855932')"
-            >
-                <i class="mdi mdi-phone bg-success text-white" style="font-size: 60px"></i>
-            </button>
-            <button
-                v-else
-                class="btn btn-success btn-lg text-white"
-                @click="demoUserError"
-            >
-                <i class="mdi mdi-phone bg-success text-white" style="font-size: 60px"></i>
-            </button>
+            <div v-if="this.$store.state.user.user_role_id !== 3">
+                <button
+                    v-if="call_status === 'Ready'"
+                    class="btn btn-success btn-lg text-white"
+                    @click="callCustomer('+447504855932')"
+                >
+                    <i class="mdi mdi-phone bg-success text-white" style="font-size: 60px"></i>
+                </button>
+            </div>
+            <div v-else >
+                <button class="btn btn-success btn-lg text-white" @click="demoUserError">
+                    <i class="mdi mdi-phone bg-success text-white" style="font-size: 60px"></i>
+                </button>
+            </div>
 
             <button
                 v-if="call_status !== 'Ready' && call_status !== null"
@@ -24,10 +24,10 @@
                 <i class="mdi mdi-phone-hangup bg-danger text-white" style="font-size: 60px"></i>
             </button>
         </div>
-            <select class="form-control" v-model="selectedNumber">
-                <option :value="lead.lead.phone_1" v-if="lead.lead.phone_1">{{lead.lead.phone_1}}</option>
-                <option :value="lead.lead.phone_2" v-if="lead.lead.phone_2">{{lead.lead.phone_2}}</option>
-            </select>
+        <select class="form-control" v-model="selectedNumber">
+            <option :value="lead.lead.phone_1" v-if="lead.lead.phone_1">{{lead.lead.phone_1}}</option>
+            <option :value="lead.lead.phone_2" v-if="lead.lead.phone_2">{{lead.lead.phone_2}}</option>
+        </select>
     </div>
 </template>
 
@@ -96,9 +96,11 @@
                 });
             },
 
-            demoUserError(){
-                swal(`Demo users can not make calls. Arrange a demo by emailing salih_borucu@hotmail.com to acquire a standard user account for testing purposes.`)
-            }
+            demoUserError() {
+                swal(
+                    `Demo users can not make calls. Arrange a demo by emailing salih_borucu@hotmail.com to acquire a standard user account for testing purposes.`
+                );
+            },
         },
     };
 </script>

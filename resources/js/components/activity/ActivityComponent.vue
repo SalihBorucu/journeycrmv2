@@ -43,17 +43,16 @@
                             maxlength="2000"
                             rows="3"
                         >
-                            This will be where the social media message template will be. Nice to meet you my name is Lalala and I am from Lalala
                         </textarea>
                         <div class="d-flex justify-content-center">
                             <button
-                                @click="submitOutcome"
+                                @click="submitOutcome(null)"
                                 type="submit"
-                                class="btn btn-primary waves-effect waves-light w-100 mt-3 mx-2"
                                 value="7"
+                                class="btn btn-primary waves-effect waves-light w-100 mt-3 mx-2"
                             >Message Sent</button>
                             <button
-                                @click="submitOutcome"
+                                @click="submitOutcome(null)"
                                 type="submit"
                                 class="btn btn-danger waves-effect waves-light w-100 mt-3 mx-2"
                                 value="8"
@@ -79,7 +78,7 @@
                         >
                             <div v-if="call_started">
                                 <button
-                                    @click="submitOutcome"
+                                    @click="submitOutcome(null)"
                                     type="button"
                                     value="2"
                                     class="btn btn-outline-secondary waves-effect"
@@ -90,25 +89,25 @@
                                     class="btn btn-outline-info waves-effect"
                                 >Call Back</button>
                                 <button
-                                    @click="submitOutcome"
+                                    @click="submitOutcome(null)"
                                     type="button"
                                     value="4"
                                     class="btn btn-outline-primary waves-effect"
                                 >Interested</button>
                                 <button
-                                    @click="submitOutcome"
+                                    @click="submitOutcome(null)"
                                     type="button"
                                     value="5"
                                     class="btn btn-outline-success waves-effect"
                                 >Qualified</button>
                                 <button
-                                    @click="submitOutcome"
+                                    @click="submitOutcome(null)"
                                     type="button"
                                     value="6"
                                     class="btn btn-outline-warning waves-effect"
                                 >Email Only</button>
                                 <button
-                                    @click="submitOutcome"
+                                    @click="submitOutcome(null)"
                                     type="button"
                                     value="1"
                                     class="btn btn-outline-danger waves-effect"
@@ -139,7 +138,7 @@
                                 </select>
                             </div>
                             <button
-                                @click="submitOutcome"
+                                @click="submitOutcome(null)"
                                 type="button"
                                 class="btn btn-outline-primary waves-effect waves-light"
                                 value="3"
@@ -163,7 +162,7 @@
                 attachments: [],
                 call_started: false,
                 email_subject: this.lead.step.template.email_subject,
-                notes: null,
+                notes: this.lead.step.template.pointer,
                 custom_activity_type: null,
                 custom_activity_date: null,
                 callback_active: false,
@@ -184,6 +183,7 @@
         watch: {
             lead() {
                 this.email_subject = this.lead.step.template.email_subject;
+                this.notes = this.lead.step.template.pointer
                 $(".summernote").summernote("code", this.processedEmailContent);
             },
         },
@@ -219,8 +219,12 @@
         },
 
         methods: {
-            submitOutcome(outcome = event.target.value) {
+            submitOutcome(outcome) {
                 this.callback_active = false;
+
+                if(outcome === null){
+                    outcome = event.target.value
+                }
 
                 let obj = {
                     outcome,
