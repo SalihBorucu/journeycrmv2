@@ -53,7 +53,7 @@ class UserController extends Controller
     }
 
     public function edit($id){
-        $user = User::with(['userAccounts', 'userRole'])->find($id);
+        $user = User::with(['userAccounts.account', 'userRole'])->find($id);
 
         return view('admin/admin-user-details', compact('user'));
     }

@@ -17,6 +17,9 @@ class CreateUserAccountsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('account_id');
+            $table->string('email')->nullable();
+            $table->string('password')->nullable();
+            $table->string('email_signature')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')
