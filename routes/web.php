@@ -46,6 +46,10 @@ Route::middleware('auth')->group(function () {
         return view('admin.admin-account-create', compact('campaigns', 'schedules', 'users', 'currentUser'));
     });
 
+    Route::get('/extension', function(){
+        return view('extension');
+    });
+
     Route::get('/activities', 'ActivitiesController@index');
     Route::get('/activities/campaign/{campaign}', 'ActivitiesController@show');
     Route::post('/activity', 'ActivitiesController@create');

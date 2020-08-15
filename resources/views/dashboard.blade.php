@@ -22,9 +22,7 @@
                                         <div class="d-flex">
                                             <select class="form-control" name="user_account">
                                                 @foreach (Auth::user()->userAccounts as $item)
-                                                <option value={{ $item->account->id }}
-                                                    {{ $item->account->complete === 0 ? 'disabled' : ''}}
-                                                    {{ Session::get('user_current_account') == $item->account->id ? 'selected' : ''}}>
+                                                <option value={{ $item->account->id }} {{ $item->account->complete === 0 ? 'disabled' : ''}} {{ Session::get('user_current_account') == $item->account->id ? 'selected' : ''}}>
                                                     {{ $item->account->name }}{{ $item->account->complete === 0 ? ' (incomplete)' : '' }}
                                                 </option>
                                                 @endforeach
@@ -167,4 +165,5 @@
         </div>
     </div>
 </div>
+@include('layouts.chrome-extension-reminder')
 @endsection
