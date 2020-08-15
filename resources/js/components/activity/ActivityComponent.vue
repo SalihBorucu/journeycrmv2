@@ -29,7 +29,7 @@
                             />
                         </div>
                         <button
-                            @click="submitOutcome"
+                            @click="sendEmail"
                             value="7"
                             type="submit"
                             class="btn btn-primary waves-effect waves-light w-100 mt-3"
@@ -162,19 +162,13 @@
             return {
                 attachments: [],
                 call_started: false,
-                email_subject: null,
+                email_subject: this.lead.step.template.email_subject,
                 notes: null,
                 custom_activity_type: null,
                 custom_activity_date: null,
                 callback_active: false,
                 email_content: this.lead.step.template.email_content,
             };
-        },
-
-        computed: {
-            email_content() {
-                return $(".summernote").summernote("code");
-            },
         },
 
         mounted() {
@@ -185,8 +179,13 @@
                 focus: true,
             });
             $(".summernote").summernote("code", this.processedEmailContent);
+        },
 
-            this.email_subject = this.lead.step.template.email_subject;
+        watch: {
+            lead() {
+                this.email_subject = this.lead.step.template.email_subject;
+                $(".summernote").summernote("code", this.processedEmailContent);
+            },
         },
 
         computed: {
@@ -220,26 +219,11 @@
         },
 
         methods: {
-            submitOutcome() {
+            submitOutcome(outcome = event.target.value) {
                 this.callback_active = false;
 
-                if (this.step.type === "email") {
-                    if (!this.email_subject) {
-                        alert("Doesnt have a subject");
-                        return;
-                    }
-                    if ($(".summernote").summernote("code") === "<p><br></p>") {
-                        alert("Doesnt have a content");
-                        return;
-                    }
-                    this.notes = `Subject: ${this.email_subject} <br> ${$(
-                        ".summernote"
-                    ).summernote("code")}`;
-                    this.sendEmail();
-                }
-
                 let obj = {
-                    outcome: event.target.value,
+                    outcome,
                     lead: this.lead,
                     notes: this.notes,
                     custom_activity_type: this.custom_activity_type,
@@ -254,31 +238,49 @@
             },
 
             sendEmail() {
+                //To avoid demo users from spamming emails.
                 if (this.$store.state.user.user_role_id === 3) {
                     this.demoUserError();
                     return;
                 }
 
-                let formData = new FormData();
-                formData.set("email_address", this.lead.lead.email);
-                formData.set("email_subject", this.email_subject);
-                formData.set("email_content", $(".summernote").summernote("code"));
-                if (document.querySelector("#attachment").files[0]) {
-                    let attachment = document.querySelector("#attachment");
-                    Array.from(attachment.files).forEach((file, index) => {
-                        formData.append(file.name, file);
-                    });
-                }
+                if (this.step.type === "email") {
+                    if (!this.email_subject) {
+                        alert("Doesnt have a subject");
+                        return;
+                    }
+                    if ($(".summernote").summernote("code") === "<p><br></p>") {
+                        alert("Doesnt have a content");
+                        return;
+                    }
+                    this.notes = `Subject: ${this.email_subject} <br> ${$(
+                        ".summernote"
+                    ).summernote("code")}`;
 
-                axios
-                    .post("/activity/email", formData)
-                    .then(() => {
-                        $(".summernote").summernote("code", "<p><br></p>");
-                        this.email_subject = null;
-                        document.querySelector("#attachment").value = null;
-                        this.attachments = [];
-                    })
-                    .catch(() => {});
+                    //sending the email
+                    let formData = new FormData();
+                    formData.set("email_address", this.lead.lead.email);
+                    formData.set("email_subject", this.email_subject);
+                    formData.set(
+                        "email_content",
+                        $(".summernote").summernote("code")
+                    );
+                    if (document.querySelector("#attachment").files[0]) {
+                        let attachment = document.querySelector("#attachment");
+                        Array.from(attachment.files).forEach((file, index) => {
+                            formData.append(file.name, file);
+                        });
+                    }
+
+                    let outcome = event.target.value;
+
+                    axios
+                        .post("/activity/email", formData)
+                        .then(() => {
+                            this.submitOutcome(outcome);
+                        })
+                        .catch(() => {});
+                }
             },
 
             attachmentChanged() {
