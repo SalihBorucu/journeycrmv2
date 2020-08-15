@@ -65,7 +65,6 @@
                             <p class="card-text">{{ lead.step.template.pointer }}</p>
                         </div>
                         <textarea
-                            v-model="notes"
                             id="textarea"
                             class="form-control"
                             maxlength="2000"

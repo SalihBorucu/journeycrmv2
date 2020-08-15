@@ -41,7 +41,7 @@
                                 <div class="col-lg-10">
                                     <div class="text-right">
                                         <h3>Find Extension</h3>
-                                        <p class="mb-0 text-muted">Head over to <a href="https://github.com/SalihBorucu/Journey-CRM-Chrome-Addon" target="_blank">https://github.com/SalihBorucu/Journey-CRM-Chrome-Addon</a>.</p>
+                                        <p class="mb-0 text-muted">Head over to <a href="https://github.com/SalihBorucu/Journey-CRM-Chrome-Addon" target="_blank">Journey-CRM-Chrome-Addon</a>.</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Lead;
 use App\User;
 use App\Company;
+use App\LeadAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +41,7 @@ class LeadController extends Controller
 
 
         $companyId = request('company');
-        if(gettype(request('company')) === "string"){
+        if (gettype(request('company')) === "string") {
             $company = Company::create([
                 'name' => request('company'),
             ]);
@@ -87,9 +88,19 @@ class LeadController extends Controller
         //
     }
 
-    public function update(Request $request, Lead $lead)
+    public function update($id)
     {
-        //
+        Lead::find($id)->update([
+            'country' => request('country'),
+            'phone_1' => request('phone_1'),
+            'title' => request('title'),
+            'email' => request('email'),
+            'phone_2' => request('phone_2'),
+        ]);
+
+        $lead = LeadAccount::with(['lead.company', 'lead.globalNotes', 'activityHistory', 'step.template'])->where('lead_id', $id)->first();
+
+        return response()->json($lead);
     }
 
     public function destroy(Lead $lead)

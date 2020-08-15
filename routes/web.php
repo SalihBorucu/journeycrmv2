@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/lead', 'LeadController@index');
     Route::post('/lead', 'LeadController@create');
+    Route::patch('/lead/{id}', 'LeadController@update');
     Route::get('/lead/unassigned-leads', 'LeadController@show');
 
     Route::get('/lead/lead-shopping', 'LeadAccountController@index');
