@@ -23,8 +23,12 @@ const router = new VueRouter()
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+import Vuex from 'vuex';
+Vue.use(Vuex);
 
 Vue.component('leads-list-main', require('./components/activity/LeadsListMain.vue').default);
+
+import store from './components/activity/store';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -35,4 +39,5 @@ Vue.component('leads-list-main', require('./components/activity/LeadsListMain.vu
 const app = new Vue({
     el: '#activity-app',
     router,
+    store,
 });

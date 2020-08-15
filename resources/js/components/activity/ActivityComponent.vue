@@ -19,9 +19,7 @@
                                 :key="index"
                                 class="badge badge-default m-2 h-25 p-2"
                                 v-for="(attachment, index) in this.attachments"
-                            >
-                                {{ attachment }}
-                            </span>
+                            >{{ attachment }}</span>
                             <input
                                 type="file"
                                 id="attachment"
@@ -65,9 +63,7 @@
                     <div v-if="step.type === 'call'">
                         <div class="d-flex mb-2">
                             <call-component :lead="this.lead" @call-started="call_started = true"></call-component>
-                            <p class="card-text">
-                                {{ lead.step.template.pointer }}
-                            </p>
+                            <p class="card-text">{{ lead.step.template.pointer }}</p>
                         </div>
                         <textarea
                             v-model="notes"
@@ -188,33 +184,44 @@
                 maxHeight: null,
                 focus: true,
             });
-            $(".summernote").summernote("code", this.processedEmailContent)
+            $(".summernote").summernote("code", this.processedEmailContent);
 
-            this.email_subject = this.lead.step.template.email_subject
+            this.email_subject = this.lead.step.template.email_subject;
         },
 
         computed: {
-            processedEmailContent(){
+            processedEmailContent() {
                 let content = this.email_content;
-                content = content.replace('$lead_first_name', this.lead.lead.first_name)
-                content = content.replace('$lead_last_name', this.lead.lead.last_name)
-                content = content.replace('$lead_full_name', this.lead.lead.full_name)
-                content = content.replace('$lead_country', this.lead.lead.country)
-                content = content.replace('$lead_title', this.lead.lead.title)
-                content = content.replace('$lead_company', this.lead.lead.company.name)
-                content = content.replace('$lead_company_tools', this.lead.lead.company.tools_note)
+                content = content.replace(
+                    "$lead_first_name",
+                    this.lead.lead.first_name
+                );
+                content = content.replace(
+                    "$lead_last_name",
+                    this.lead.lead.last_name
+                );
+                content = content.replace(
+                    "$lead_full_name",
+                    this.lead.lead.full_name
+                );
+                content = content.replace("$lead_country", this.lead.lead.country);
+                content = content.replace("$lead_title", this.lead.lead.title);
+                content = content.replace(
+                    "$lead_company",
+                    this.lead.lead.company.name
+                );
+                content = content.replace(
+                    "$lead_company_tools",
+                    this.lead.lead.company.tools_note
+                );
 
                 return content;
-            }
+            },
         },
 
         methods: {
             submitOutcome() {
                 this.callback_active = false;
-                if (this.step.type === "email") {
-                    console.log("here");
-
-                }
 
                 if (this.step.type === "email") {
                     if (!this.email_subject) {
@@ -247,6 +254,11 @@
             },
 
             sendEmail() {
+                if (this.$store.state.user.user_role_id === 3) {
+                    this.demoUserError();
+                    return;
+                }
+
                 let formData = new FormData();
                 formData.set("email_address", this.lead.lead.email);
                 formData.set("email_subject", this.email_subject);
@@ -261,10 +273,10 @@
                 axios
                     .post("/activity/email", formData)
                     .then(() => {
-                        $(".summernote").summernote("code", "<p><br></p>")
-                        this.email_subject = null
-                        document.querySelector("#attachment").value = null
-                        this.attachments = []
+                        $(".summernote").summernote("code", "<p><br></p>");
+                        this.email_subject = null;
+                        document.querySelector("#attachment").value = null;
+                        this.attachments = [];
                     })
                     .catch(() => {});
             },
@@ -273,6 +285,12 @@
                 Array.from(event.target.files).map((file) => {
                     this.attachments.push(file.name);
                 });
+            },
+
+            demoUserError() {
+                swal(
+                    `Demo users can not make calls. Arrange a demo by emailing salih_borucu@hotmail.com to acquire a standard user account for testing purposes.`
+                );
             },
         },
     };

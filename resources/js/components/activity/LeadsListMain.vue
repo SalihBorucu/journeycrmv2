@@ -71,7 +71,7 @@
     import SearchSidebar from './SearchSidebar';
 
     export default {
-        props: ['leads', 'outcomes', 'previous_request', 'campaign_id'],
+        props: ['leads', 'outcomes', 'previous_request', 'campaign_id', 'user'],
 
         components: {
             VueGoodTable,
@@ -159,6 +159,10 @@
                 this.selectedLead = this.$refs.dataTable.processedRows[0].children[this.$route.query.leadIndex] || null;
                 this.listView = false;
             }
+        },
+
+        created(){
+            this.$store.dispatch('setUserData', this.user)
         },
 
         methods: {

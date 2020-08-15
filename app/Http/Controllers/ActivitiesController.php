@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\LeadAccount;
 use App\ActivityHistory;
 use App\Mail\ProspectEmail;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -44,20 +45,21 @@ class ActivitiesController extends Controller
 
         $account = Account::find(session()->get('user_current_account'));
         $campaigns = $account->accountCampaigns;
+        $user = User::with(['userRole'])->find(Auth::id());
 
         return view('activity-list')->with([
             'leads' => $leads,
             'campaigns' => $campaigns,
             'account' => $account->name,
             'previous_request' => request(),
-            'campaign_id' => $campaign->id
+            'campaign_id' => $campaign->id,
+            'user' => $user
         ]);
     }
 
 
     public function create()
     {
-        // dd(request('lead.account_id'));
         ActivityHistory::create([
             'user_id' => Auth::id(),
             'lead_account_id' => request('lead.id'),
