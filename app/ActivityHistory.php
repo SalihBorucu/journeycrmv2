@@ -2,12 +2,14 @@
 
 namespace App;
 
-use App\User;
 use App\Step;
+use App\User;
 use App\Account;
 use App\Outcome;
 use App\LeadAccount;
 use App\QueryFilter;
+use App\CampaignSchedule;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class ActivityHistory extends Model
@@ -26,37 +28,40 @@ class ActivityHistory extends Model
     public function adjustLeadAccountRecord($activityHistory)
     {
         $outcome = Outcome::find(request('outcome'));
-        $nextSchedule = $outcome->new_schedule_id ? $outcome->new_schedule_id :  request('lead.schedule_id');
+        $nextSchedule = $outcome->new_schedule_id ? $outcome->new_schedule_id :  request('lead.schedule_id'); //4
         $previousScheduleId = request('lead.schedule_id');
         $previousStepNumber = request('lead.step.step_number');
-        if ($outcome->new_schedule_id) {
-            $nextStep = Step::where('schedule_id', $outcome->new_schedule_id)
-                ->where('step_number', 1)
-                ->first();
-            $nextDueDate = request('lead.due_date');
-            $nextStatus = $outcome->name;
 
-            //if new schedule is custom
+
+        if ($outcome->new_schedule_id) {
+            $campaignScheduleId = CampaignSchedule::where([['schedule_id', $outcome->new_schedule_id], ['campaign_id', request('lead.campaign_id')]])->first()->id;
+            $nextStep = Step::where('campaign_schedule_id', $campaignScheduleId)
+            ->where('step_number', 1)
+            ->first()->id;
+            $nextDueDate = request('lead.due_date');
+            $nextStatus = request('lead.current_status');
+
+            // if new schedule is custom
             if (request('outcome') === "3") {
                 $nextDueDate = request('custom_activity_date');
                 $nextStep = Step::where('schedule_id', $outcome->new_schedule_id)
-                    ->where('step_number', request('custom_activity_type'))
-                    ->first();
+                ->where('type', request('custom_activity_type'))
+                ->first()->id;
             }
         } else {
 
             $lastSchedule = request('lead.schedule_id');
             $lastStepNumber = request('lead.step.step_number');
 
-            //custom previous schedule
-            if (request('lead.schedule_id') === 8) {
+            //When previous activity was custom
+            if (request('lead.schedule_id') === 6) {
                 $lastSchedule = request('lead.previous_schedule_id');
                 $lastStepNumber = request('lead.previous_step_number');
             }
 
             $nextStep = Step::where('schedule_id', $lastSchedule)
-                ->where('step_number', $lastStepNumber + 1)
-                ->first();
+            ->where('step_number', $lastStepNumber + 1)
+            ->first();
 
             //if completed schedule
             if (!$nextStep) {
@@ -64,13 +69,17 @@ class ActivityHistory extends Model
                 $nextSchedule = 9;
             }
 
-            $day_gap = request('lead.step.day_gap');
+            $day_gap = request('lead.step.day_gap') ? request('lead.step.day_gap') : 1;
+            // dd(request('lead.due_date'));
             $nextDueDate = date('Y-m-d', strtotime(request('lead.due_date') . " +{$day_gap} day"));
             $nextStatus = 'prospecting';
         }
 
+        // dd($nextSchedule, $nextStep, $nextDueDate, $nextStatus, $previousStepNumber, $previousScheduleId);
+        // dd(request('lead')['campaign_id'], request('lead')['account_id'], request('lead.lead')['id']);
+        // dd($activityHistory->leadAccount);
         $activityHistory->leadAccount()->updateOrCreate([
-            'lead_id' => request('lead')['id'],
+            'lead_id' => request('lead.lead')['id'],
             'account_id' => request('lead')['account_id'],
             'campaign_id' => request('lead')['campaign_id'],
             'schedule_id' => $nextSchedule,
@@ -80,6 +89,11 @@ class ActivityHistory extends Model
             'previous_step_number' => $previousStepNumber,
             'previous_schedule_id' => $previousScheduleId,
         ]);
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->diffForHumans();
     }
 
     public function outcome()

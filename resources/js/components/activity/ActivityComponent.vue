@@ -131,9 +131,9 @@
                                     name="activity_type"
                                     v-model="custom_activity_type"
                                 >
-                                    <option value="0">Email</option>
-                                    <option value="1">Social</option>
-                                    <option value="2">Phone</option>
+                                    <option value="email">Email</option>
+                                    <option value="social">Social</option>
+                                    <option value="call">Phone</option>
                                 </select>
                             </div>
                             <button
@@ -181,6 +181,9 @@
 
         watch: {
             lead() {
+                this.call_started = false;
+                this.custom_activity_type = null;
+                this.custom_activity_date = null;
                 this.email_subject = this.lead.step.template.email_subject;
                 this.notes = this.lead.step.template.pointer
                 $(".summernote").summernote("code", this.processedEmailContent);

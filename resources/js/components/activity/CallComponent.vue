@@ -10,7 +10,7 @@
                     <i class="mdi mdi-phone bg-success text-white" style="font-size: 60px"></i>
                 </button>
             </div>
-            <div v-else >
+            <div v-else>
                 <button class="btn btn-success btn-lg text-white" @click="demoUserError">
                     <i class="mdi mdi-phone bg-success text-white" style="font-size: 60px"></i>
                 </button>
@@ -43,16 +43,28 @@
         },
 
         mounted() {
-            axios
-                .post("/token", {})
-                .then((res) => {
-                    Device.setup(res.data.token, { debug: true });
-                })
-                .catch(() => {});
-
-            this.callSetters();
+            this.callPrep();
         },
+        watch: {
+            lead() {
+                this.selectedNumber = this.lead.lead.phone_1
+                this.callPrep();
+            },
+        },
+
         methods: {
+            callPrep() {
+                axios
+                    .post("/token", {})
+                    .then((res) => {
+                        console.log(res.data.token);
+                        Device.setup(res.data.token, { debug: true });
+                    })
+                    .catch(() => {});
+
+                this.callSetters();
+            },
+
             updateCallStatus(status) {
                 this.call_status = status;
             },
@@ -87,6 +99,7 @@
 
             callSetters() {
                 let vm = this;
+
                 Device.ready(function (device) {
                     vm.updateCallStatus("Ready");
                 });

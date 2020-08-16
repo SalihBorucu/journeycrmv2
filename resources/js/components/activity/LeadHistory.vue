@@ -59,7 +59,7 @@
                         <li class="feed-item" v-for="activity in lead.activity_history">
                             <div class="feed-item-list">
                                 <p class="text-white">Activity: {{activity.type}}</p>
-                                <p class="text-white">Outcome: {{activity.outcome.type}}</p>
+                                <p class="text-white">Outcome: {{activity.outcome.name}}</p>
                                 <span
                                     class="date text-white-50"
                                 >{{ activity.created_at.replace(/\T(.*)/g, '') }}</span>

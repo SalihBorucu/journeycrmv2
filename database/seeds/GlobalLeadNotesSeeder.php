@@ -26,7 +26,9 @@ class GlobalLeadNotesSeeder extends Seeder
                 'lead_id' => $leads[array_rand($leads, 1)],
                 'user_id' => $users[array_rand($users, 1)],
                 'note' => $faker->realText($maxNbChars = 200, $indexSize = 2),
-                'score' => rand(1, 10)
+                'score' => rand(1, 10),
+                "created_at" =>  \Carbon\Carbon::now(),
+                "updated_at" => \Carbon\Carbon::now(),
             ];
         }
         $collection = collect($notes);
