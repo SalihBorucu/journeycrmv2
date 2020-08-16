@@ -2,8 +2,8 @@
     <div class="mx-2">
         <div class="mt-4 mx-4 mb-1">
             <div v-if="this.$store.state.user.user_role_id !== 3">
+                    <!-- v-if="call_status === 'Ready'" -->
                 <button
-                    v-if="call_status === 'Ready'"
                     class="btn btn-success btn-lg text-white"
                     @click="callCustomer('+447504855932')"
                 >

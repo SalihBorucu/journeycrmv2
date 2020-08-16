@@ -34,43 +34,51 @@ class ActivityHistory extends Model
 
 
         if ($outcome->new_schedule_id) {
-            $campaignScheduleId = CampaignSchedule::where([['schedule_id', $outcome->new_schedule_id], ['campaign_id', request('lead.campaign_id')]])->first()->id;
-            $nextStep = Step::where('campaign_schedule_id', $campaignScheduleId)
-            ->where('step_number', 1)
-            ->first()->id;
-            $nextDueDate = request('lead.due_date');
             $nextStatus = request('lead.current_status');
+            if ($outcome->new_schedule_id === 4) {
+                $nextStatus = 'interested';
+            } elseif ($outcome->new_schedule_id === 3) {
+                $nextStatus = 'qualified';
+            }
 
             // if new schedule is custom
             if (request('outcome') === "3") {
                 $nextDueDate = request('custom_activity_date');
                 $nextStep = Step::where('schedule_id', $outcome->new_schedule_id)
-                ->where('type', request('custom_activity_type'))
-                ->first()->id;
+                    ->where('type', request('custom_activity_type'))
+                    ->first()->id;
+            } elseif (request('outcome') === "1") {
+                //dummy DNC Data, need to think
+                $nextStatus = 'dnc';
+                $nextDueDate = '3000-01-01';
+                $nextStep = 1;
+            } else {
+                $campaignScheduleId = CampaignSchedule::where([['schedule_id', $outcome->new_schedule_id], ['campaign_id', request('lead.campaign_id')]])->first()->id;
+                $nextStep = Step::where('campaign_schedule_id', $campaignScheduleId)
+                    ->where('step_number', 1)
+                    ->first()->id;
+                $nextDueDate = request('lead.due_date');
             }
         } else {
-
-            $lastSchedule = request('lead.schedule_id');
-            $lastStepNumber = request('lead.step.step_number');
-
-            //When previous activity was custom
+            //When previous activity was custom but current one is not
+            $nextStep = null;
             if (request('lead.schedule_id') === 6) {
-                $lastSchedule = request('lead.previous_schedule_id');
-                $lastStepNumber = request('lead.previous_step_number');
+                $nextStep = request('lead.previous_step_number') + 1;
+                $nextSchedule = request('lead.previous_schedule_id');
+            } else {
+                $campaignScheduleId = CampaignSchedule::where([['schedule_id', request('lead.schedule_id')], ['campaign_id', request('lead.campaign_id')]])->first()->id;
+                $nextStep = Step::where('campaign_schedule_id', $campaignScheduleId)
+                    ->where('step_number', 1)
+                    ->first()->id;
             }
-
-            $nextStep = Step::where('schedule_id', $lastSchedule)
-            ->where('step_number', $lastStepNumber + 1)
-            ->first();
 
             //if completed schedule
             if (!$nextStep) {
                 $nextStep = 1;
-                $nextSchedule = 9;
+                $nextSchedule = 7;
             }
 
             $day_gap = request('lead.step.day_gap') ? request('lead.step.day_gap') : 1;
-            // dd(request('lead.due_date'));
             $nextDueDate = date('Y-m-d', strtotime(request('lead.due_date') . " +{$day_gap} day"));
             $nextStatus = 'prospecting';
         }
@@ -78,17 +86,33 @@ class ActivityHistory extends Model
         // dd($nextSchedule, $nextStep, $nextDueDate, $nextStatus, $previousStepNumber, $previousScheduleId);
         // dd(request('lead')['campaign_id'], request('lead')['account_id'], request('lead.lead')['id']);
         // dd($activityHistory->leadAccount);
-        $activityHistory->leadAccount()->updateOrCreate([
-            'lead_id' => request('lead.lead')['id'],
-            'account_id' => request('lead')['account_id'],
-            'campaign_id' => request('lead')['campaign_id'],
-            'schedule_id' => $nextSchedule,
-            'step_id' => $nextStep,
-            'due_date' => $nextDueDate,
-            'current_status' => $nextStatus,
-            'previous_step_number' => $previousStepNumber,
-            'previous_schedule_id' => $previousScheduleId,
-        ]);
+        // dd($activityHistory->leadAccount);
+        if ($activityHistory->leadAccount) {
+            $activityHistory->leadAccount()->update([
+                'lead_id' => request('lead.lead')['id'],
+                'account_id' => request('lead')['account_id'],
+                'campaign_id' => request('lead')['campaign_id'],
+                'schedule_id' => $nextSchedule,
+                'step_id' => $nextStep,
+                'due_date' => $nextDueDate,
+                'current_status' => $nextStatus,
+                'previous_step_number' => $previousStepNumber,
+                'previous_schedule_id' => $previousScheduleId,
+            ]);
+        } else {
+            //not sure if it works, got to try
+            $activityHistory->leadAccount()->create([
+                'lead_id' => request('lead.lead')['id'],
+                'account_id' => request('lead')['account_id'],
+                'campaign_id' => request('lead')['campaign_id'],
+                'schedule_id' => $nextSchedule,
+                'step_id' => $nextStep,
+                'due_date' => $nextDueDate,
+                'current_status' => $nextStatus,
+                'previous_step_number' => $previousStepNumber,
+                'previous_schedule_id' => $previousScheduleId,
+            ]);
+        }
     }
 
     public function getCreatedAtAttribute($value)

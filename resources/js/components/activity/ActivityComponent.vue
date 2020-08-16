@@ -75,7 +75,8 @@
                             class="button-items d-flex justify-content-center mt-3"
                             v-if="!callback_active"
                         >
-                            <div v-if="call_started">
+                        <!-- v-if="call_started" -->
+                            <div>
                                 <button
                                     @click="submitOutcome(null)"
                                     type="button"
