@@ -13,7 +13,7 @@ class IncompleteLeadController extends Controller
 {
     public function index()
     {
-        $incompleteLeads = IncompleteLead::all();
+        $incompleteLeads = IncompleteLead::where('user_id', Auth::id())->get();
         $companies = Company::all();
         $leadEmails = Lead::all()->pluck('email');
         $countries = DB::table('countries')->pluck('name');

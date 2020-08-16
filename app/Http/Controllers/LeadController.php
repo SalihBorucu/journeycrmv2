@@ -76,7 +76,8 @@ class LeadController extends Controller
     {
         $unassignedLeads = $lead->where([['unassigned', 1], ['user_id', Auth::id()]])->with(['company'])->get();
         $user = Auth::user();
-        $userAccounts = Auth::user()->userAccounts->filter(function ($userAccount) {
+        $userWithAccounts = User::with(['userAccounts.account.campaigns'])->find(Auth::id());
+        $userAccounts = $userWithAccounts->userAccounts->filter(function ($userAccount) {
             return $userAccount->account->complete === 1;
         });
 

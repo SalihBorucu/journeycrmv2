@@ -45,28 +45,16 @@
                                 @enderror
                             </div>
 
-
-
                             <div class="form-group text-center row m-t-20">
                                 <div class="col-12">
                                     <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">{{ __('Login') }}</button>
                                 </div>
                             </div>
 
-
-                            {{-- @if (Route::has('password.request'))
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                            {{ __('Forgot Your Password?') }}
-                            </a>
-                            @endif --}}
-
                             <div class="form-group m-t-10 mb-0 row">
                                 <div class="col-sm-7 m-t-20">
                                     <a href="{{ route('password.request') }}" class="text-muted"><i class="mdi mdi-lock"></i>
                                         Forgot your password?</a>
-                                </div>
-                                <div class="col-sm-5 m-t-20">
-                                    <a href="{{ route('register') }}" class="text-muted"><i class="mdi mdi-account-circle"></i> Create an account</a>
                                 </div>
                             </div>
                         </form>

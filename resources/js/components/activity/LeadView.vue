@@ -3,8 +3,8 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card m-b-30 card-body">
-                    <h5 class="card-title mt-0">{{ lead.lead.full_name }}</h5>
-                    <!-- <input v-else :value="lead.lead.full_name" class="form-control" /> -->
+                    <h5 class="card-title mt-0" v-if="editingLeadDetails === false">{{ lead.lead.full_name }}</h5>
+                    <input v-else :value="lead.lead.full_name" class="form-control" disabled />
                     <div @click="editingLeadDetails = true" v-if="editingLeadDetails === false">
                         <i
                             class="btn btn-outline-primary mdi mdi-pencil text-primaryfont-16 py-0 px-1 float-right d-none d-md-block"
@@ -37,7 +37,7 @@
                         <div class="d-flex justify-content-between">
                             <div class="mx-2">
                                 <h6>Company:</h6>
-                                <input class="form-control" v-model="company" />
+                                <input class="form-control" v-model="company" disabled />
                                 <hr />
                                 <h6>Title:</h6>
                                 <input class="form-control" v-model="title" />
