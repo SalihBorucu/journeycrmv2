@@ -16,7 +16,7 @@
     </li>
     <li class="nav-item waves-effect waves-light">
         <a class="nav-link {{ Request::is('admin/user') ? 'active' : '' }}" href="{{ Request::is('admin/user') ? 'javascript: void(0)' : '/admin/user' }}">
-            <span class="d-none d-md-block">Edit User</span><span class="d-block d-md-none">
+            <span class="d-none d-md-block">Edit Users</span><span class="d-block d-md-none">
         </a>
     </li>
 </ul>

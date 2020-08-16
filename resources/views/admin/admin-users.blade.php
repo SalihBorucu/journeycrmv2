@@ -28,7 +28,7 @@
                         @endforeach
                     </li>
                 </ul>
-                <a href="user/{{ $user->id }}" class="btn btn-primary waves-effect waves-light">Edit User</a>
+                <a href="../user/{{ $user->id }}" class="btn btn-primary waves-effect waves-light">Edit User</a>
             </div>
         </div>
         @endforeach

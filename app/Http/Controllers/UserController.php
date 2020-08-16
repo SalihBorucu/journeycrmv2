@@ -6,6 +6,7 @@ use App\User;
 use App\Account;
 use App\UserRole;
 use App\UserAccount;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
@@ -53,6 +54,12 @@ class UserController extends Controller
     }
 
     public function edit($id){
+        if(Auth::id() !== (int)$id){
+            if(Auth::User()->user_role_id !== 2){
+                return redirect('/');
+            }
+        }
+
         $user = User::with(['userAccounts.account', 'userRole'])->find($id);
 
         return view('admin/admin-user-details', compact('user'));

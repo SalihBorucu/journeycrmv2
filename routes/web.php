@@ -5,6 +5,7 @@ use App\Step;
 use App\Campaign;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\GlobalLeadNotesController;
+use App\Http\Middleware\CheckPermission;
 use App\Schedule;
 use App\StepTemplate;
 use App\User;
@@ -33,20 +34,7 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     });
 
-    Route::get('/settings', function () {
-        return view('settings');
-    });
-
-    Route::get('/admin', function () {
-        $campaigns = Campaign::all();
-        $schedules = Schedule::where('type', 'standard')->get();
-        $users = User::all();
-        $currentUser = Auth::user();
-
-        return view('admin.admin-account-create', compact('campaigns', 'schedules', 'users', 'currentUser'));
-    });
-
-    Route::get('/extension', function(){
+    Route::get('/extension', function () {
         return view('extension');
     });
 
@@ -66,24 +54,38 @@ Route::middleware('auth')->group(function () {
     Route::get('/lead/lead-shopping', 'LeadAccountController@index');
     Route::post('/lead/lead-shopping', 'LeadAccountController@show');
 
+    //Admin routes
+    Route::middleware([CheckPermission::class])->prefix('admin')->group(function () {
+        Route::get('/settings', function () {
+            return view('settings');
+        });
+        Route::post('/account', 'AccountController@create');
+        Route::get('/account', 'AccountController@index');
+        Route::get('/account/{id}', 'AccountController@show');
+        Route::patch('/account/{id}', 'AccountController@update');
+        Route::patch('/account/publish/{id}', 'AccountController@publish');
+        Route::patch('/campaign/{id}', 'CampaignController@update');
+        Route::post('/campaign', 'CampaignController@create');
+        Route::delete('/campaign/{id}', 'CampaignController@destroy');
+        Route::patch('/schedule/{id}', 'StepController@update');
+        Route::patch('/template/{id}', 'StepTemplateController@update');
+        Route::post('/template', 'StepTemplateController@create');
 
-    Route::post('admin/account', 'AccountController@create');
-    Route::get('admin/account', 'AccountController@index');
-    Route::get('admin/account/{id}', 'AccountController@show');
-    Route::patch('admin/account/{id}', 'AccountController@update');
-    Route::patch('admin/account/publish/{id}', 'AccountController@publish');
-    Route::patch('admin/campaign/{id}', 'CampaignController@update');
-    Route::post('admin/campaign', 'CampaignController@create');
-    Route::delete('admin/campaign/{id}', 'CampaignController@destroy');
-    Route::patch('admin/schedule/{id}', 'StepController@update');
-    Route::patch('admin/template/{id}', 'StepTemplateController@update');
-    Route::post('admin/template', 'StepTemplateController@create');
+        Route::get('/user/create', 'UserController@index');
+        Route::post('/user', 'UserController@create');
+        Route::get('/user', 'UserController@show');
 
-    Route::get('admin/user/create', 'UserController@index');
-    Route::post('admin/user', 'UserController@create');
-    Route::get('admin/user', 'UserController@show');
+        Route::get('', function () {
+            $campaigns = Campaign::all();
+            $schedules = Schedule::where('type', 'standard')->get();
+            $users = User::all();
+            $currentUser = Auth::user();
+
+            return view('admin.admin-account-create', compact('campaigns', 'schedules', 'users', 'currentUser'));
+        });
+    });
+
     Route::get('user/{id}', 'UserController@edit');
-
 
     Route::get('/lead/incomplete-leads', 'IncompleteLeadController@index');
     Route::delete('/incomplete-leads/{incompleteLead}', 'IncompleteLeadController@destroy');
@@ -94,9 +96,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/reporting', 'ReportingController@index');
     Route::post('/reporting', 'ReportingController@show');
 
-
-    Route::get('/home', 'HomeController@index')->name('home');
-
     Route::post('/useraccount', 'UserAccountController@update');
 });
 
@@ -105,9 +104,12 @@ Route::middleware('auth')->group(function () {
 Route::post('/token', 'CallController@newToken');
 Route::get('/answer', 'CallController@newCall');
 
+
+//Test Route
 Route::get('/test', function () {
     $user = User::with(['userAccounts.account'])->find(Auth::id());
-    $userAccounts = Auth::user()->userAccounts->filter(function($userAccount){
-        return $userAccount->account->complete === 1;});
+    $userAccounts = Auth::user()->userAccounts->filter(function ($userAccount) {
+        return $userAccount->account->complete === 1;
+    });
     dd($userAccounts);
 });
