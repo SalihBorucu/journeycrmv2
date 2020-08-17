@@ -8,7 +8,7 @@
                 <!-- Logo-->
                 <div>
 
-                    <a href="index.html" class="logo">
+                    <a href="/" class="logo">
                         <img src="{{ asset('assets/images/logo.png') }}" alt="" height="26">
                     </a>
 

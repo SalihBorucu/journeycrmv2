@@ -98,7 +98,7 @@
                 </div>
                 <div class="p-3">
                     <div class="float-right">
-                        <a href="#" class="text-white-50"><i class="mdi mdi-cube-outline h5"></i></a>
+                        <a href="" class="text-white-50"><i class="mdi mdi-cube-outline h5"></i></a>
                     </div>
                     <p class="font-14 m-0">Remaining : 1447</p>
                 </div>
@@ -118,7 +118,7 @@
                 </div>
                 <div class="p-3">
                     <div class="float-right">
-                        <a href="#" class="text-white-50"><i class="mdi mdi-buffer h5"></i></a>
+                        <a href="" class="text-white-50"><i class="mdi mdi-buffer h5"></i></a>
                     </div>
                     <p class="font-14 m-0">Remaining : 100</p>
                 </div>
@@ -137,7 +137,7 @@
                 </div>
                 <div class="p-3">
                     <div class="float-right">
-                        <a href="#" class="text-white-50"><i class="mdi mdi-tag-text-outline h5"></i></a>
+                        <a href="" class="text-white-50"><i class="mdi mdi-tag-text-outline h5"></i></a>
                     </div>
                     <p class="font-14 m-0">Remaining : 10</p>
                 </div>
@@ -157,7 +157,7 @@
                 </div>
                 <div class="p-3">
                     <div class="float-right">
-                        <a href="#" class="text-white-50"><i class="mdi mdi-briefcase-check h5"></i></a>
+                        <a href="" class="text-white-50"><i class="mdi mdi-briefcase-check h5"></i></a>
                     </div>
                     <p class="font-14 m-0">Remaining : 3</p>
                 </div>

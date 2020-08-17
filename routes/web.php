@@ -111,5 +111,5 @@ Route::get('/test', function () {
     // $userAccounts = Auth::user()->userAccounts->filter(function ($userAccount) {
     //     return $userAccount->account->complete === 1;
     // });
-    dd((int)getenv('TEST_SEED_NUMBER'));
+    dd(Auth::User()->activityHistories);
 });
