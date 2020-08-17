@@ -22,17 +22,17 @@ class LeadSeeder extends Seeder
         $leads = [];
         $faker = Faker::create();
 
-        foreach (range(1, 20000) as $index) {
+        foreach (range(1, (int)getenv('TEST_SEED_NUMBER')) as $index) {
             $leads[] = [
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
-                'company_id' => rand(1, 5000),
+                'company_id' => rand(1, (int)getenv('TEST_SEED_NUMBER')/10),
                 'country' => $faker->country,
                 'title' => $faker->jobTitle,
                 'email' => $faker->companyEmail,
                 'phone_1' => $faker->e164PhoneNumber,
                 'linkedin' => $faker->url,
-                'user_id' => rand(0, 2),
+                'user_id' => rand(0, 3),
                 'unassigned' => false
             ];
         }
@@ -65,9 +65,14 @@ class LeadSeeder extends Seeder
                 $randomStepId = $campaignSchedule[0]['steps'][array_rand($campaignSchedule[0]['steps'])]['id'];
 
                 $dueDates = [
-                    '2020-07-04',
-                    '2020-07-01',
-                    '2020-06-01',
+                    date('Y-m-d', strtotime(date("y-m-d") . " +1 month")),
+                    date('Y-m-d', strtotime(date("y-m-d") . " -1 month")),
+                    date('Y-m-d', strtotime(date("y-m-d") . " +1 week")),
+                    date('Y-m-d', strtotime(date("y-m-d") . " -1 week")),
+                    date('Y-m-d', strtotime(date("y-m-d") . " +1 day")),
+                    date('Y-m-d', strtotime(date("y-m-d") . " -1 day")),
+                    date('Y-m-d', strtotime(date("y-m-d") . " +2 day")),
+                    date('Y-m-d', strtotime(date("y-m-d") . " -2 day")),
                     date("y-m-d")
                 ];
 

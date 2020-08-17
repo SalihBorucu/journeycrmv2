@@ -14,7 +14,7 @@ class AccountSeeder extends Seeder
      */
     public function run()
     {
-        $accounts = [ 'Oceanian', 'Trux', 'Supply Chainero', 'Imaginary Corp', 'Salesorio', 'Mocrosoft'];
+        $accounts = [ 'Oceanian', 'Logisorio', 'Supply Chainero', 'Imaginary Corp', 'Salesorio', 'Mocrisoft', 'Dev Stats', 'Incidentinie', 'Monitorio'];
 
         foreach ($accounts as $account) {
             $account = Account::create(['name' => $account, 'complete' => true]);

@@ -107,9 +107,9 @@ Route::get('/answer', 'CallController@newCall');
 
 //Test Route
 Route::get('/test', function () {
-    $user = User::with(['userAccounts.account'])->find(Auth::id());
-    $userAccounts = Auth::user()->userAccounts->filter(function ($userAccount) {
-        return $userAccount->account->complete === 1;
-    });
-    dd($userAccounts);
+    // $user = User::with(['userAccounts.account'])->find(Auth::id());
+    // $userAccounts = Auth::user()->userAccounts->filter(function ($userAccount) {
+    //     return $userAccount->account->complete === 1;
+    // });
+    dd((int)getenv('TEST_SEED_NUMBER'));
 });

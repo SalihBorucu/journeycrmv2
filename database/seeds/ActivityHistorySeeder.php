@@ -38,7 +38,7 @@ class ActivityHistorySeeder extends Seeder
             'account_id' => $accountIds[array_rand($accountIds, 1)],
             'outcome_id' => $outcomeIds[array_rand($outcomeIds, 1)],
             'type' => $activityTypes[array_rand($activityTypes, 1)],
-            'notes' => $faker-> realText($maxNbChars = 500, $indexSize = 2),
+            'notes' => $faker->sentence(5),
             'created_at' => $dueDates[array_rand($dueDates, 1)]
             ];
         }

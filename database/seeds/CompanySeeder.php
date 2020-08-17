@@ -15,7 +15,7 @@ class CompanySeeder extends Seeder
     {
         $faker = Faker::create();
         $companies = [];
-        for ($i=0; $i < 5000 ; $i++) {
+        for ($i=0; $i < (int)getenv('TEST_SEED_NUMBER')/10 ; $i++) {
             $companies[] = [
                 'name' => $faker->company,
                 'tools_note' => "SAP, Oracle, SFDC, Jira, Vmware.."

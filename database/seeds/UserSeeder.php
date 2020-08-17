@@ -15,9 +15,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         $users = [
-            'standard1' => ['Salih Borucu1', 'salih@hotmail.com', '12345678', 1],
-            'standard' => ['Salih Borucu', 'salihborucu@hotmail.com', '12345678', 1],
-            'admin' => ['Admin Admin', 'admin@crm.com', '12345678', 2]
+            'standard' => ['Jane Doe', 'jane@doe.com', '12345678', 1],
+            'admin' => ['Admin User', 'admin@user.com', '12345678', 2],
+            'demo' => ['Demo User', 'demo@user.com', '12345678', 3],
         ];
 
         foreach ($users as $key => $user) {
@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
                 'email' => $user[1],
                 'password' => Hash::make($user[2]),
                 'user_role_id' => $user[3],
-                'twilio_number' => '+15162625069'
+                'twilio_number' => getenv('TWILIO_NUMBER')
             ]);
 
             $accountIds = Account::pluck('id')->toArray();
