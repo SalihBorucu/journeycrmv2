@@ -52,7 +52,7 @@
 <script>
     import axios from 'axios';
     import ResultsComponent from './ResultsComponent';
-    
+
     export default {
         components: { ResultsComponent },
         props: ['accounts', 'campaignsInj', 'companiesInj', 'resultsInj'],
@@ -93,7 +93,7 @@
             },
 
             selectedAccount() {
-                this.campaigns = this.accounts.find((account) => account.id === this.account).account_campaigns.map((accountCampaign) => accountCampaign.campaign);
+                this.campaigns = this.accounts.find((account) => account.id === this.account).campaigns;
             },
         },
     };
