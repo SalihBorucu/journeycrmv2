@@ -204,7 +204,11 @@
             },
 
             removeLeadFromView(leadId) {
-                this.nextLead();
+                if(!this.leads.length){
+                    this.listView = true;
+                }else{
+                    this.nextLead();
+                }
                 this.leads.splice(this.leads.findIndex((lead) => lead.id === leadId),1);
             },
         },
