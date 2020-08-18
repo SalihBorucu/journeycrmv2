@@ -104,6 +104,9 @@ Route::middleware('auth')->group(function () {
 Route::post('/token', 'CallController@newToken');
 Route::get('/answer', 'CallController@newCall');
 
+Route::get('/under-construction', function(){
+    return view('under-construction');
+});
 
 //Test Route
 Route::get('/test', function () {
@@ -111,5 +114,5 @@ Route::get('/test', function () {
     // $userAccounts = Auth::user()->userAccounts->filter(function ($userAccount) {
     //     return $userAccount->account->complete === 1;
     // });
-    dd(Auth::User()->activityHistories);
+    // dd(Auth::User()->activityHistories);
 });
