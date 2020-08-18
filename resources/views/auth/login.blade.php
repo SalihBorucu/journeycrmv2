@@ -11,8 +11,6 @@
                     <div class="p-2">
                         <h4 class="text-muted float-right font-18 mt-4">Sign In</h4>
                         <div class="row ml-1">
-{{--
-                            <a class="logo logo-admin mt-3"><img src="assets/images/jcrmlogogreen.png" height="50" alt="logo"> --}}
                             </a>
                             <h2 class="ml-2">Journey CRM</h2>
                         </div>

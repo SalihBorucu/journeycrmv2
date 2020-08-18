@@ -69,6 +69,7 @@
                         </div>
                         <a
                             class="social-source-icon lg-icon mr-1"
+                            target="_blank"
                             :href="'mailto:' + this.lead.lead.email"
                         >
                             <i class="mdi mdi-email bg-primary text-white" style="font-size: 60px"></i>

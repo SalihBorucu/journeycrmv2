@@ -55,7 +55,13 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
                                 <a class="dropdown-item" href="/user/{{ Auth::id() }}"><i class="dripicons-user text-muted"></i>Profile</a>
-
+                                <a class="small-bar-item dropdown-item" href="/"><i class="text-muted dripicons-home"></i> Dashboard</a>
+                                <a class="small-bar-item dropdown-item" href="/activities"><i class="text-muted dripicons-checklist"></i> Activities</a>
+                                <a class="small-bar-item dropdown-item" href="/lead"><i class="text-muted dripicons-user-id"></i> Lead Creation</a>
+                                <a class="small-bar-item dropdown-item" href="/reporting"><i class="text-muted dripicons-graph-line"></i> Reporting</a>
+                                @if(Auth::user()->user_role_id === 2)
+                                <a class="small-bar-item dropdown-item" href="/admin"><i class="text-muted dripicons-pamphlet"></i> Admin Activities</a>
+                                @endif
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/logout" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                     <i class="dripicons-exit text-muted"></i> Logout</a>
@@ -64,15 +70,6 @@
                                     @csrf
                                 </form>
                             </div>
-                        </li>
-                        <li class="menu-item list-inline-item">
-                            <a class="navbar-toggle nav-link">
-                                <div class="lines">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                            </a>
                         </li>
                     </ul>
                 </div>
@@ -85,7 +82,7 @@
 @endif
 
 <style>
-    .logo{
+    .logo {
         margin-right: 17px !important;
     }
 </style>

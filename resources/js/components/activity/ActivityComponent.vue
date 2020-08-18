@@ -42,8 +42,7 @@
                             class="form-control"
                             maxlength="2000"
                             rows="3"
-                        >
-                        </textarea>
+                        ></textarea>
                         <div class="d-flex justify-content-center">
                             <button
                                 @click="submitOutcome(null)"
@@ -75,9 +74,9 @@
                             class="button-items d-flex justify-content-center mt-3"
                             v-if="!callback_active"
                         >
-                        <!-- v-if="call_started" -->
                             <div>
                                 <button
+                                    v-if="call_started"
                                     @click="submitOutcome(null)"
                                     type="button"
                                     value="2"
@@ -186,7 +185,7 @@
                 this.custom_activity_type = null;
                 this.custom_activity_date = null;
                 this.email_subject = this.lead.step.template.email_subject;
-                this.notes = this.lead.step.template.pointer
+                this.notes = this.lead.step.template.pointer;
                 $(".summernote").summernote("code", this.processedEmailContent);
             },
         },
@@ -225,8 +224,8 @@
             submitOutcome(outcome) {
                 this.callback_active = false;
 
-                if(outcome === null){
-                    outcome = event.target.value
+                if (outcome === null) {
+                    outcome = event.target.value;
                 }
 
                 let obj = {

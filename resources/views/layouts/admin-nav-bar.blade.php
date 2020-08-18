@@ -6,7 +6,7 @@
     </li>
     <li class="nav-item waves-effect waves-light">
         <a class="nav-link {{ Request::is('admin/account*') ? 'active' : '' }}" href="{{ Request::is('admin/account') ? 'javascript: void(0)' : '/admin/account' }}">
-            <span class="d-none d-md-block">Edit Account</span><span class="d-block d-md-none">
+            <span class="d-none d-md-block">Edit Accounts</span><span class="d-block d-md-none">
         </a>
     </li>
     <li class="nav-item waves-effect waves-light">

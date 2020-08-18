@@ -25,7 +25,7 @@ class LeadAccountController extends Controller
         $user = User::with(['userAccounts.account.campaigns'])->find(Auth::id());
         $leads = [];
         if (request()->all()) {
-            $leads = Lead::with(['leadAccounts.account'])->filter($filters)->get();;
+            $leads = Lead::with(['leadAccounts.account', 'company'])->filter($filters)->get();;
             if (request('excludedAccount')) {
                 $newLeads = [];
                 foreach ($leads as $item => $value) {

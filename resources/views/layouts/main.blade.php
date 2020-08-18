@@ -9,6 +9,7 @@
         <link rel="shortcut icon" href="assets/images/jcrmlogogreen.png">
 
         <!-- App css -->
+        <script src="/js/plugins.js"></script>
         <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
@@ -16,7 +17,6 @@
         <link href="{{ asset('assets/css/morris.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/bootstrap-rating.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <script src="/js/plugins.js"></script>
         <script src="{{ asset('assets/js/bootstrap-rating.min.js') }}"></script>
         <script src="{{ asset('assets/js/rating-init.js') }}"></script>
     </head>

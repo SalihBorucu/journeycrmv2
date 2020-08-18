@@ -369,4 +369,6 @@ small {
 .th-class {
     font-size: 12px;
 }
+
+
 </style>

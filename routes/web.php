@@ -1,19 +1,17 @@
 <?php
 
-use App\Account;
-use App\Step;
-use App\Campaign;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\GlobalLeadNotesController;
-use App\Http\Middleware\CheckPermission;
-use App\Schedule;
-use App\StepTemplate;
 use App\User;
+use App\Campaign;
+use App\Schedule;
+use Jenssegers\Agent\Agent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckPlatform;
+use App\Http\Middleware\CheckPermission;
 
-Auth::routes();
-
+Route::middleware(CheckPlatform::class)->group(function () {
+    Auth::routes();
+});
 //for extension API token creation
 Route::get('/login-iframe', function () {
     $user = Auth::user();
@@ -29,7 +27,7 @@ Route::get('/login-iframe', function () {
     }
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', CheckPlatform::class])->group(function () {
     Route::get('/', function () {
         return view('dashboard');
     });
@@ -104,12 +102,14 @@ Route::middleware('auth')->group(function () {
 Route::post('/token', 'CallController@newToken');
 Route::get('/answer', 'CallController@newCall');
 
-Route::get('/under-construction', function(){
+Route::get('/under-construction', function () {
     return view('under-construction');
 });
 
 //Test Route
 Route::get('/test', function () {
+    $agent = new Agent();
+    dd($agent->platform(), $agent->browser());
     // $user = User::with(['userAccounts.account'])->find(Auth::id());
     // $userAccounts = Auth::user()->userAccounts->filter(function ($userAccount) {
     //     return $userAccount->account->complete === 1;

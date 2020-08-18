@@ -3,7 +3,6 @@
         <vue-good-table
             :columns="columns"
             :rows="rows"
-            :fixed-header="true"
             styleClass="vgt-table striped bordered custom-table"
             :pagination-options="{
                 enabled: true,
@@ -107,36 +106,49 @@
                         label: "Name",
                         field: "full_name",
                         type: "text",
-                        thClass: "custom-th",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Company",
                         field: "company.name",
                         type: "text",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Title",
                         field: "title",
                         type: "text",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Country",
                         field: "country",
                         type: "text",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Phone",
                         field: "phone_1",
                         type: "text",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Phone 2",
                         field: "phone_2",
                         type: "text",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Linkedin",
                         field: "linkedin",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Active Accounts",
@@ -145,18 +157,26 @@
                                 .map((account) => account.account.name)
                                 .join();
                         },
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Account",
                         field: "account",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Campaign",
                         field: "campaign",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "",
                         field: "button",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                 ],
                 rows: this.leads.map((lead) => {
@@ -229,3 +249,12 @@
         },
     };
 </script>
+
+<style>
+    table.vgt-table td {
+    padding: 1;
+    vertical-align: center;
+    border-bottom: 1px solid #dcdfe6;
+    color: #606266;
+}
+</style>

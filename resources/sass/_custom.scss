@@ -42,7 +42,7 @@
     position: absolute !important;
     top: 61px;
     left: 0;
-    width: 15vw;
+    width: 20vw;
     height: 90vh;
     min-height: 500px;
     padding-top: 5vh;
@@ -69,7 +69,6 @@
 table.vgt-table tr.clickable:hover {
     background-color: rgba(43, 204, 164, 0.274);
 }
-
 
 // Customs
 .history-col {
@@ -100,6 +99,20 @@ table.vgt-table tr.clickable:hover {
 }
 
 .nav-pills .nav-link {
-    border-radius: .25rem;
+    border-radius: 0.25rem;
     color: $primary;
+}
+
+.small-bar-item{
+    display: none;
+}
+@media (max-width: 991px) {
+    #topnav {
+        .navigation-menu {
+            display: none !important;
+        }
+        .small-bar-item{
+            display: list-item;
+        }
+    }
 }

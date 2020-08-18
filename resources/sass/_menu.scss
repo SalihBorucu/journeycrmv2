@@ -38,13 +38,13 @@ body {
           background-color: transparent;
           color: $primary;
         }
-    
+
         i{
           margin-right: 8px;
           transition: all .5s ease;
           &.mdi-drop {
             margin-right: 0px;
-            
+
           }
         }
       }
@@ -137,7 +137,7 @@ body {
                 margin-top: 10px;
               }
             }
-            
+
             li{
               position: relative;
               ul {
@@ -196,7 +196,7 @@ body {
   .container-fluid {
     width: 100%;
   }
-  
+
   #topnav {
     .navigation-menu {
       float: none;
@@ -258,7 +258,7 @@ body {
         > a {
           color: $dark;
           padding: 15px;
-  
+
           i {
             display: inline-block;
             margin-bottom: 0;
@@ -333,7 +333,7 @@ body {
       }
     }
   }
-  
+
   .navbar-toggle {
     display: block;
   }
