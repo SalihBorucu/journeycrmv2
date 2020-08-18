@@ -9,7 +9,7 @@
                 <div>
 
                     <a href="/" class="logo">
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="" height="26">
+                        <img src="{{ asset('assets/images/jcrmlogogray.png') }}" alt="" height="50">
                     </a>
 
                 </div>
@@ -83,3 +83,9 @@
 
 </div>
 @endif
+
+<style>
+    .logo{
+        margin-right: 17px !important;
+    }
+</style>
