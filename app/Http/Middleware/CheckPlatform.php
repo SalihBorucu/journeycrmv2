@@ -21,7 +21,7 @@ class CheckPlatform
         if($agent->isMobile()){return redirect('/under-construction');}
         if($agent->browser() === 'IE'){return redirect('/under-construction');}
         if($agent->isTablet()){return redirect('/under-construction');}
-        if($agent->isRobot()){return redirect('/under-construction');}
+        // if($agent->isRobot()){return redirect('/under-construction');}
 
         return $next($request);
     }
