@@ -4,6 +4,7 @@
             :columns="columns"
             :rows="rows"
             styleClass="vgt-table striped bordered custom-table"
+            @on-page-change="onPageChange"
             :pagination-options="{
                 enabled: true,
                 mode: 'records',
@@ -53,6 +54,7 @@
                         >
                             <div v-bind="rootProps">
                                 <textarea
+                                    :id='"companyTextarea" + props.row.id'
                                     rows="2"
                                     v-bind="inputProps"
                                     v-on="inputListeners"
@@ -81,8 +83,7 @@
                     >Couldn't find this company, creating new.</small>
                 </span>
                 <span v-else-if="props.column.field == 'title'">
-                    <!-- <textarea class="form-control btn" v-model="props.row.title" /> -->
-                    <editable v-model="props.row.title"></editable>
+                    <editable v-model="props.row.title" :key="props.row.id"></editable>
                     <small class="text-danger small m-1" v-if="!props.row.title">Title is empty.</small>
                 </span>
                 <span v-else-if="props.column.field == 'country'">
@@ -100,9 +101,10 @@
                         >
                             <div v-bind="rootProps">
                                 <textarea
-                                    rows="2"
+                                    :id='"countryTextarea" + props.row.id'
                                     v-bind="inputProps"
                                     v-on="inputListeners"
+                                    rows="2"
                                     v-model="props.row.country"
                                     :class="[
                                         'form-control',
@@ -128,7 +130,7 @@
                         v-model="props.row.email"
                         @blur="checkIfExists(props.row)"
                         :key="props.row.id"
-                        />
+                    />
                     <small class="text-danger small m-1" v-if="!props.row.email">Email is empty.</small>
                     <small
                         v-if="email_error.find(id=> id === props.row.id)"
@@ -136,13 +138,13 @@
                     >This email is already used, potential duplicate lead.</small>
                 </span>
                 <span v-else-if="props.column.field == 'phone_1'">
-                    <editable v-model="props.row.phone_1" :key="props.row.id"/>
+                    <editable v-model="props.row.phone_1" :key="props.row.id" />
                 </span>
                 <span v-else-if="props.column.field == 'phone_2'">
-                    <editable v-model="props.row.phone_2" :key="props.row.id"/>
+                    <editable v-model="props.row.phone_2" :key="props.row.id" />
                 </span>
                 <span v-else-if="props.column.field == 'linkedin'">
-                    <editable style="width:100px" v-model="props.row.linkedin" :key="props.row.id"/>
+                    <editable style="width:100px" v-model="props.row.linkedin" :key="props.row.id" />
                     <small
                         class="text-danger small m-1"
                         v-if="!props.row.linkedin"
@@ -243,8 +245,32 @@
             };
         },
 
+        mounted() {
+            this.onPageChange();
+        },
 
         methods: {
+            onPageChange() {
+                this.$nextTick(function () {
+                    this.$refs.dataTable.paginated[0].children.map((row) => {
+                        ["countryTextarea", 'companyTextarea'].forEach(input =>{
+                            let textarea = document.querySelector(
+                                `#${input}${row.id}`
+                            );
+                            textarea.addEventListener("input", autoResize, false);
+
+                            function autoResize(event, textarea = null) {
+                                let target = textarea ? textarea : this;
+
+                                target.style.height = "auto";
+                                target.style.height = target.scrollHeight + "px";
+                            }
+                            autoResize(null, textarea);
+                        })
+                    });
+                });
+            },
+
             searchCompany(input) {
                 if (input.length < 1) {
                     return [];
@@ -286,11 +312,14 @@
                     country: row.country,
                 };
 
-                axios.post(`/lead`, obj).then((res) => {
-                    this.deleteLead(row);
-                }).catch(error => {
-                    this.handleAjaxError(error)
-                });
+                axios
+                    .post(`/lead`, obj)
+                    .then((res) => {
+                        this.deleteLead(row);
+                    })
+                    .catch((error) => {
+                        this.handleAjaxError(error);
+                    });
             },
 
             deleteLead(row) {
@@ -302,14 +331,12 @@
             checkIfExists(row) {
                 if (this.leadEmails.find((email) => email === row.email)) {
                     this.email_error.push(row.id);
-                    // event.target.className = "form-control form-control-danger";
                     return;
                 }
                 let rowIndex = this.email_error.findIndex((id) => id === row.id);
                 if (rowIndex !== -1) {
                     this.email_error.splice(rowIndex, 1);
                 }
-                // event.target.className = "form-control";
                 // throw error class
             },
         },

@@ -3,7 +3,6 @@
         <vue-good-table
             :columns="columns"
             :rows="rows"
-            :fixed-header="true"
             styleClass="vgt-table striped bordered custom-table"
             :pagination-options="{
                 enabled: true,
