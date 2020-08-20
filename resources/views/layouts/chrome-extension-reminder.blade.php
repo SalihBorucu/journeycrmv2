@@ -15,18 +15,3 @@ $('#close').click(function(){
     $('.bubble').css('display', 'none')
 });
 </script>
-
-<style>
-    .bubble {
-        position: sticky !important;
-        bottom: 0;
-        left: 100%;
-        margin: 0;
-        z-index: 1030;
-    }
-
-    html {
-        overflow: visible !important;
-    }
-
-</style>

@@ -136,10 +136,3 @@
     };
 </script>
 
-<style>
-.bordered-card {
-    border: solid 1px #2bcca4;
-    border-radius: 5px;
-    padding: 10px;
-}
-</style>

@@ -80,9 +80,3 @@
 
 </div>
 @endif
-
-<style>
-    .logo {
-        margin-right: 17px !important;
-    }
-</style>

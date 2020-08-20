@@ -360,15 +360,3 @@ small {
 }
 </style>
 
-<style>
-.small-wrapper {
-    color: red;
-    position: relative !important;
-}
-
-.th-class {
-    font-size: 12px;
-}
-
-
-</style>

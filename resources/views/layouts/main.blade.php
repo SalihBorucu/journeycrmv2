@@ -57,5 +57,4 @@
         @endswitch
         @include('layouts.flash-swal')
     </body>
-
 </html>

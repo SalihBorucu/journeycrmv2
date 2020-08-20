@@ -70,6 +70,16 @@ table.vgt-table tr.clickable:hover {
     background-color: rgba(43, 204, 164, 0.274);
 }
 
+.th-class {
+    font-size: 12px;
+}
+
+//Table errors
+.small-wrapper {
+    color: red;
+    position: relative !important;
+}
+
 // Customs
 .history-col {
     max-height: 367px;
@@ -82,7 +92,7 @@ table.vgt-table tr.clickable:hover {
     z-index: 2 !important;
 }
 
-//form error
+//form error types
 .form-control-danger {
     border: 1px $danger solid;
     border-radius: 5px;
@@ -98,12 +108,14 @@ table.vgt-table tr.clickable:hover {
     border-radius: 5px;
 }
 
+//Tabs links
 .nav-pills .nav-link {
     border-radius: 0.25rem;
     color: $primary;
 }
 
-.small-bar-item{
+//Navbar icons to be added to dropdown
+.small-bar-item {
     display: none;
 }
 @media (max-width: 991px) {
@@ -111,8 +123,32 @@ table.vgt-table tr.clickable:hover {
         .navigation-menu {
             display: none !important;
         }
-        .small-bar-item{
+        .small-bar-item {
             display: list-item;
         }
     }
+}
+
+//Extension suggest bubble
+.bubble {
+    position: sticky !important;
+    bottom: 0;
+    left: 100%;
+    margin: 0;
+    z-index: 1030;
+}
+
+html {
+    overflow: visible !important;
+}
+
+//Logo
+.logo {
+    margin-right: 17px !important;
+}
+
+.bordered-card {
+    border: solid 1px #2bcca4;
+    border-radius: 5px;
+    padding: 10px;
 }
