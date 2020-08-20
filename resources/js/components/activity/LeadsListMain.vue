@@ -143,7 +143,7 @@
                         field: function(row) {
                             let scoresArray = row.lead.global_notes.map((note) => note.score);
                             let avgScore = scoresArray.reduce((a, b) => a + b, 0) / scoresArray.length;
-                            return `${Math.round(avgScore)}`;
+                            return avgScore ? `${Math.round(avgScore)}` : '';
                         },
                         tdClass: 'text-center',
                         type: 'number',

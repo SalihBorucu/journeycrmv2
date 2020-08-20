@@ -30,6 +30,8 @@ mix.js('resources/js/activity-app.js', 'public/js')
             'resources/js/vendor/alertify.js',
             'resources/js/vendor/app.js',
             'resources/js/vendor/summernote-bs4.min.js',
+            'resources/js/vendor/bootstrap-rating.min.js',
+            'resources/js/vendor/rating-init.js',
         ],
         'public/js/plugins.js'
     );

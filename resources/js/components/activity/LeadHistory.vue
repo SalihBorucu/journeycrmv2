@@ -111,10 +111,8 @@
         },
 
         mounted() {
-            let vm = this;
-            $("input.score").on("change", function () {
-                vm.score = $(this).val();
-            });
+            this.ratingMethods()
+
         },
         methods: {
             submitNewNote() {
@@ -124,12 +122,60 @@
                     score: this.score,
                 };
 
-                axios.post(`/global-note`, obj).then((res) => {
-                    this.lead.lead.global_notes.push(res.data)
-                    this.newGlobalNote = null
-                    this.score = null
-                }).catch();
+                axios
+                    .post(`/global-note`, obj)
+                    .then((res) => {
+                        this.lead.lead.global_notes.push(res.data);
+                        this.newGlobalNote = null;
+                        this.score = null;
+                    })
+                    .catch();
             },
+
+            ratingMethods(){
+                let vm = this;
+            $("input.score").on("change", function () {
+                vm.score = $(this).val();
+            });
+                $(".rating-tooltip").rating({
+                    extendSymbol: function (rate) {
+                        $(this).tooltip({
+                            container: "body",
+                            placement: "bottom",
+                            title: "Rate " + rate,
+                        });
+                    },
+                });
+                $(".rating-tooltip-manual").rating({
+                    extendSymbol: function () {
+                        var title;
+                        $(this).tooltip({
+                            container: "body",
+                            placement: "bottom",
+                            trigger: "manual",
+                            title: function () {
+                                return title;
+                            },
+                        });
+                        $(this)
+                            .on("rating.rateenter", function (e, rate) {
+                                title = rate;
+                                $(this).tooltip("show");
+                            })
+                            .on("rating.rateleave", function () {
+                                $(this).tooltip("hide");
+                            });
+                    },
+                });
+                $(".rating").each(function () {
+                    $('<span class="badge badge-info"></span>')
+                        .text($(this).val() || "")
+                        .insertAfter(this);
+                });
+                $(".rating").on("change", function () {
+                    $(this).next(".badge").text($(this).val());
+                });
+            }
         },
     };
 </script>

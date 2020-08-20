@@ -57,7 +57,6 @@
                 axios
                     .post("/token", {})
                     .then((res) => {
-                        console.log(res.data.token);
                         Device.setup(res.data.token, { debug: true });
                     })
                     .catch(() => {});
