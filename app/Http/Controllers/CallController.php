@@ -19,8 +19,6 @@ class CallController extends Controller
         $dial->number($phoneNumberToDial);
 
         return $response;
-
-        echo $response;
     }
 
 

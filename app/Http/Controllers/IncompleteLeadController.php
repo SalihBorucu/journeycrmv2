@@ -15,7 +15,7 @@ class IncompleteLeadController extends Controller
     {
         $incompleteLeads = IncompleteLead::where('user_id', Auth::id())->get();
         $companies = Company::all();
-        $leadEmails = Lead::all()->pluck('email');
+        $leadEmails = Lead::pluck('email');
         $countries = DB::table('countries')->pluck('name');
 
         return view('new-leads.incomplete-leads', compact('incompleteLeads', 'companies', 'leadEmails', 'countries'));
