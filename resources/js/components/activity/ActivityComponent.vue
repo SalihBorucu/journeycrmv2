@@ -72,11 +72,11 @@
                         ></textarea>
                         <div
                             class="button-items d-flex justify-content-center mt-3"
+
                             v-if="!callback_active"
                         >
-                            <div>
+                            <div v-if="call_started">
                                 <button
-                                    v-if="call_started"
                                     @click="submitOutcome(null)"
                                     type="button"
                                     value="2"
