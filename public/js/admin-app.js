@@ -3379,6 +3379,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3393,12 +3401,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     activateSummerNote: function activateSummerNote() {
-      $(".summernote".concat(this.step.step_number)).summernote({
-        height: 300,
-        minHeight: null,
-        maxHeight: null,
-        focus: true
-      });
+      if (this.step.type === "email") {
+        $(".summernote".concat(this.step.step_number)).summernote({
+          height: 300,
+          minHeight: null,
+          maxHeight: null,
+          focus: true
+        });
+      }
     }
   }
 });
@@ -3463,6 +3473,11 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     if (this.type === "email") {
       $(".summernote".concat(this.step.step_number)).summernote("code", this.emailContent);
+    }
+  },
+  watch: {
+    type: function type() {
+      $(".summernote".concat(this.step.step_number)).summernote('destroy');
     }
   },
   methods: {

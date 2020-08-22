@@ -56,6 +56,12 @@
             }
         },
 
+        watch: {
+            type(){
+                $(`.summernote${this.step.step_number}`).summernote('destroy')
+            }
+        },
+
         methods: {
             updateTemplate() {
                 let obj = {
