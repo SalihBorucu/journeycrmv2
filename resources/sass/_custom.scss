@@ -87,6 +87,11 @@ table.vgt-table tr.clickable:hover {
     overflow: auto;
 }
 
+.vgt-responsive{
+    height: 100%;
+    min-height: 400px;
+}
+
 //autoloader
 .autocomplete-result-list {
     z-index: 2 !important;

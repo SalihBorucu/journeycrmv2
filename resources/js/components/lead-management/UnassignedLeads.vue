@@ -76,7 +76,7 @@
                     </div>
                     <div class="d-flex justify-content-around w-75" v-if="global_account">
                         <label class="m-2">Campaign:</label>
-                        <select name class="form-control" v-model="global_campaign" >
+                        <select name class="form-control" v-model="global_campaign">
                             <option value v-if="!global_account"></option>
                             <option
                                 :value="campaign.id"
@@ -104,44 +104,61 @@
                         label: "Name",
                         field: "full_name",
                         type: "text",
-                        thClass: "custom-th",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Company",
                         field: "company.name",
                         type: "text",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Title",
                         field: "title",
                         type: "text",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Country",
                         field: "country",
                         type: "text",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Phone",
                         field: "phone_1",
                         type: "text",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Phone 2",
                         field: "phone_2",
                         type: "text",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Linkedin",
                         field: "linkedin",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Account",
                         field: "account",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "Campaign",
                         field: "campaign",
+                        thClass: "th-class",
+                        tdClass: "small-wrapper",
                     },
                     {
                         label: "",
